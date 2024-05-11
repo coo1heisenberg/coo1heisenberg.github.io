@@ -228,9 +228,17 @@
 <li><p><strong>链接到本站其他的blog</strong></p>
 <ul>
 <li><p>本质上就是直接使用markdown的文件链接方式：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  [file description](file path)</span><br><span class="line"></span><br><span class="line">- 唯一不同的就是这里的file path，不是指要被引用的markdown文件在`_posts`文件夹的位置，而是**经hexo渲染后生成的html文件的位置**。</span><br><span class="line"></span><br><span class="line">  - 举例来说，我这里想引用另一篇介绍hexo的blog，它的原始文件叫做`<span class="built_in">source</span>/_posts/Hexo1.md`，经hexo渲染后的文件存储为`public/hexo1/index.html`。</span><br><span class="line"></span><br><span class="line">  - 而我当前的文件叫做`<span class="built_in">source</span>/_posts/Hexo2.md`，经hexo渲染后的文件存储为`public/hexo2/index.html`。</span><br><span class="line"></span><br><span class="line">  - 如果习惯于markdown文件的书写，可能会直接在本文件里写</span><br><span class="line"></span><br><span class="line">    ```bash</span><br><span class="line">    [Hexo1](Hexo1.md)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[file description](file path)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>唯一不同的就是这里的file path，不是指要被引用的markdown文件在<code>_posts</code>文件夹的位置，而是<strong>经hexo渲染后生成的html文件的位置</strong>。</p>
 <ul>
+<li><p>举例来说，我这里想引用另一篇介绍hexo的blog，它的原始文件叫做<code>source/_posts/Hexo1.md</code>，经hexo渲染后的文件存储为<code>public/hexo1/index.html</code>。</p>
+</li>
+<li><p>而我当前的文件叫做<code>source/_posts/Hexo2.md</code>，经hexo渲染后的文件存储为<code>public/hexo2/index.html</code>。</p>
+</li>
+<li><p>如果习惯于markdown文件的书写，可能会直接在本文件里写</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Hexo1](Hexo1.md)</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>正确的写法应该是：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Hexo1](../hexo1/index.html)</span><br></pre></td></tr></table></figure></li>
 </ul>
