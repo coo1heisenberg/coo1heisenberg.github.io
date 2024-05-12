@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>关于本主题 | Welcome to My BLOG!!!</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="关于本主题"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="Welcome to My BLOG!!!"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.10.6",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2024-05-12 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.webp'
+    },
+    copyright: {"limit":50,"author":"作者: Coo1Heisenberg’s BLOG","link":"链接: ","source":"来源: Welcome to My BLOG!!!","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'highlight.js'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: false,
+    is_page: true,
+    is_home: false,
+    page: 'about',
+    toc: false,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body" data-type="about"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="solitude  st-wifi-fill"></i><span>友链鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="solitude  st-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="solitude  st-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><!-- keyboard--><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">关于本主题</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="solitude  st-wifi-fill"></i><span>友链鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="solitude  st-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="solitude  st-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav></header><main class="layout hide-aside" id="content-inner"><div id="page"><div id="about-page"><div class="author-info"><div class="author-tag-left"><span class="author-tag">🏀 篮球死忠粉</span><span class="author-tag">💪 健身纯小白</span><span class="author-tag">🎮 游戏手残党</span></div><div class="author-img"><img src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"></div><div class="author-tag-right"><span class="author-tag">脚踏实地行动派 🏃</span><span class="author-tag">团队小组发动机 🧱</span><span class="author-tag">壮汉人狠话不多 💢</span></div></div><div class="author-title">关于本站</div><div class="author-content"><div class="author-content-item myInfoAndSayHello"><div class="title1">你好，很高兴认识你👋</div><div class="title2"><span class="inline-word">我叫万海存</span></div><div class="title1">是一名中科大在读计算机硕士，编程小菜鸡，努力提高自己！</div></div><div class="aboutsiteTips author-content-item"><div class="author-content-item-tips">座右铭</div><h2><span class="inline-word">Diligence can make up for clumsiness！</span><div class="mask"><span class="first-tips" data-show="">优秀的产品</span><span>出色的设计</span><span>高效的编程</span><span data-up="">人性化的用户体验</span></div></h2></div></div><script>var pursuitInterval = null;
+pursuitInterval = setInterval(function () {
+    const show = document.querySelector('span[data-show]')
+    const next = show.nextElementSibling || document.querySelector('.first-tips')
+    const up = document.querySelector('span[data-up]')
+    if (up) {
+        up.removeAttribute('data-up')
+    }
+    show.removeAttribute('data-show')
+    show.setAttribute('data-up', '')
+    next.setAttribute('data-show', '')
+}, 2000)
+
+document.addEventListener('pjax:send', function () {
+    clearInterval(pursuitInterval);
+});</script><div class="author-content"><div class="author-content-item skills"><div class="card-content"><div class="author-content-item-tips">专业技能</div><span class="author-content-item-title">持续学习，充实自己</span><div class="skills-style-group"><div class="tags-group-all"><div class="tags-group-wrapper"><div class="tags-group-icon-pair"><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/6qxJLV7N/Java-logo.png" title="Java"></div><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/QddLbdMV/Spring-logo.png" title="Spring"></div></div><div class="tags-group-icon-pair"><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/fWYhWPFW/python-logo.png" title="Python"></div><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/m2GBQ4MF/C-logo.png" title="C++"></div></div><div class="tags-group-icon-pair"><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/RVQ9dYQp/Linux-logo.png" title="Linux"></div><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/D0QVCWs4/My-SQL-logo.png" title="MySQL"></div></div><div class="tags-group-icon-pair"><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/650JnvtD/Redis-logo.png" title="Redis"></div></div><div class="tags-group-icon-pair"><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/6qxJLV7N/Java-logo.png" title="Java"></div><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/QddLbdMV/Spring-logo.png" title="Spring"></div></div><div class="tags-group-icon-pair"><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/fWYhWPFW/python-logo.png" title="Python"></div><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/m2GBQ4MF/C-logo.png" title="C++"></div></div><div class="tags-group-icon-pair"><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/RVQ9dYQp/Linux-logo.png" title="Linux"></div><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/D0QVCWs4/My-SQL-logo.png" title="MySQL"></div></div><div class="tags-group-icon-pair"><div class="tags-group-icon" style="background:#ffffff"><img src="https://i.postimg.cc/650JnvtD/Redis-logo.png" title="Redis"></div></div></div></div><div class="skills-list"><div class="skill-info"><div class="skill-icon" style="background:#ffffff"><img src="https://i.postimg.cc/6qxJLV7N/Java-logo.png" title="Java"></div><div class="skill-name"><span>Java</span></div></div><div class="skill-info"><div class="skill-icon" style="background:#ffffff"><img src="https://i.postimg.cc/QddLbdMV/Spring-logo.png" title="Spring"></div><div class="skill-name"><span>Spring</span></div></div><div class="skill-info"><div class="skill-icon" style="background:#ffffff"><img src="https://i.postimg.cc/fWYhWPFW/python-logo.png" title="Python"></div><div class="skill-name"><span>Python</span></div></div><div class="skill-info"><div class="skill-icon" style="background:#ffffff"><img src="https://i.postimg.cc/m2GBQ4MF/C-logo.png" title="C++"></div><div class="skill-name"><span>C++</span></div></div><div class="skill-info"><div class="skill-icon" style="background:#ffffff"><img src="https://i.postimg.cc/RVQ9dYQp/Linux-logo.png" title="Linux"></div><div class="skill-name"><span>Linux</span></div></div><div class="skill-info"><div class="skill-icon" style="background:#ffffff"><img src="https://i.postimg.cc/D0QVCWs4/My-SQL-logo.png" title="MySQL"></div><div class="skill-name"><span>MySQL</span></div></div><div class="skill-info"><div class="skill-icon" style="background:#ffffff"><img src="https://i.postimg.cc/650JnvtD/Redis-logo.png" title="Redis"></div><div class="skill-name"><span>Redis</span></div></div><div class="etc">...</div></div></div></div></div><div class="author-content-item careers"><div class="card-content"><div class="author-content-item-tips">学业生涯简介</div><span class="author-content-item-title">研究生阶段</span><div class="careers-group"><div class="careers-item"><div class="circle" style="background:#357ef5"></div><div class="name">中国科学技术大学, 计算机技术</div></div><div class="careers-item"><div class="circle" style="background:undefined"></div><div class="name">undefined, undefined</div></div></div><img class="author-content-img" alt="学业生涯简介"></div></div></div><div class="author-content"><div class="author-content-item personalities"><div class="author-content-item-tips">性格</div><span class="author-content-item-title">执政官</span><div class="title2" style="color:#56a178">ESFJ-A</div><div class="image"><img class="nolazyload" src="https:/example.com/ESFJ-A.svg"></div><div class="post-tips">在 <a target="_blank" rel="noopener" href="https://www.16personalities.com/">16personalities </a>了解更多关于 <a target="_blank" rel="noopener" href="https://www.16personalities.com/ch/esfj-人格">执政官</a></div></div><div class="author-content-item myphoto"><img class="author-content-img" alt="my photo"></div></div><div class="author-content"><div class="author-content-item maxim"><div class="author-content-item-tips">座右铭</div><span class="maxim-title"><span>破釜沉舟，</span><span>砥砺前行。</span></span></div><div class="author-content-item buff"><div class="card-content"><div class="author-content-item-tips">特长</div><span class="buff-title"><span>数学、物理、化学<span class="inline-word">专家</span></span><span>学习能力<span class="inline-word">MAX</span></span></span></div></div></div><div class="author-content"><div class="author-content-item game-apex" style="background: url(https://7.isyangs.cn/1/65eb2d8954aac-1.png) no-repeat top; background-size: cover;"><div class="card-content"><div class="author-content-item-tips">爱好游戏</div><span class="author-content-item-title">APEX LEGENDS</span><div class="content-bottom"><div class="tips">C位</div><div class="tips">ID Wleelw</div></div></div></div><div class="author-content-item game-jl" style="background: url(https://7.isyangs.cn/1/65eb2e0383970-1.png) no-repeat top; background-size: cover;"><div class="card-content"><div class="author-content-item-tips">爱好游戏</div><span class="author-content-item-title">精灵与萤火意志</span><div class="content-bottom"><div class="tips"></div><div class="tips">跑图大师</div></div></div></div></div><div class="author-content"><div class="author-content-item like-technology" style="background: url(https://7.isyangs.cn/1/65eb2e3d6616b-1.png) no-repeat center;"><div class="card-content"><div class="author-content-item-tips">关注偏好</div><span class="author-content-item-title">数理化</span><div class="content-bottom"><div class="tips">理工男</div></div></div></div><div class="author-content-item like-music" style="background: url(https://7.isyangs.cn/1/65eb2e5f85132-1.png) no-repeat center;"><div class="card-content"><div class="author-content-item-tips">音乐偏好</div><span class="author-content-item-title">民谣、古典、轻音乐</span><div class="content-bottom"><div class="tips">跟 王卓Sco 一起欣赏更多音乐</div><div class="banner-button-group"><a class="banner-button" href="/music/"><i class="solitude st-right-btn-fill"></i><span class="banner-button-text">更多推荐</span></a></div></div></div></div></div><div class="author-content"><div class="about-statistic author-content-item" style="background: url(https://7.isyangs.cn/1/65eb2e9109826-1.png);"><div class="card-content"><div class="author-content-item-tips">数据</div><span class="author-content-item-title">访问统计</span><div id="statistic"></div><div class="post-tips">统计信息来自<a target="_blank" rel="noopener" href="https://v6.51.la/">51la网站统计</a></div></div><script>fetch("https://v6-widget.51.la/v6/3F15j2vtdTo7PPcN/quote.js")
+    .then(res => res.text())
+    .then(data => {
+        const title = ["最近活跃", "今日人数", "今日访问", "昨日人数", "昨日访问", "本月访问", "总访问量"];
+        let num = data.match(/(<\/span><span>).*?(\/span><\/p>)/g);
+        num = num.map(el => {
+            let val = el.replace(/(<\/span><span>)/g, "");
+            return val.replace(/(<\/span><\/p>)/g, "");
+        });
+        const s = document.getElementById("statistic");
+        let html = '';
+        for (let i = 0; i < num.length; i++) {
+            if (i === 0 || i === num.length - 1) continue;
+            html += `<div><span>${title[i]}</span><span id="${title[i]}">${num[i]}</span></div>`;
+        }
+        s.innerHTML = html;
+    });
+</script></div><style>:root {
+    --site-about-oneself-map--light: url(https://7.isyangs.cn/1/65eb2ec63a9aa-1.png);
+    --site-about-oneself-map--dark: url(https://7.isyangs.cn/1/65eb2eedc780e-1.png);
+}</style><div class="author-content-item-group column mapAndInfo"><div class="author-content-item map single"><span class="map-title">我现在住在中国，安徽省合肥市 / 中国，江苏省苏州市</span></div><div class="author-content-item selfInfo single"><div><span class="selfInfo-title">生于</span><span class="selfInfo-content" style="color: #43a6c6;">1998</span></div><div><span class="selfInfo-title">。。</span><span class="selfInfo-content" style="color: #c69043;">。。</span></div><div><span class="selfInfo-title">现在职业</span><span class="selfInfo-content" style="color: #b04fe6;">学生 OR 求职者</span></div></div></div></div><div class="author-content"><div class="create-site-post author-content-item single"><div class="author-content-item-tips">心路历程</div><span class="author-content-item-title">为什么建站？</span><br>创建这个站的时候，想要就是能够有一个自己能够<b>积累知识、积累兴趣</b>的地方。和他人分享，会让这些成为积累和沉淀。如果能够帮助到更多的人，帮助更多人解决问题，那一定是非常棒的事情。 <br> 与大多数垂直类的技术博客不同，这里的种类会非常的繁杂，有<b>技能的教程干货</b>、有<b>生活上的吐槽和妙招</b>、有<b>话题上的思考和想法</b>。一般我研究什么、发现了什么都会分享在这里。 <br> 这些就是创造这个小站的本意，<b>也是我分享生活的方式</b>。有幸能和你相遇在这里，相信我们能共同留下一段美好记忆。 <br></div></div><div class="author-content" id="tenyear"><div class="create-site-post author-content-item single"><div class="author-content-item-tips">十年之约</div><div class="author-content-item-title">一个人的寂寞，一群人的狂欢。</div><p></p><div class="tenyear-timeline"><div class="progress"></div><div class="past-time"></div><div class="percentage-label"></div></div><div class="time-labels"><div class="start-time" id="tenyear-start-time">2023年04月20日</div><div class="end-time" id="tenyear-end-time">2033年04月20日</div></div></div></div><script>function parseDateString(e) {
+    return e.replace(/年|月/g, '-').replace(/日/g, '');
+}
+
+function tenYear() {
+    let progressElement = document.querySelector(".progress");
+    let pastTimeElement = document.querySelector(".past-time");
+    let percentageLabelElement = document.querySelector(".percentage-label");
+    let startTimeElement = document.getElementById("tenyear-start-time");
+    let endTimeElement = document.getElementById("tenyear-end-time");
+
+    let startTime = new Date(parseDateString(startTimeElement.textContent)).getTime();
+    let endTime = new Date(parseDateString(endTimeElement.textContent)).getTime();
+
+    function updateProgress() {
+        let currentTime = new Date().getTime();
+        let progress = ((currentTime - startTime) / (endTime - startTime) * 100);
+        let progressPercentage = progress <= 100 ? progress + "%" : "100%";
+
+        pastTimeElement.style.setProperty("--past-time-percentage", progress + "%");
+        progressElement.style.setProperty("--progress-percentage", progressPercentage);
+        if(progress > 5){
+            percentageLabelElement.textContent = `${progress.toFixed(0)}%`;
+            percentageLabelElement.style.left = `calc(${progress}% - 35px)`;
+        }
+    }
+
+    percentageLabelElement.style.visibility = "visible";
+    updateProgress();
+}
+
+document.getElementById("tenyear") && tenYear() && window.Pjax.on('complete', tenYear)</script><div class="author-content"><div class="author-content-item single reward"><div class="author-content-item-tips">致谢</div><span class="author-content-item-title">赞赏名单</span><div class="author-content-item-description">感谢赞赏的人，因为你们，让我感受到写博客这件事情能够给你们创造了价值。这会让我在这条路上走得更远。</div><div class="reward-list-all"><div class="reward-list-item"><div class="reward-list-item-name">悦华</div><div class="reward-list-bottom-group"><div class="reward-list-item-money">¥ 5</div><time class="datatime reward-list-item-time" datetime="2023-04-20T08:00:00+08:00"></time></div></div><div class="reward-list-item"><div class="reward-list-item-name">糕小菜</div><div class="reward-list-bottom-group"><div class="reward-list-item-money" style="background: var(--efu-vip);color: var(--efu-white)">¥ 6.66</div><time class="datatime reward-list-item-time" datetime="2023-08-11T08:00:00+08:00"></time></div></div><div class="reward-list-item"><div class="reward-list-item-name">幕幕</div><div class="reward-list-bottom-group"><div class="reward-list-item-money">¥ 5</div><time class="datatime reward-list-item-time" datetime="2023-08-11T08:00:00+08:00"></time></div></div><div class="reward-list-item"><div class="reward-list-item-name">悦华</div><div class="reward-list-bottom-group"><div class="reward-list-item-money" style="background: var(--efu-vip);color: var(--efu-white)">¥ 56</div><time class="datatime reward-list-item-time" datetime="2023-08-25T08:00:00+08:00"></time></div></div><div class="reward-list-item"><div class="reward-list-item-name">糕小菜</div><div class="reward-list-bottom-group"><div class="reward-list-item-money">¥ 3.33</div><time class="datatime reward-list-item-time" datetime="2023-12-24T08:00:00+08:00"></time></div></div></div><div class="reward-list-tips"><p>总金额：¥ 75.99，将全部用于博客的维护和更新。</p></div></div></div></div></div></main><footer id="footer"><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">Coo1Heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
+</script><script src="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"><script>(() => {
+    document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+        utils.wrap(item, 'div', {class: 'katex-wrap'})
+    })
+})();
+</script></script><script src="//open.lightxi.com/cdnjs/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="//open.lightxi.com/cdnjs/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- newest comment--><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    is_rm && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/05/12/测试文章：如何使用Hexo发博客/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
