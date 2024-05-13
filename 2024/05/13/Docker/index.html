@@ -1,0 +1,327 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>00 Docker | Welcome to My BLOG!!!</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="Docker 有了容器引擎的存在： 容器与容器之间可以互相隔离 容器内应用程序的运行也可以通过容器引擎调度宿主机的系统资源 而Docker只是容器引擎的一种实现，除了Docker之外，容器引擎还有很多，比如podman（开源），pouch(阿里) Docker介绍 Docker是一个开源"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="Welcome to My BLOG!!!"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.10.6",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":false,"path":"/search.xml"},
+    runtime: '2024-05-12 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.webp'
+    },
+    copyright: {"limit":50,"author":"作者: Coo1heisenberg’s BLOG","link":"链接: ","source":"来源: Welcome to My BLOG!!!","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'highlight.js'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可","search":{"empty":"找不到你查询的内容：${query}","hit":"找到 ${hits} 条结果，用时 ${time} 毫秒","placeholder":"输入关键词快速查找","count":"共 <b>${count}</b> 条结果。"}},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/JavaEE/">JavaEE<sup>6</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>6</sup></a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务<sup>1</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">17</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="solitude  st-wifi-fill"></i><span>友链鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="solitude  st-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="solitude  st-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/JavaEE/">JavaEE<sup>6</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>6</sup></a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">00 Docker</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="solitude  st-wifi-fill"></i><span>友链鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="solitude  st-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="solitude  st-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="solitude st-search-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Docker_logo.png" alt="00 Docker"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Docker/">Docker</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="tags-name tags-punctuation">Docker基础语法</span></a></div></div></div></div><h1 class="post-title">00 Docker</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="发布于 2024-05-13 15:49:17"><i class="post-meta-icon solitude st-calendar-todo-fill"></i><time datetime="2024-05-13T07:49:17.000Z">2024-05-13T07:49:17.000Z</time></span><span class="post-meta-date" title="最后更新于 2024-05-13 15:51:41"><i class="post-meta-icon solitude st-refresh-line"></i><time datetime="2024-05-13T07:51:41.166Z">2024-05-13T07:51:41.166Z</time></span><span class="post-meta-wordcount"><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Docker</h1>
+<p><img src="/images/Docker/2b18dfce7e4d469287630990a4f029fe.png" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="/images/Docker/4504e1fd02b24ab09979740c8cc45ebc.png" alt="在这里插入图片描述" loading="lazy"><br>
+有了容器引擎的存在：</p>
+<ul>
+<li>容器与容器之间可以互相隔离</li>
+<li>容器内应用程序的运行也可以通过容器引擎调度宿主机的系统资源</li>
+</ul>
+<p>而Docker只是容器引擎的一种实现，除了Docker之外，容器引擎还有很多，比如podman（开源），pouch(阿里)</p>
+<hr>
+<h2 id="Docker介绍"><a class="headerlink" href="#Docker介绍"></a>Docker介绍</h2>
+<ul>
+<li>Docker是一个开源的应用容器引擎，基于Go语言并且遵从Apache2.0协议开源</li>
+<li>Docker将程序以及程序所有的依赖都打包在一起，运行在一个Docker容器中，这样你的程序可以在任何环境都会有一致的表现</li>
+</ul>
+<h2 id="Docker核心概念"><a class="headerlink" href="#Docker核心概念"></a>Docker核心概念</h2>
+<ul>
+<li>镜像（Image）
+<ul>
+<li>Docker镜像就类似于操作系统的镜像（比如之前安装虚拟机使用到的Ubuntu18），是一个只读的模版。一个镜像中包含了一个或多个特定的应用程序以及运行他们所依赖的应用程序。</li>
+</ul>
+</li>
+<li>容器（Container)
+<ul>
+<li>把镜像下载到本地，容器就是从镜像创建的应用运行实例。它可以启动、开始、停止、删除，而这些容器都是彼此相互隔离、互不可见的。</li>
+</ul>
+</li>
+<li>仓库（Repository）
+<ul>
+<li>仓库是集中存放镜像文件的场所。推荐使用的是<a target="_blank" rel="noopener" href="https://hub.docker.com/">官方仓库地址</a>，<a target="_blank" rel="noopener" href="https://c.163yun.com/hub#/home">网易云仓库</a>。当然，企业也可以搭建自己的仓库。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Docker的使用"><a class="headerlink" href="#Docker的使用"></a>Docker的使用</h2>
+<h3 id="镜像相关的命令"><a class="headerlink" href="#镜像相关的命令"></a>镜像相关的命令</h3>
+<p>想要启动一个容器，首先需要找到它的镜像的。镜像相关的命令如下：</p>
+<ul>
+<li>
+<p>列出本机的所有镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/2fdc1f52d0d64ea99ab26f15a189929d.png" alt="在这里插入图片描述" loading="lazy"></p>
+<p>这个命令会展示镜像的信息：包括镜像的仓库源(REPOSITORY)、标签(TAG)、镜像ID(IMAGE ID)、 创建时间和大小。</p>
+</li>
+<li>
+<p>从仓库当中拉取镜像到本地：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx:1.21.6</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/4e77ca5a85c64d44ac96350828bf5ce7.png" alt="在这里插入图片描述" loading="lazy"><br>
+拉取镜像的来源地是仓库——一般使用的是公共仓库，比如默认的<a>hub.docker.com</a>，团队自己也可以建立私有仓库。</p>
+</li>
+<li>
+<p>删除本地镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi nginx:1.21.6</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="容器相关的命令"><a class="headerlink" href="#容器相关的命令"></a>容器相关的命令</h3>
+<h4 id="创建并启动容器"><a class="headerlink" href="#创建并启动容器"></a>创建并启动容器</h4>
+<ul>
+<li>
+<p>通过docker run命令可以从镜像当中启动容器。</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run nginx</span><br></pre></td></tr></table></figure>
+<ul>
+<li>默认情况，执行docker run的效果会寻找镜像，<strong>如果相应的镜像不存在，那么会自动从公开仓库当中拉取</strong>；然后启动运行容器；随后附加的命令，在本例中附加命令为空。</li>
+<li>对应nginx容器，就会进入容器内部nginx的交互终端，可以使用<code>ctrl+c</code>从容器当中退出，但是同时也会<strong>停止容器</strong>。<br>
+<img src="/images/Docker/42768525ea93498b8ed6cc196f72660b.png" alt="在这里插入图片描述" loading="lazy"></li>
+</ul>
+</li>
+<li>
+<p>如果给容器指定附加指令，对于nginx容器而言，会直接执行该指令，随后容器就停止了。</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run nginx <span class="built_in">echo</span> hello</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用<code>--help</code>选项可以获取命令的简明帮助：</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run --<span class="built_in">help</span></span><br><span class="line"><span class="comment"># -i, 以交互模式运行容器，通常与 -t 同时使用</span></span><br><span class="line"><span class="comment"># -t, 为容器重新分配一个伪输入终端，通常与 -i 同时使用</span></span><br><span class="line"><span class="comment"># -d, 后台运行容器，并返回容器ID</span></span><br><span class="line"><span class="comment"># --name=&quot;nginx-coo1heisenberg&quot;: 为容器指定一个名称</span></span><br><span class="line"><span class="comment"># -e username=&quot;coo1heisenberg&quot;: 设置环境变量参数</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -p: 指定端口映射，格式为：主机(宿主)端口:容器端口</span></span><br><span class="line"><span class="comment"># -v: 文件挂载，映射文件</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>假如需要<strong>进入容器内部，通过shell命令和容器交互</strong></li>
+</ul>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it nginx /bin/bash</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/8695badf971849779c7c7e0a28e68aad.png" alt="在这里插入图片描述" loading="lazy"></p>
+<p>上述命令执行之后，<strong>用户就可以进入容器内部，像使用一个普通的shell操作容器内部文件系统</strong>。使用<code>ctrl+d</code>可以退出容器并停止容器。</p>
+<ul>
+<li>使用<code>-d</code>选项可以以守护进程的形式运行容器：</li>
+</ul>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d nginx</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/bd32d3b5d0be4d1f92c92a95ea5f6960.png" alt="在这里插入图片描述" loading="lazy"></p>
+</li>
+</ul>
+<hr>
+<h4 id="查看容器"><a class="headerlink" href="#查看容器"></a>查看容器</h4>
+<ul>
+<li>
+<p>我们还可以<strong>查看容器</strong></p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker ps  <span class="comment"># 列出运行当中的容器</span></span><br><span class="line">docker ps -a  <span class="comment"># 列出所有的容器</span></span><br><span class="line"></span><br><span class="line">docker <span class="built_in">rm</span> 容器名|ID  <span class="comment"># 删除停止状态的容器</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/f1955bf93d9a467fa7725281dc6ac16d.png" alt="在这里插入图片描述" loading="lazy"></p>
+</li>
+</ul>
+<hr>
+<h4 id="进入运行中的容器"><a class="headerlink" href="#进入运行中的容器"></a>进入运行中的容器</h4>
+<ul>
+<li>
+<p>假若一个容器已经存在并且正在运行，使用<code>docker exec</code> 进入容器</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it 容器名 /bin/bash</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/7a5c0fe265924fef8e2be1cc6edca19e.png" alt="在这里插入图片描述" loading="lazy"></p>
+</li>
+</ul>
+<hr>
+<h4 id="查看容器日志"><a class="headerlink" href="#查看容器日志"></a>查看容器日志</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 容器日志查看</span></span><br><span class="line">docker logs [-f] 容器ID|容器名</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/b93b930dbe0142559361640f48b51263.png" alt="在这里插入图片描述" loading="lazy"></p>
+<hr>
+<h4 id="容器的启停命令"><a class="headerlink" href="#容器的启停命令"></a>容器的启停命令</h4>
+<ul>
+<li>
+<p>当然也可以<strong>停止、启动、重启或者是删除容器</strong></p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 停止容器</span></span><br><span class="line">docker stop 容器ID|容器名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">docker start 容器ID|容器名</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启容器</span></span><br><span class="line">docker restart 容器ID|容器名</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/bd3671c2f9164c0fb3055a83004709d2.png" alt="在这里插入图片描述" loading="lazy"></p>
+</li>
+</ul>
+<hr>
+<h4 id="容器的删除命令"><a class="headerlink" href="#容器的删除命令"></a>容器的删除命令</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除容器</span></span><br><span class="line">docker <span class="built_in">rm</span> 容器ID|容器名</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/e5229fd1305945f393b8bd88c504b483.png" alt="在这里插入图片描述" loading="lazy"></p>
+<hr>
+<h3 id="端口映射"><a class="headerlink" href="#端口映射"></a>端口映射</h3>
+<ul>
+<li>容器天生具有隔离的特性，所以不同的容器拥有独立的网络系统</li>
+<li><strong>两个不同的容器在容器内部完全可以使用相同的端口</strong>，并且可以使用宿主机当中已经使用的端口——这些相同的端口号实际上是毫无关联的，彼此之间也无法进行网络通信</li>
+</ul>
+<p>使用docker run的<code>-p</code>选项可以实现端口映射：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将宿主机的8080端口映射到容器的80</span></span><br><span class="line"><span class="comment"># -p: 指定端口映射，格式为：主机(宿主)端口:容器端口</span></span><br><span class="line">docker run -d -p 8080:80 nginx</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/3a66a148e96e431a85bf2851ee6f5d1a.png" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="/images/Docker/e848bfe1fc5748ecac2419798d9f43c6.png" alt="在这里插入图片描述" loading="lazy"></p>
+<hr>
+<h3 id="文件映射"><a class="headerlink" href="#文件映射"></a>文件映射</h3>
+<ul>
+<li>容器天生具有隔离的特性，所以不同的容器拥有独立的文件系统。</li>
+<li><strong>在容器内部做任何的修改，都不会影响到宿主机或者其他容器</strong>。</li>
+</ul>
+<p>使用docker run 的<code>-v</code>可以实现数据持久化：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 0.0.0.0:8081:80 -v /tmp/test:/usr/share/nginx/html nginx</span><br></pre></td></tr></table></figure>
+<p><img src="/images/Docker/5b09bb8f1858458bbafbf4fd3b81dcf2.png" alt="在这里插入图片描述" loading="lazy"><br>
+<img src="/images/Docker/b850eae1dff24a6da011de55ab79a877.png" alt="在这里插入图片描述" loading="lazy"></p>
+<ul>
+<li>容器中访问的<code>/usr/share/nginx/html</code>和宿主系统的<code>/tmp/test</code>的<strong>内容是一致</strong>，<strong>并且任何形式的修改都会在宿主系统和容器当中共享</strong>。</li>
+</ul>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"></a><div class="post-copyright__author_name">Welcome to My BLOG!!!</div><div class="post-copyright__author_desc">Diligence can make up for clumsiness!</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">Welcome to My BLOG!!!</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"><span class="tags-punctuation"></span>Docker基础语法<span class="tagsPageCount">1</span></a></div></div><div class="social-share"></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/05/13/DesignPattern/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">DesignPattern</div></div></a></div><div class="next-post pull-right"><a href="/2024/05/13/Nginx/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">00 Nginx</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">菜鸡的自我救赎...</div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Coo1heisenberg’s BLOG</div><div class="author-info__desc">Diligence can make up for clumsiness!</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/coo1heisenberg" title="Github"><i class="solitude  st-github-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E4%BB%8B%E7%BB%8D"><span class="toc-text">Docker介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-text">Docker核心概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">Docker的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E7%9B%B8%E5%85%B3%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-text">镜像相关的命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-text">容器相关的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%B9%B6%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="toc-text">创建并启动容器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8"><span class="toc-text">查看容器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E8%BF%90%E8%A1%8C%E4%B8%AD%E7%9A%84%E5%AE%B9%E5%99%A8"><span class="toc-text">进入运行中的容器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97"><span class="toc-text">查看容器日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%9A%84%E5%90%AF%E5%81%9C%E5%91%BD%E4%BB%A4"><span class="toc-text">容器的启停命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%9A%84%E5%88%A0%E9%99%A4%E5%91%BD%E4%BB%A4"><span class="toc-text">容器的删除命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="toc-text">端口映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%98%A0%E5%B0%84"><span class="toc-text">文件映射</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/DesignPattern/" title="DesignPattern"><img alt="DesignPattern" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/DesignPattern_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/DesignPattern/" title="DesignPattern">DesignPattern</a><a class="article-recent_post_categories" href="/2024/05/13/DesignPattern/">设计模式</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Docker/" title="00 Docker"><img alt="00 Docker" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Docker_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/Docker/" title="00 Docker">00 Docker</a><a class="article-recent_post_categories" href="/2024/05/13/Docker/">Docker</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Nginx/" title="00 Nginx"><img alt="00 Nginx" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Nginx_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/Nginx/" title="00 Nginx">00 Nginx</a><a class="article-recent_post_categories" href="/2024/05/13/Nginx/">Nginx</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Linux/" title="00 Linux"><img alt="00 Linux" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Linux_blog.png"></a><div class="content"><a class="title" href="/2024/05/13/Linux/" title="00 Linux">00 Linux</a><a class="article-recent_post_categories" href="/2024/05/13/Linux/">Linux</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Spring-Cloud/" title="06 SpringCloud"><img alt="06 SpringCloud" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Spring_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/Spring-Cloud/" title="06 SpringCloud">06 SpringCloud</a><a class="article-recent_post_categories" href="/2024/05/13/Spring-Cloud/">Spring-Framework</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">来自 Heisenberg 的原创文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">Coo1heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
+</script><script src="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"><script>(() => {
+    document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+        utils.wrap(item, 'div', {class: 'katex-wrap'})
+    })
+})();
+</script></script><script src="//open.lightxi.com/cdnjs/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="//open.lightxi.com/cdnjs/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- newest comment--><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    is_rm && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="solitude st-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"><div id="search-hits"></div></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/search/local.js?v=1.10.6"></script><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/05/13/DesignPattern/","2024/05/13/Docker/","2024/05/13/Nginx/","2024/05/13/Linux/","2024/05/13/Spring-Cloud/","2024/05/13/Spring-boot/","2024/05/13/Spring-MVC/","2024/05/13/Spring事务/","2024/05/13/Spring-AOP/","2024/05/13/Spring-IOC-DI/","2024/05/13/JavaEE-MVC/","2024/05/13/JavaEE-WebTools/","2024/05/13/JavaEE-conversation/","2024/05/13/JavaEE-response/","2024/05/13/JavaEE-request/","2024/05/13/JavaEE-Servlet/","2024/05/12/测试文章：如何使用Hexo发博客/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>

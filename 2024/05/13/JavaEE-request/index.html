@@ -1,0 +1,636 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>02 JavaEE_request | Welcome to My BLOG!!!</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="前置知识点 URL和URI URL：统一资源位置 URI：统一资源标识符 端口号后面的所有部分都是URI 举例： 123比如请求：http:&amp;#x2F;&amp;#x2F;localhost:8080&amp;#x2F;demo&amp;#x2F;hello.jspURL：http:&amp;#x2F;&amp;#x2F;localhost:8080&amp;#x2F;demo&amp;#x2F;hello.jspURI："><!-- pwa--><meta name="apple-mobile-web-app-capable" content="Welcome to My BLOG!!!"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.10.6",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":false,"path":"/search.xml"},
+    runtime: '2024-05-12 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.webp'
+    },
+    copyright: {"limit":50,"author":"作者: Coo1heisenberg’s BLOG","link":"链接: ","source":"来源: Welcome to My BLOG!!!","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'highlight.js'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可","search":{"empty":"找不到你查询的内容：${query}","hit":"找到 ${hits} 条结果，用时 ${time} 毫秒","placeholder":"输入关键词快速查找","count":"共 <b>${count}</b> 条结果。"}},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/JavaEE/">JavaEE<sup>6</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>6</sup></a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务<sup>1</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">17</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="solitude  st-wifi-fill"></i><span>友链鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="solitude  st-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="solitude  st-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/JavaEE/">JavaEE<sup>6</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>6</sup></a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">02 JavaEE_request</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="solitude  st-wifi-fill"></i><span>友链鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="solitude  st-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="solitude  st-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="solitude st-search-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://i.postimg.cc/Y2QsVd85/Java-EE-logo.png" alt="02 JavaEE_request"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/JavaEE/">JavaEE</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaEE/"><span class="tags-name tags-punctuation">JavaEE</span></a></div></div></div></div><h1 class="post-title">02 JavaEE_request</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="发布于 2024-05-13 14:20:03"><i class="post-meta-icon solitude st-calendar-todo-fill"></i><time datetime="2024-05-13T06:20:03.000Z">2024-05-13T06:20:03.000Z</time></span><span class="post-meta-date" title="最后更新于 2024-05-13 14:28:23"><i class="post-meta-icon solitude st-refresh-line"></i><time datetime="2024-05-13T06:28:23.306Z">2024-05-13T06:28:23.306Z</time></span><span class="post-meta-wordcount"><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>前置知识点</h1>
+<h2 id="URL和URI"><a class="headerlink" href="#URL和URI"></a>URL和URI</h2>
+<ul>
+<li>URL：统一资源位置</li>
+<li>URI：统一资源标识符
+<ul>
+<li>端口号后面的所有部分都是URI</li>
+</ul>
+</li>
+<li>举例：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">比如请求：http://localhost:8080/demo/hello.jsp</span><br><span class="line">URL：http://localhost:8080/demo/hello.jsp</span><br><span class="line">URI：/demo/hello.jsp</span><br></pre></td></tr></table></figure>
+<h2 id="HTTP请求报文和HTTP响应报文"><a class="headerlink" href="#HTTP请求报文和HTTP响应报文"></a>HTTP请求报文和HTTP响应报文</h2>
+<ul>
+<li>HTTP请求报文
+<ul>
+<li>请求行
+<ul>
+<li>请求方法（GET/POST）</li>
+<li>请求URL</li>
+<li>请求协议</li>
+</ul>
+</li>
+<li>请求头
+<ul>
+<li>格式是<code>key:value</code></li>
+<li>比较特殊的请求头：
+<ul>
+<li>Content-Type：由浏览器提供给服务器的正文类型</li>
+<li>Accept：浏览器期望从服务器获得正文的类型（ 服务器提供给浏览器的正文类型）</li>
+<li>Host：主机ip</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>（空行）</li>
+<li>请求体
+<ul>
+<li>普通的Get请求和form表单提供的Get/Post请求，如果携带了参数它的格式是 <code>key1=value1&amp;key2=value2&amp;key3=value3</code>等</li>
+</ul>
+</li>
+<li>携带Json数据的post请求   <code>&#123;&#125;</code>或<code>[]</code></li>
+</ul>
+</li>
+<li>HTTP响应报文
+<ul>
+<li>响应行
+<ul>
+<li>协议</li>
+<li>响应状态码</li>
+</ul>
+</li>
+<li>响应头
+<ul>
+<li>格式是<code>key:value</code></li>
+<li>Content-Type：服务器提供给浏览器的正文类型，后面通常会跟charset，比如<code>application/json;charset=utf-8</code></li>
+</ul>
+</li>
+<li>（空行）</li>
+<li>响应体
+<ul>
+<li>如果是json，Content-Type中通常是application/json</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1>Request</h1>
+<h2 id="请求行"><a class="headerlink" href="#请求行"></a>请求行</h2>
+<p>eg：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">POST http://101.43.69.31:8083/admin/auth/login HTTP/1.1</span><br><span class="line"></span><br><span class="line">GET http://localhost:8080/demo3/hello?username=zhangsan HTTP/1.1</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>信息</th>
+<th>内容</th>
+<th>方法</th>
+<th>返回值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>请求方法</td>
+<td>POST、GET</td>
+<td><code>getMethod()</code></td>
+<td>String</td>
+<td>获得请求方法</td>
+</tr>
+<tr>
+<td>URL</td>
+<td><a target="_blank" rel="noopener" href="http://101.43.69.31:8083/admin/auth/login">http://101.43.69.31:8083/admin/auth/login</a></td>
+<td><code>getRequestURL()</code></td>
+<td>StringBuffer</td>
+<td>获得请求URL</td>
+</tr>
+<tr>
+<td>URI</td>
+<td>/admin/auth/login、/demo3/hello</td>
+<td><code>getRequestURI()</code></td>
+<td>String</td>
+<td>获得请求URI</td>
+</tr>
+<tr>
+<td>context-path</td>
+<td>/demo3</td>
+<td><code>getContextPath()</code></td>
+<td>String</td>
+<td>获得上下文</td>
+</tr>
+<tr>
+<td>服务器ip</td>
+<td>101.43.69.31、localhost</td>
+<td><code>getLocalAddr()</code></td>
+<td>String</td>
+<td>获得ip</td>
+</tr>
+<tr>
+<td>端口号</td>
+<td>8083、8080</td>
+<td><code>getLocalPort()</code></td>
+<td>int</td>
+<td>获得端口号</td>
+</tr>
+<tr>
+<td>QueryString</td>
+<td>username=zhangsan</td>
+<td><code>getQueryString()</code></td>
+<td>String</td>
+<td>获得Get请求的查询字符串</td>
+</tr>
+<tr>
+<td>协议</td>
+<td>HTTP/1.1</td>
+<td><code>getProtocol()</code></td>
+<td>String</td>
+<td>获得通讯协议</td>
+</tr>
+</tbody>
+</table>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 构造一个GET请求：http://localhost:8080/demo1/user?username=zs HTTP/1.1</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 构造一个POST请求：http://localhost:8080/demo1/user HTTP/1.1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebServlet(value = &quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        core(req,resp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        core(req,resp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">core</span><span class="params">(HttpServletRequest requset, HttpServletResponse response)</span> &#123;</span><br><span class="line">        <span class="comment">// 获得请求方法</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">method</span> <span class="operator">=</span> requset.getMethod();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获得URL</span></span><br><span class="line">        <span class="comment">// http://localhost:8080/demo1/user</span></span><br><span class="line">        <span class="type">StringBuffer</span> <span class="variable">requestURL</span> <span class="operator">=</span> requset.getRequestURL();</span><br><span class="line">        <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> requestURL.toString();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取本地ip</span></span><br><span class="line">        <span class="comment">// 0:0:0:0:0:0:0:1</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">localAddr</span> <span class="operator">=</span> requset.getLocalAddr();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取本地端口号</span></span><br><span class="line">        <span class="comment">// 8080</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">localPort</span> <span class="operator">=</span> requset.getLocalPort();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取上下文的路径</span></span><br><span class="line">        <span class="comment">// /demo1</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">contextPath</span> <span class="operator">=</span> requset.getContextPath();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取URI</span></span><br><span class="line">        <span class="comment">// /demo1/user</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">requestURI</span> <span class="operator">=</span> requset.getRequestURI();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获得Get请求的查询字符串</span></span><br><span class="line">        <span class="comment">// username=zs</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">queryString</span> <span class="operator">=</span> requset.getQueryString();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取协议的部分</span></span><br><span class="line">        <span class="comment">// HTTP/1.1</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">protocol</span> <span class="operator">=</span> requset.getProtocol();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="请求头"><a class="headerlink" href="#请求头"></a>请求头</h2>
+<ul>
+<li>请求头中的信息，都是<code>key：value</code>的形式
+<ul>
+<li>可以知道有哪一些请求头 Key → <strong>获得所有的请求头</strong></li>
+<li>也可以知道这些请求头当中的值是什么 Value → <strong>获得特定Key对应的Value</strong></li>
+</ul>
+</li>
+<li><strong>请求头大小写不敏感</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>返回值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getHeaderNames()</code></td>
+<td><code>Enumeration&lt;String&gt;</code></td>
+<td>获得所有的请求头，可以通过遍历的方式来使用，使用方式类似于Iterator</td>
+</tr>
+<tr>
+<td><code>getHeader(String)</code></td>
+<td><code>String</code></td>
+<td>传入的是请求头的Key，返回的是请求头的value</td>
+</tr>
+</tbody>
+</table>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/header&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HeaderServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="comment">// 获得了请求头的枚举的类型</span></span><br><span class="line">        Enumeration&lt;String&gt; headerNames = request.getHeaderNames();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (headerNames.hasMoreElements()) &#123;</span><br><span class="line">            <span class="comment">// 获取所有的请求头</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">headerName</span> <span class="operator">=</span> headerNames.nextElement();</span><br><span class="line">            <span class="comment">// 获取请求头对应的value</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">headerValue</span> <span class="operator">=</span> request.getHeader(headerName);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// System.out.println(headerName + &quot;：&quot; + headerValue);</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 如果只想打印accept的值</span></span><br><span class="line">            <span class="comment">// toLowerCase()是改成纯小写</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;accept&quot;</span>.equals(headerName.toLowerCase())) &#123;</span><br><span class="line">                <span class="type">String</span> <span class="variable">accept</span> <span class="operator">=</span> request.getHeader(<span class="string">&quot;accept&quot;</span>);</span><br><span class="line">                System.out.println(<span class="string">&quot;accept = &quot;</span> + accept);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="请求体"><a class="headerlink" href="#请求体"></a>请求体</h2>
+<ul>
+<li>构造一个<code>form</code>表单</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/demo1/body1&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Postman构造的<br>
+<img src="/images/JavaEE-request/eee91adeee6649a798a2bf8a14c95807.png" alt="在这里插入图片描述" loading="lazy"></li>
+<li>通过fiddler抓取Postman构造的POST请求报文：</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">POST http://localhost:8080/demo1/body1 HTTP/1.1</span><br><span class="line">User-Agent: PostmanRuntime/7.37.0</span><br><span class="line">Accept: */*</span><br><span class="line">Postman-Token: 58bc8447-cae4-438e-ab71-b53d58dd80f6</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 11</span><br><span class="line"></span><br><span class="line">// 这部分是请求体</span><br><span class="line">username=zs	</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字节流InputStream、字符流Reader
+<ul>
+<li>字符流通常不写出，之后请求参数会以JSON字符串的形式提供（<strong>getReader()读取即可</strong>）</li>
+<li>在同一个方法中，<strong>不能同时使用字符流和字节流</strong>
+<ul>
+<li>原因：里面有标记，使用其中的一个流会导致标记后移，另外一个流无法使用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>方法</th>
+<th>返回值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字节流</td>
+<td><code>getInputStream()</code></td>
+<td>ServletInputStream</td>
+<td>获得字节流</td>
+</tr>
+<tr>
+<td>字符流</td>
+<td><code>getReader()</code></td>
+<td>BufferedReader</td>
+<td>获得字符流</td>
+</tr>
+</tbody>
+</table>
+<p>eg：</p>
+<ul>
+<li>字符流举例</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 字符流</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/body1&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BodyServlet1</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="comment">// 构造POST请求</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="comment">// 首先获得字符流</span></span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">reader</span> <span class="operator">=</span> request.getReader();</span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> reader.readLine();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 直接获得username=zs</span></span><br><span class="line">        System.out.println(str);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字节流举例</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 字节流</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/body2&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BodyServlet2</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="comment">// 首先获得字节流</span></span><br><span class="line">        <span class="type">ServletInputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> request.getInputStream();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 把里面的值保存到 D://tmp//body.txt</span></span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">fileOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;D:/body.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>((length = inputStream.read(bytes)) != -<span class="number">1</span>) &#123;</span><br><span class="line">            fileOutputStream.write(bytes,<span class="number">0</span>,length);</span><br><span class="line">        &#125;</span><br><span class="line">        inputStream.close();</span><br><span class="line">        fileOutputStream.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="特殊信息"><a class="headerlink" href="#特殊信息"></a>特殊信息</h2>
+<h3 id="获取客户机和服务器主机信息"><a class="headerlink" href="#获取客户机和服务器主机信息"></a>获取客户机和服务器主机信息</h3>
+<ul>
+<li><strong>请求</strong>是从客户机发到服务器的，在服务器中处理信息的获得，那么<strong>对于服务器</strong>，<strong>本地local是服务器，远程remote是客户机</strong></li>
+<li>在Servlet中可以获得本地的IP和Port，也可以获得远程IP和Port</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>信息</th>
+<th>方法</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本地（服务器）IP</td>
+<td><code>getLocalAddr()</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td>本地（服务器）端口号</td>
+<td><code>getLocalPort()</code></td>
+<td>int</td>
+</tr>
+<tr>
+<td>远程（客户机）IP</td>
+<td><code>getRemoteAddr()</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td>远程（客户机）端口号</td>
+<td><code>getRemotePort()</code></td>
+<td>int</td>
+</tr>
+</tbody>
+</table>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这里发送的请求是：localhost:8080/demo1/addr</span></span><br><span class="line"><span class="comment"> * 192.168.XXX.XXX/demo/addr也可以同样访问</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/addr&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AddrPortServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">localAddr</span> <span class="operator">=</span> request.getLocalAddr();</span><br><span class="line">        <span class="type">int</span> <span class="variable">localPort</span> <span class="operator">=</span> request.getLocalPort();</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">remoteAddr</span> <span class="operator">=</span> request.getRemoteAddr();</span><br><span class="line">        <span class="type">int</span> <span class="variable">remotePort</span> <span class="operator">=</span> request.getRemotePort();</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;come from &quot;</span> + remoteAddr + <span class="string">&quot;: &quot;</span> + remotePort);</span><br><span class="line">        System.out.println(<span class="string">&quot;server is &quot;</span> + localAddr + <span class="string">&quot;: &quot;</span> + localPort);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="请求参数"><a class="headerlink" href="#请求参数"></a>请求参数</h2>
+<p>请求参数的场景：</p>
+<ul>
+<li>请求参数 <strong>在请求行中</strong>
+<ul>
+<li><code>getQueryString()</code></li>
+</ul>
+</li>
+<li>请求参数 <strong>在请求体中</strong>
+<ul>
+<li><code>getInputStream()/getReader()</code></li>
+</ul>
+</li>
+<li><strong>指的是：<code>key=value&amp;key=value</code></strong></li>
+</ul>
+<p>eg：<br>
+手动实现获取请求参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/parameter&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="comment">// GET请求请求参数出现在请求行里</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">parameterStr</span> <span class="operator">=</span> <span class="literal">null</span>; <span class="comment">// username=zs&amp;password=ls</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;GET&quot;</span>.equals(request.getMethod()))&#123;</span><br><span class="line">            parameterStr = request.getQueryString();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;POST&quot;</span>.equals(request.getMethod())) &#123;</span><br><span class="line">            parameterStr = request.getReader().readLine();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// http://localhost:8080/demo1?username=zs&amp;password=ls</span></span><br><span class="line">        <span class="comment">// 能否解析请求参数以及所对应的值</span></span><br><span class="line">        <span class="keyword">if</span> (parameterStr != <span class="literal">null</span> &amp;&amp; !<span class="string">&quot;&quot;</span>.equals(parameterStr)) &#123;</span><br><span class="line">            String[] parameterArray = parameterStr.split(<span class="string">&quot;\\&amp;&quot;</span>);</span><br><span class="line">            <span class="keyword">for</span> (String parameter : parameterArray) &#123;</span><br><span class="line">                System.out.println(parameter);</span><br><span class="line">                <span class="type">String</span> <span class="variable">parameterName</span> <span class="operator">=</span> parameter.substring(<span class="number">0</span>, parameter.indexOf(<span class="string">&quot;=&quot;</span>)); <span class="comment">//username=zs</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">parameterValue</span> <span class="operator">=</span> parameter.substring(parameter.indexOf(<span class="string">&quot;=&quot;</span>) + <span class="number">1</span>); <span class="comment">// password=ls</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="直接封装"><a class="headerlink" href="#直接封装"></a>直接封装</h3>
+<p>实际开发中并不需要我们手动实现找出请求参数，因为Request已经帮我们封装了可以直接使用的方法了</p>
+<p><code>request.getParameterXXX</code>这样的一些方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>返回值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getParameterNames()</code></td>
+<td>Enumeration&lt;String&gt;</td>
+<td>获得所有的key</td>
+</tr>
+<tr>
+<td><code>getParameterMap()</code></td>
+<td>Map&lt;String,String[]&gt;</td>
+<td>获得所有的请求参数</td>
+</tr>
+<tr>
+<td><code>getParameter(String)</code></td>
+<td>String</td>
+<td>获得第一个值</td>
+</tr>
+<tr>
+<td><code>getParameterValues(String)</code></td>
+<td>String[]</td>
+<td>获得所有值</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>request对于请求参数的封装实际上，封装为一个<code>Map&lt;String,String[]&gt;</code>
+<ul>
+<li>eg：<code>username=zs&amp;password=12345&amp;hobby=sing&amp;hobby=dance&amp;hobby=rap&amp;hobby=basketball</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/JavaEE-request/ec1f73edad984674ae230e13e6e25725.png" alt="在这里插入图片描述" loading="lazy"></p>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用Request提供的方法来获取参数</span></span><br><span class="line"><span class="comment"> * http://localhost:8080/demo1/parameter2</span></span><br><span class="line"><span class="comment"> * ?username=zs&amp;password=12345&amp;hobby=sing&amp;hobby=dance&amp;hobby=rap&amp;hobby=basketball</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 可以是GET请求，通过queryString的方式提供</span></span><br><span class="line"><span class="comment"> * 也可以POST请求，通过请求体提供参数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/parameter2&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterServlet2</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="comment">// 获取key值</span></span><br><span class="line">        Enumeration&lt;String&gt; parameterNames = request.getParameterNames();</span><br><span class="line">        <span class="keyword">while</span> (parameterNames.hasMoreElements()) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">parameterName</span> <span class="operator">=</span> parameterNames.nextElement();</span><br><span class="line">            <span class="type">String</span> <span class="variable">parameterValue</span> <span class="operator">=</span> request.getParameter(parameterName);</span><br><span class="line">            System.out.println(parameterName + <span class="string">&quot; = &quot;</span> + parameterValue);</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            username = zs</span></span><br><span class="line"><span class="comment">            password = 12345</span></span><br><span class="line"><span class="comment">            hobby = sing</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            String[] parameterValues = request.getParameterValues(parameterName);</span><br><span class="line">            System.out.println(parameterName + <span class="string">&quot; = &quot;</span> + Arrays.asList(parameterValues));</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            username = [zs]</span></span><br><span class="line"><span class="comment">            password = [12345]</span></span><br><span class="line"><span class="comment">            hobby = [sing, dance, rap, basketball]</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">        &#125;</span><br><span class="line">        Map&lt;String, String[]&gt; parameterMap = request.getParameterMap();</span><br><span class="line">        Iterator&lt;String&gt; iterator = parameterMap.keySet().iterator();</span><br><span class="line">        <span class="keyword">while</span>(iterator.hasNext()) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">parameterName</span> <span class="operator">=</span> iterator.next();</span><br><span class="line">            String[] parameterValues = parameterMap.get(parameterName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="引用类型"><a class="headerlink" href="#引用类型"></a>引用类型</h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/demo1/parameter4/register?</span><br><span class="line">username=bob&amp;password=123456&amp;age=21&amp;birthday=2004-01-16&amp;mobile=18801106688</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将请求参数封装为一个引用类型的对象</li>
+</ul>
+<p><strong>案例（Servlet与Mybatis结合）</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="keyword">private</span> Date birthday;</span><br><span class="line">    <span class="keyword">private</span> Date createDate;</span><br><span class="line">    <span class="keyword">private</span> String mobile;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">insert</span><span class="params">(User user)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.coo1heisenberg.demo1.mapper.UserMapper&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;insert&quot;</span>&gt;</span></span><br><span class="line">        insert into test_user(username, password, age, birthday, createDate, mobile)</span><br><span class="line">        values (#&#123;username&#125;,#&#123;password&#125;,#&#123;age&#125;,#&#123;birthday&#125;,#&#123;createDate&#125;,#&#123;mobile&#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/parameter/register&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterServlet3</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="type">UserMapper</span> <span class="variable">userMapper</span> <span class="operator">=</span> MybatisUtil.getSqlSession().getMapper(UserMapper.class);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 这部分过于繁琐</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">        user.setUsername(request.getParameter(<span class="string">&quot;username&quot;</span>));</span><br><span class="line">        user.setPassword(request.getParameter(<span class="string">&quot;password&quot;</span>));</span><br><span class="line">        user.setAge(Integer.parseInt(request.getParameter(<span class="string">&quot;age&quot;</span>)));</span><br><span class="line">        <span class="type">String</span> <span class="variable">birthdayStr</span> <span class="operator">=</span> request.getParameter(<span class="string">&quot;birthday&quot;</span>);</span><br><span class="line">        <span class="type">SimpleDateFormat</span> <span class="variable">dateFormat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>(<span class="string">&quot;yyyy-MM-dd&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">Date</span> <span class="variable">date</span> <span class="operator">=</span> dateFormat.parse(birthdayStr);</span><br><span class="line">            user.setBirthday(date);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        user.setCreateDate(<span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">        user.setMobile(request.getParameter(<span class="string">&quot;mobile&quot;</span>));</span><br><span class="line">        userMapper.insert(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>对上面的代码进行优化</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成一个工具类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterUtil</span> &#123;</span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">DAY_FORMAT_PATTERN</span> <span class="operator">=</span> <span class="string">&quot;yyyy-MM-dd&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title function_">getInstance</span><span class="params">(Class&lt;T&gt; clazz, HttpServletRequest request)</span></span><br><span class="line">            <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 创建一个实例</span></span><br><span class="line">        <span class="type">T</span> <span class="variable">instance</span> <span class="operator">=</span> clazz.newInstance();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// clazz里的成员变量名 与 请求参数名对应</span></span><br><span class="line">        Enumeration&lt;String&gt; parameterNames = request.getParameterNames(); <span class="comment">// fieldNames</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (parameterNames.hasMoreElements()) &#123;</span><br><span class="line">            <span class="comment">// 获得请求参数的值</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">parameterName</span> <span class="operator">=</span> parameterNames.nextElement();</span><br><span class="line">            <span class="type">String</span> <span class="variable">parameterValue</span> <span class="operator">=</span> request.getParameter(parameterName);</span><br><span class="line">            <span class="comment">// 获得成员变量</span></span><br><span class="line">            <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> clazz.getDeclaredField(parameterName);</span><br><span class="line">            field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">            <span class="keyword">if</span> (field.getType() == Integer.class) &#123;</span><br><span class="line">                <span class="type">Integer</span> <span class="variable">integerParameterValue</span> <span class="operator">=</span> Integer.parseInt(parameterValue);</span><br><span class="line">                field.set(instance, integerParameterValue);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getType() == Date.class) &#123;</span><br><span class="line">                <span class="type">SimpleDateFormat</span> <span class="variable">simpleDateFormat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>(DAY_FORMAT_PATTERN);</span><br><span class="line">                <span class="type">Date</span> <span class="variable">date</span> <span class="operator">=</span> simpleDateFormat.parse(parameterValue);</span><br><span class="line">                field.set(instance, date);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 给成员变量赋值</span></span><br><span class="line">                field.set(instance, parameterValue);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/parameter4/register&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterServlet4</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span> &#123;</span><br><span class="line">        <span class="type">UserMapper</span> <span class="variable">userMapper</span> <span class="operator">=</span> MybatisUtil.getSqlSession().getMapper(UserMapper.class);</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            user = ParameterUtil.getInstance(User.class, request);</span><br><span class="line">            user.setCreateDate(<span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        userMapper.insert(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>BeanUtils</strong>
+<ul>
+<li>第三方工具类，作用和上面自己写的工具类性质一样</li>
+<li><strong>引入依赖<code>commons-beanutils</code></strong></li>
+<li><strong>这个工具类<code>Date</code>转换不了</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BeanUtils.copyProperties(instance, parameterMap);<span class="comment">//直接使用其提供的copyProperties方法</span></span><br></pre></td></tr></table></figure>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/parameter5/register&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterServlet5</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@SneakyThrows</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span> &#123;</span><br><span class="line">        <span class="type">UserMapper</span> <span class="variable">userMapper</span> <span class="operator">=</span> MybatisUtil.getSqlSession().getMapper(UserMapper.class);</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">        Map&lt;String, String[]&gt; parameterMap = request.getParameterMap();</span><br><span class="line">        BeanUtils.copyProperties(user,parameterMap);</span><br><span class="line">        userMapper.insert(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="POST请求请求参数乱码"><a class="headerlink" href="#POST请求请求参数乱码"></a>POST请求请求参数乱码</h2>
+<p>乱码问题：<strong>编解码不一致</strong></p>
+<p>eg：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>GET请求<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/demo1/parameter/encoding&quot;</span> <span class="attr">method</span>=<span class="string">&quot;get&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>POST请求<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/demo1/parameter/encoding&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这次测试：username=&quot;张三&quot;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/parameter/encoding&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterEncodingServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">username</span> <span class="operator">=</span> request.getParameter(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;username = &quot;</span> + username);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="comment">// 需要设置转码</span></span><br><span class="line">        request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        <span class="comment">// 控制台出现：username = ??????</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">username</span> <span class="operator">=</span> request.getParameter(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;username = &quot;</span> + username);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="文件上传"><a class="headerlink" href="#文件上传"></a>文件上传</h2>
+<ul>
+<li>创建<code>form</code>表单<br>
+<img src="/images/JavaEE-request/f3fe53e46c55425faa96db8bc87f9e84.png" alt="在这里插入图片描述" loading="lazy"></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">注册用户信息</span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/parameter/file&quot;</span> <span class="attr">enctype</span>=<span class="string">&quot;multipart/form-data&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">  用户名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">  密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">  年龄：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;age&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--头像上传--&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--要提交文件要加上 enctype=&quot;multipart/form-data&quot;--&gt;</span></span><br><span class="line">  头像：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;file&quot;</span> <span class="attr">name</span>=<span class="string">&quot;avatar&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>发送请求通过fiddler抓取</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">POST http://localhost:8080/parameter/file HTTP/1.1</span><br><span class="line">Host: localhost:8080</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 167653</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">sec-ch-ua: &quot;Chromium&quot;;v=&quot;122&quot;, &quot;Not(A:Brand&quot;;v=&quot;24&quot;, &quot;Microsoft Edge&quot;;v=&quot;122&quot;</span><br><span class="line">sec-ch-ua-mobile: ?0</span><br><span class="line">sec-ch-ua-platform: &quot;Windows&quot;</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Origin: http://localhost:8080</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundary8bJUh6YXwtkxIifX</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Sec-Fetch-Site: same-origin</span><br><span class="line">Sec-Fetch-Mode: navigate</span><br><span class="line">Sec-Fetch-User: ?1</span><br><span class="line">Sec-Fetch-Dest: document</span><br><span class="line">Referer: http://localhost:8080/demo1/file.html</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6</span><br><span class="line">Cookie: Pycharm-89c7dd8b=47f9fb69-6795-467d-875b-0a44c63e1e97; Idea-75c3c9a=b19ee743-c677-4bab-b7bd-673c42a25ce0</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--这里是普通的请求信息--&gt;</span></span><br><span class="line">------WebKitFormBoundary8bJUh6YXwtkxIifX</span><br><span class="line">Content-Disposition: form-data; name=&quot;username&quot;</span><br><span class="line"></span><br><span class="line">zs</span><br><span class="line">------WebKitFormBoundary8bJUh6YXwtkxIifX</span><br><span class="line">Content-Disposition: form-data; name=&quot;password&quot;</span><br><span class="line"></span><br><span class="line">123456</span><br><span class="line">------WebKitFormBoundary8bJUh6YXwtkxIifX  ---&gt; 这是分隔符</span><br><span class="line">Content-Disposition: form-data; name=&quot;age&quot;</span><br><span class="line"></span><br><span class="line">25</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--这里是文件的请求信息--&gt;</span></span><br><span class="line">------WebKitFormBoundary8bJUh6YXwtkxIifX</span><br><span class="line">Content-Disposition: form-data; name=&quot;avatar&quot;; filename=&quot;1.jpg&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--这里是图片的字节数据--&gt;</span></span><br><span class="line">     JFIF  H H    1lPhotoshop 3.0 8BIM     Z %G   t 8BIM%     T vN (   Ǹ  8BIM:                 </span><br><span class="line">printOutput       PstSbool    Inteenum    Inte    Img    printSixteenBitbool    </span><br><span class="line">printerNameTEXT        printProofSetupObjc   h!h7  n     </span><br><span class="line">proofSetup       Bltnenum   builtinProof   	proofCMYK 8BIM;    -           printOutputOptions       Cptnbool     Clbrbool     RgsMbool     CrnCbool     CntCbool     Lblsbool     Ngtvbool     EmlDbool     Intrbool     BckgObjc         RGBC       Rd  doub@o          Grn doub@o          Bl  doub@o          BrdTUntF#Rlt            Bld UntF#Rlt            RsltUntF#Pxl@R         </span><br><span class="line">vectorDatabool    PgPsenum    PgPs    PgPC    LeftUntF#Rlt            Top UntF#Rlt            Scl UntF#Prc@Y         cropWhenPrintingbool    cropRectBottomlong       cropRectLeftlong       </span><br><span class="line">cropRectRightlong       </span><br><span class="line">cropRectToplong     8BIM       H     H    8BIM&amp;               ?   8BIM</span><br><span class="line">        8BIM        8BIM      	         8BIM&#x27;     </span><br><span class="line">        8BIM      H /ff  lff       /ff            2    Z         5    -        8BIM      p                                                                                                            8BIM          @  @    8BIM         8BIM    9                @    1 8                                @                                               null      boundsObjc         Rct1       Top long        Leftlong        Btomlong       Rghtlong  @   slicesVlLs   Objc        slice       sliceIDlong        groupIDlong       originenum   ESliceOrigin   </span><br><span class="line">autoGenerated    Typeenum   </span><br><span class="line">ESliceType    Img    boundsObjc         Rct1       Top long        Leftlong        Btomlong       Rghtlong  @   urlTEXT         nullTEXT         MsgeTEXT        altTagTEXT        cellTextIsHTMLbool   cellTextTEXT        	horzAlignenum   ESliceHorzAlign    default   	vertAlignenum   ESliceVertAlign    default   </span><br><span class="line">bgColorTypeenum   ESliceBGColorType    None   	topOutsetlong       </span><br><span class="line">leftOutsetlong       bottomOutsetlong       </span><br><span class="line">rightOutsetlong     8BIM(        ?       8BIM      8BIM        8BIM    (           x         (m      XICC_PROFILE   HLino  mntrRGB XYZ     	  1  acspMSFT    IEC sRGB                      -HP                                                 cprt  P   3desc      lwtpt      bkpt     rXYZ     gXYZ  ,   bXYZ  @   dmnd  T   pdmdd       vued  L    view      $lumi      meas     $tech  0   rTRC  &lt;  gTRC  &lt;  bTRC  &lt;  text    Copyright (c) 1998 Hewlett-Packard Company  desc       sRGB IEC61966-2.1           sRGB IEC61966-2.1                                                  XYZ        Q     XYZ                 XYZ       o   8    XYZ       b        XYZ       $        desc       IEC http://www.iec.ch           IEC http://www.iec.ch                                              desc       .IEC 61966-2.1 Default RGB colour space - sRGB           .IEC 61966-2.1 Default RGB colour space - sRGB                      desc       ,Reference Viewing Condition in IEC61966-2.1           ,Reference Viewing Condition in IEC61966-2.1                          view        _.      </span><br><span class="line"> \    XYZ      L	V P   W meas                             sig     CRT curv           </span><br><span class="line">     # ( - 2 7 ; @ E J O T Y ^ c h m r w |                                                   </span><br><span class="line">%+28&gt;ELRY`gnu|                &amp;/8AKT]gqz             </span><br><span class="line">!-8COZfr~           -;HUcq~         </span><br><span class="line">+:IXgw        &#x27;7HYj&#123;           + = O a t              </span><br><span class="line">2FZn       		%	:	O	d	y	 	 	 	 	 	 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用Request中的<code>getPart</code>方法直接拿到其图片部分
+<ul>
+<li><code>Part getPart(String var1) throws IOException, ServletException;</code></li>
+</ul>
+</li>
+<li>使用<code>getPart</code>方法注意加注解<code>@MultipartConfig</code></li>
+<li><strong>获得Part对象，通过Part中提供的方法可以获得其他具体的信息</strong>：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>返回值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getInputStream()</code></td>
+<td>InputStream</td>
+<td>获得字节输入流，可以读取字节数据将其保存下来</td>
+</tr>
+<tr>
+<td><code>getContentType()</code></td>
+<td>String</td>
+<td>获得正文类型，比如png图片，其值为image/png</td>
+</tr>
+<tr>
+<td><code>getSize()</code></td>
+<td>long</td>
+<td>获得文件字节大小</td>
+</tr>
+<tr>
+<td><code>getName()</code></td>
+<td>String</td>
+<td>获得请求参数名（这里就是avatar）</td>
+</tr>
+<tr>
+<td><code>getSubmittedFileName()</code></td>
+<td>String</td>
+<td>获得上传的原始文件名（这里是1.jpg）</td>
+</tr>
+</tbody>
+</table>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MultipartConfig</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/parameter/file&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterFileServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="type">Part</span> <span class="variable">usernamePart</span> <span class="operator">=</span> request.getPart(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">        <span class="type">Part</span> <span class="variable">avatarPart</span> <span class="operator">=</span> request.getPart(<span class="string">&quot;avatar&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> avatarPart.getInputStream();</span><br><span class="line">        <span class="comment">// 保存在D://下XXX.jpg</span></span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">OutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;D:\\1.jpg&quot;</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        <span class="keyword">while</span> ((length = inputStream.read(bytes) )!= -<span class="number">1</span>) &#123;</span><br><span class="line">            OutputStream.write(bytes,<span class="number">0</span>,length);</span><br><span class="line">        &#125;</span><br><span class="line">        inputStream.close();</span><br><span class="line">        OutputStream.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="案例（与前面的getServletContext结合）"><a class="headerlink" href="#案例（与前面的getServletContext结合）"></a>案例（与前面的<code>getServletContext</code>结合）</h3>
+<ul>
+<li>保存文件到指定位置，文件位置由配置文件提供</li>
+<li><code>application.properties</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pic.path=D://tmp</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>PropertiesInitiationlize.java</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(value = &quot;/properties&quot;, loadOnStartup = 1)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PropertiesInitializationServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@SneakyThrows</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line">        <span class="type">ServletContext</span> <span class="variable">servletContext</span> <span class="operator">=</span> getServletContext();</span><br><span class="line">        <span class="type">Properties</span> <span class="variable">properties</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">        properties.load(PropertiesInitializationServlet</span><br><span class="line">                .class.getClassLoader().getResourceAsStream(<span class="string">&quot;application.properties&quot;</span>));</span><br><span class="line">        <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> properties.getProperty(<span class="string">&quot;pic.path&quot;</span>);</span><br><span class="line">        servletContext.setAttribute(<span class="string">&quot;picPath&quot;</span>,value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>ParameterFile.java</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MultipartConfig</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/parameter/file&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ParameterFileServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="type">Part</span> <span class="variable">usernamePart</span> <span class="operator">=</span> request.getPart(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">        <span class="type">Part</span> <span class="variable">avatarPart</span> <span class="operator">=</span> request.getPart(<span class="string">&quot;avatar&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">submittedFileName</span> <span class="operator">=</span> avatarPart.getSubmittedFileName();</span><br><span class="line"></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> avatarPart.getInputStream();</span><br><span class="line">        <span class="comment">// 保存在D://下XXX.jpg</span></span><br><span class="line">        <span class="comment">//FileOutputStream OutputStream = new FileOutputStream(&quot;D:\\1.jpg&quot;);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 保存在指定位置，上传时的文件名叫什么，保存时候的文件名就叫什么</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">picPath</span> <span class="operator">=</span> (String) getServletContext().getAttribute(<span class="string">&quot;picPath&quot;</span>);</span><br><span class="line">        <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(picPath, submittedFileName);</span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">outputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        <span class="keyword">while</span> ((length = inputStream.read(bytes) )!= -<span class="number">1</span>) &#123;</span><br><span class="line">            outputStream.write(bytes,<span class="number">0</span>,length);</span><br><span class="line">        &#125;</span><br><span class="line">        inputStream.close();</span><br><span class="line">        outputStream.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Request做请求的转发"><a class="headerlink" href="#Request做请求的转发"></a>Request做请求的转发</h2>
+<ul>
+<li>现在<strong>使用很少</strong></li>
+<li>是用来转发的两个请求之间的数据共享
+<ul>
+<li><strong>Request域</strong>可以用来转发的请求之间数据共享
+<ul>
+<li><code>request.setAttribute</code></li>
+<li><code>request.getAttribute</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/servlet1&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Servlet1</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;servlet1&quot;</span>);</span><br><span class="line">        <span class="comment">// 由Request提供的数据共享的空间</span></span><br><span class="line">        request.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;zs&quot;</span>); </span><br><span class="line">        request.getRequestDispatcher(<span class="string">&quot;/servlet2&quot;</span>).forward(request,resp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet(&quot;/servlet2&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Servlet2</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span></span><br><span class="line">            <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">username</span> <span class="operator">=</span> request.getAttribute(<span class="string">&quot;username&quot;</span>); <span class="comment">// 这个username就是zs</span></span><br><span class="line">        System.out.println(<span class="string">&quot;servlet2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>当上面的代码执行<code>http://localhost:8080/demo1/servlet1</code>的同时会执行<code>/servlet2</code>，可以用来共享数据</p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"></a><div class="post-copyright__author_name">Welcome to My BLOG!!!</div><div class="post-copyright__author_desc">Diligence can make up for clumsiness!</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">Welcome to My BLOG!!!</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaEE/"><span class="tags-punctuation"></span>JavaEE<span class="tagsPageCount">6</span></a></div></div><div class="social-share"></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/05/13/JavaEE-response/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">03 JavaEE_response</div></div></a></div><div class="next-post pull-right"><a href="/2024/05/13/JavaEE-Servlet/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">01 JavaEE_Servlet</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="solitude st-star-smile-fill"></i><span>喜欢这篇的人也看了</span><div class="relatedPosts-link"><a onclick="event.preventDefault(); toRandomPost();" href="javascript:void(0);" rel="external nofollow" data-pjax-state="">随便逛逛</a></div></div><div class="relatedPosts-list"><div><a href="/2024/05/13/JavaEE-MVC/" title="06 JavaEE_MVC"><img class="cover" src="https://i.postimg.cc/Y2QsVd85/Java-EE-logo.png" alt="cover"><div class="content is-center"><div class="title">06 JavaEE_MVC</div></div></a></div><div><a href="/2024/05/13/JavaEE-WebTools/" title="05 JavaEE_WebTools"><img class="cover" src="https://i.postimg.cc/Y2QsVd85/Java-EE-logo.png" alt="cover"><div class="content is-center"><div class="title">05 JavaEE_WebTools</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">菜鸡的自我救赎...</div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Coo1heisenberg’s BLOG</div><div class="author-info__desc">Diligence can make up for clumsiness!</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/coo1heisenberg" title="Github"><i class="solitude  st-github-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">前置知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL%E5%92%8CURI"><span class="toc-text">URL和URI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E5%92%8CHTTP%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87"><span class="toc-text">HTTP请求报文和HTTP响应报文</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Request</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E8%A1%8C"><span class="toc-text">请求行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%B4"><span class="toc-text">请求头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%BD%93"><span class="toc-text">请求体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E4%BF%A1%E6%81%AF"><span class="toc-text">特殊信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AE%A2%E6%88%B7%E6%9C%BA%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%BB%E6%9C%BA%E4%BF%A1%E6%81%AF"><span class="toc-text">获取客户机和服务器主机信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0"><span class="toc-text">请求参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%B0%81%E8%A3%85"><span class="toc-text">直接封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="toc-text">引用类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST%E8%AF%B7%E6%B1%82%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E4%B9%B1%E7%A0%81"><span class="toc-text">POST请求请求参数乱码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-text">文件上传</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%EF%BC%88%E4%B8%8E%E5%89%8D%E9%9D%A2%E7%9A%84getServletContext%E7%BB%93%E5%90%88%EF%BC%89"><span class="toc-text">案例（与前面的getServletContext结合）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Request%E5%81%9A%E8%AF%B7%E6%B1%82%E7%9A%84%E8%BD%AC%E5%8F%91"><span class="toc-text">Request做请求的转发</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/DesignPattern/" title="DesignPattern"><img alt="DesignPattern" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/DesignPattern_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/DesignPattern/" title="DesignPattern">DesignPattern</a><a class="article-recent_post_categories" href="/2024/05/13/DesignPattern/">设计模式</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Docker/" title="00 Docker"><img alt="00 Docker" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Docker_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/Docker/" title="00 Docker">00 Docker</a><a class="article-recent_post_categories" href="/2024/05/13/Docker/">Docker</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Nginx/" title="00 Nginx"><img alt="00 Nginx" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Nginx_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/Nginx/" title="00 Nginx">00 Nginx</a><a class="article-recent_post_categories" href="/2024/05/13/Nginx/">Nginx</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Linux/" title="00 Linux"><img alt="00 Linux" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Linux_blog.png"></a><div class="content"><a class="title" href="/2024/05/13/Linux/" title="00 Linux">00 Linux</a><a class="article-recent_post_categories" href="/2024/05/13/Linux/">Linux</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Spring-Cloud/" title="06 SpringCloud"><img alt="06 SpringCloud" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Spring_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/Spring-Cloud/" title="06 SpringCloud">06 SpringCloud</a><a class="article-recent_post_categories" href="/2024/05/13/Spring-Cloud/">Spring-Framework</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">来自 Heisenberg 的原创文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">Coo1heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
+</script><script src="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"><script>(() => {
+    document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+        utils.wrap(item, 'div', {class: 'katex-wrap'})
+    })
+})();
+</script></script><script src="//open.lightxi.com/cdnjs/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="//open.lightxi.com/cdnjs/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- newest comment--><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    is_rm && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="solitude st-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"><div id="search-hits"></div></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/search/local.js?v=1.10.6"></script><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/05/13/DesignPattern/","2024/05/13/Docker/","2024/05/13/Nginx/","2024/05/13/Linux/","2024/05/13/Spring-Cloud/","2024/05/13/Spring-boot/","2024/05/13/Spring-MVC/","2024/05/13/Spring事务/","2024/05/13/Spring-AOP/","2024/05/13/Spring-IOC-DI/","2024/05/13/JavaEE-MVC/","2024/05/13/JavaEE-WebTools/","2024/05/13/JavaEE-conversation/","2024/05/13/JavaEE-response/","2024/05/13/JavaEE-request/","2024/05/13/JavaEE-Servlet/","2024/05/12/测试文章：如何使用Hexo发博客/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
