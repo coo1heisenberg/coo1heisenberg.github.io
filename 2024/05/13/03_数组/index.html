@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>JavaSE 03_数组 | Welcome to My BLOG!!!</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="数组 JVM运行时数据区 分类 JVM栈 描述的是Java的普通方法（不带native）执行时的所占内存的内存模型。 每当Java程序执行一个方法，都会在栈上分配一块只属于该方法的内存区域，称之为栈帧，局部变量会直接存储在栈帧中。 堆（Heap） 堆是JVM内存中最大的一块，new出来的东西都在堆"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="Welcome to My BLOG!!!"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.10.6",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2024-05-12 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.webp'
+    },
+    copyright: {"limit":50,"author":"作者: Coo1Heisenberg’s BLOG","link":"链接: ","source":"来源: Welcome to My BLOG!!!","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'highlight.js'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/Java/">Java<sup>6</sup></a><a href="/tags/JavaSE/">JavaSE<sup>6</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="solitude  st-wifi-fill"></i><span>友链鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="solitude  st-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="solitude  st-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/Java/">Java<sup>6</sup></a><a href="/tags/JavaSE/">JavaSE<sup>6</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">JavaSE 03_数组</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/moments/"><i class="solitude  st-wifi-fill"></i><span>友链鱼塘</span></a></li><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li><li><a class="site-page child" href="javascript:travelling()"><i class="solitude  st-gift-fill"></i><span>宝藏博主</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/equipment/"><i class="solitude  st-laptop-line"></i><span>装备</span></a></li><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://i.postimg.cc/WpyBLDPZ/Java-SE-blog1.png" alt="JavaSE 03_数组"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/JavaSE/">JavaSE</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/"><span class="tags-name tags-punctuation">Java</span></a><a class="post-meta__tags" href="/tags/JavaSE/"><span class="tags-name tags-punctuation">JavaSE</span></a></div></div></div></div><h1 class="post-title">JavaSE 03_数组</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-wordcount"><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>数组</h1>
+<h2 id="JVM运行时数据区"><a class="headerlink" href="#JVM运行时数据区"></a>JVM运行时数据区</h2>
+<h3 id="分类"><a class="headerlink" href="#分类"></a>分类</h3>
+<p><img src="https://img-blog.csdnimg.cn/direct/916dd777f017479e9a43304d787e84a5.png" alt="在这里插入图片描述" loading="lazy"></p>
+<h4 id="JVM栈"><a class="headerlink" href="#JVM栈"></a>JVM栈</h4>
+<p>描述的是Java的普通方法（不带<code>native</code>）执行时的所占内存的内存模型。<br>
+每当Java程序执行一个方法，都会在栈上分配一块只属于该方法的内存区域，称之为<code>栈帧</code>，局部变量会直接存储在栈帧中。</p>
+<h4 id="堆（Heap）"><a class="headerlink" href="#堆（Heap）"></a>堆（Heap）</h4>
+<p>堆是JVM内存中最大的一块，<strong>new</strong>出来的东西都在堆上。<br>
+这片空间是有内存地址的，这个内存地址是留给外界访问用的。</p>
+<h4 id="方法区"><a class="headerlink" href="#方法区"></a>方法区</h4>
+<p>跟类加载相关</p>
+<h4 id="本地方法栈"><a class="headerlink" href="#本地方法栈"></a>本地方法栈</h4>
+<p>和JVM栈相似，区别是给<strong>本地（native）方法</strong>使用的，而不是普通方法。<br>
+<strong>native方法</strong>：没有`{}``方法体，看不到实现</p>
+<h4 id="程序计数器（PC）"><a class="headerlink" href="#程序计数器（PC）"></a>程序计数器（PC）</h4>
+<p>行号计数器，用来记录字节码指令执行到哪一行</p>
+<h2 id="引用数据类型"><a class="headerlink" href="#引用数据类型"></a>引用数据类型</h2>
+<p>引用数据类型分为两部分：<code>引用 + 对象</code><br>
+左边称之为引用，右边称之为对象<br>
+引用里面存的是对象的地址值</p>
+<h3 id="本质"><a class="headerlink" href="#本质"></a>本质</h3>
+<p>指的是对象</p>
+<h3 id="引用数据类型和基本数据类型的区别"><a class="headerlink" href="#引用数据类型和基本数据类型的区别"></a>引用数据类型和基本数据类型的区别</h3>
+<ol>
+<li>存储位置（本质区别）<br>
+基本数据类型不存在<strong>引用</strong>这个概念，数据都是直接存储在栈帧里<br>
+引用数据类型在栈帧中存储引用，引用作为一个局部变量，存储的是该引用类型在堆上对象的内存地址，存储在堆上的对象存储具体信息，才是引用数据类型的实质</li>
+<li>打印变量名的区别<br>
+基本数据类型，打印变量名就是该变量具体的数值<br>
+引用数据类型，没有办法直接访问对象，打印会显示该引用存储的堆上的对象的内存地址</li>
+</ol>
+<h2 id="数组的基本操作"><a class="headerlink" href="#数组的基本操作"></a>数组的基本操作</h2>
+<h3 id="直接打印"><a class="headerlink" href="#直接打印"></a>直接打印</h3>
+<p>打印的是该对象的一个地址值</p>
+<h3 id="获取数组长度"><a class="headerlink" href="#获取数组长度"></a>获取数组长度</h3>
+<p><code>数组名.length</code></p>
+<h3 id="访问数组元素"><a class="headerlink" href="#访问数组元素"></a>访问数组元素</h3>
+<p>通过下标，<code>index</code><br>
+<code>数组名[index]</code></p>
+<h3 id="修改数组元素"><a class="headerlink" href="#修改数组元素"></a>修改数组元素</h3>
+<p>通过下标，<code>index</code><br>
+<code>数组名[index] = newVal</code></p>
+<blockquote>
+<p>eg：<br>
+<code>[I@1b6d3586</code><br>
+<code>[</code>：一维数组<br>
+<code>I</code>：int<br>
+<code>1b6d3586</code>：十六进制数</p>
+</blockquote>
+<h2 id="堆和栈中内容的区别"><a class="headerlink" href="#堆和栈中内容的区别"></a>堆和栈中内容的区别</h2>
+<h3 id="存储类型"><a class="headerlink" href="#存储类型"></a>存储类型</h3>
+<p>堆上存储的是new出来的东西，是引用数据类型的实质——对象<br>
+栈上存储的是局部变量、基本数据类型和引用数据类型的引用</p>
+<h3 id="默认值"><a class="headerlink" href="#默认值"></a>默认值</h3>
+<ol>
+<li>堆上对象中的变量具有默认值:
+<ul>
+<li>整形（byte、short、int、long）默认值为<strong>0</strong></li>
+<li>浮点类型（float、double）默认值为<strong>0.0</strong></li>
+<li>字符类型（char）默认值是<code>\u0000</code>表示编码值为0的字符，一个绝对空字符。</li>
+<li>布尔类型（boolean）默认值是<strong>false</strong></li>
+<li>引用数据类型默认值是<strong>null</strong></li>
+</ul>
+</li>
+<li>栈上的局部变量没有默认值，声明局部变量后必须显式的初始化，否则无法使用。</li>
+</ol>
+<p>对象中元素赋值的第一步永远是————默认初始化、具有默认值<br>
+然后才能赋其它具体值</p>
+<h3 id="String类型的比较"><a class="headerlink" href="#String类型的比较"></a>String类型的比较</h3>
+<ol>
+<li>比较内容的时候用<code>equals</code>方法<br>
+<code>equals</code>方法使用的时候注意：<code>s1.equals(String s2)</code>，要保证s1不为null才可以</li>
+<li><code>==</code>比较的是对象地址值</li>
+</ol>
+<h3 id="生命周期"><a class="headerlink" href="#生命周期"></a>生命周期</h3>
+<p>栈上局部变量跟方法同生共死<br>
+堆上对象存在，但是没有引用指向的时候，被当作了垃圾（垃圾对象），无法直接访问对象，只能通过引用间接访问；通过<strong>GC</strong>垃圾回收机制，经过一系列算法，回收掉这个垃圾</p>
+<h2 id="数组操作中的异常"><a class="headerlink" href="#数组操作中的异常"></a>数组操作中的异常</h2>
+<h3 id="异常的介绍"><a class="headerlink" href="#异常的介绍"></a>异常的介绍</h3>
+<p>异常指的是：程序在运行期间出现了不正常情况，这种不正常情况的信息就会封装成一个异常对象。一旦程序出现异常，JVM就会终止程序执行，并在控制台打印异常信息。<br>
+异常往往都是<code>XXXException</code></p>
+<h3 id="异常的信息"><a class="headerlink" href="#异常的信息"></a>异常的信息</h3>
+<ol>
+<li>异常类型的全类名（全限定名）</li>
+<li>出现异常的原因</li>
+<li>出现错误的代码行（全类名、方法、行数）</li>
+</ol>
+<h3 id="异常的分类"><a class="headerlink" href="#异常的分类"></a>异常的分类</h3>
+<ol>
+<li>编译时异常</li>
+<li>运行时异常</li>
+</ol>
+<h3 id="常见的异常"><a class="headerlink" href="#常见的异常"></a>常见的异常</h3>
+<ol>
+<li><strong>数组下标越界异常（ArrayIndexOutOfBoundsException）</strong></li>
+<li><strong>空指针异常（NullPointerExceptionE）</strong><br>
+对于空指针异常的处理，一般都是通过<strong>if</strong>进行判断进行处理</li>
+</ol>
+<h2 id="数组长度为0和数组为null以及数组未初始化的区别"><a class="headerlink" href="#数组长度为0和数组为null以及数组未初始化的区别"></a>数组长度为0和数组为null以及数组未初始化的区别</h2>
+<ol>
+<li>数组未初始化： 这个数组完全是不可用的，没有初始化的数组毫无意义，一旦使用会编译报错。</li>
+<li>数组长度为0：可以认为是初始化的，可以获取数组长度，不能通过下标访问元素。</li>
+<li>数组为null：可以认为是初始化的，不可以获取数组长度，不能通过下标访问元素。</li>
+</ol>
+<h2 id="数组的常见操作"><a class="headerlink" href="#数组的常见操作"></a>数组的常见操作</h2>
+<p>转义字符<code>\b</code></p>
+<h3 id="数组的遍历"><a class="headerlink" href="#数组的遍历"></a>数组的遍历</h3>
+<ol>
+<li>普通<code>for</code>循环</li>
+<li>JDK自带数组遍历实现</li>
+</ol>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Arrays.toString(数组)</span><br><span class="line"></span><br><span class="line">注：要传入一维数组，返回值是一个String对象</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>增强<code>for</code>循环</li>
+</ol>
+<h4 id="手写遍历"><a class="headerlink" href="#手写遍历"></a>手写遍历</h4>
+<h4 id="增强for循环（迭代器）"><a class="headerlink" href="#增强for循环（迭代器）"></a>增强for循环（迭代器）</h4>
+<p>-------&gt; <strong>不能改变元素值</strong> &lt;----------</p>
+<h5 id="语法"><a class="headerlink" href="#语法"></a>语法</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(数据类型 变量名:数组名)&#123;</span><br><span class="line">	<span class="comment">// 代码</span></span><br><span class="line">	.....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>语法中的各个部分：</p>
+<ol>
+<li>数据类型是要遍历数组或集合中元素的数据类型。比如遍历<code>int</code>数组，就应该填入<code>int</code>。</li>
+<li>从整个遍历的过程中看来，变量名就表示数组/集合中的某一个元素。整体就代表所有元素。</li>
+</ol>
+<h5 id="快捷键"><a class="headerlink" href="#快捷键"></a>快捷键</h5>
+<p><code>数组名.for</code>或者`数组名.iter</p>
+<h5 id="增强for和普通for遍历数组时的区别"><a class="headerlink" href="#增强for和普通for遍历数组时的区别"></a>增强for和普通for遍历数组时的区别</h5>
+<ol>
+<li>增强for的语法更简洁，并且遍历效率也会更高一点。</li>
+<li>增强for循环中没有使用数组下标，而是直接遍历元素。当你想要在循环中使用数组下标时，就无法使用增强for了。</li>
+<li>增强for也叫迭代器（iterator），它仅仅作为一个遍历数组/集合的工具而存在， 在增强for当中是<strong>不能修改</strong>任何元素的取值的，只能通过下标修改。</li>
+</ol>
+<h3 id="获取数组的最值"><a class="headerlink" href="#获取数组的最值"></a>获取数组的最值</h3>
+<h3 id="数组的逆序"><a class="headerlink" href="#数组的逆序"></a>数组的逆序</h3>
+<ol>
+<li><strong>使用二分法进行数组逆序</strong><br>
+即下标为<font color=red><strong>“0”</strong></font>和<font color=red><strong>“length-1”</strong></font>位置的元素互换，下标为<font color=red><strong>“1”</strong></font>和<font color=red><strong>“length-2”</strong></font>位置的元素互换…<br>
+即，把下标为<font color=red><strong>“i”</strong></font>和<font color=red><strong>“length-1-i”</strong></font>元素互换即可！<br>
+只需要交换一半数组的元素即可，不要遍历整个数组，会再交换回去！</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">reverse</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> x=<span class="number">0</span>; x&lt;arr.length/<span class="number">2</span>; x++) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> arr[x];</span><br><span class="line">        arr[x] = arr[arr.length-<span class="number">1</span>-x];</span><br><span class="line">        arr[arr.length-<span class="number">1</span>-x] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><strong>使用2个标记进行逆序</strong></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">reverse</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> start=<span class="number">0</span>,end=arr.length-<span class="number">1</span>; start&lt;=end; start++,end--) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> arr[start];</span><br><span class="line">        arr[start] = arr[end];</span><br><span class="line">        arr[end] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数组的拷贝"><a class="headerlink" href="#数组的拷贝"></a>数组的拷贝</h3>
+<p>创建一个新数组,然后拷贝赋值的思路：</p>
+<ol>
+<li>首先需要明确新数组的长度，初始化这个新数组。</li>
+<li>然后遍历原先的数组，过滤掉（或者新增）一些元素，给新数组赋值。</li>
+</ol>
+<h3 id="数组的增删改查"><a class="headerlink" href="#数组的增删改查"></a>数组的增删改查</h3>
+<p>当然<font color=red><strong>“crud”</strong></font>指的是：</p>
+<ol>
+<li><code>c</code>，<strong>create</strong>：新增数据/增加。</li>
+<li><code>r</code>，<strong>retrieve/read</strong>：检索数据/查询。</li>
+<li><code>u</code>，<strong>update</strong>：更新数据/修改。</li>
+<li><code>d</code>，<strong>delete</strong>：删除数据/删除。</li>
+</ol>
+<h3 id="数组的排序"><a class="headerlink" href="#数组的排序"></a>数组的排序</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(arr);</span><br></pre></td></tr></table></figure>
+<h2 id="可变长参数"><a class="headerlink" href="#可变长参数"></a>可变长参数</h2>
+<p>指<strong>参数个数是不确定的</strong>，但<strong>类型是确定</strong>的情况，Java会自动把可变参数当作数组处理</p>
+<h3 id="语法-2"><a class="headerlink" href="#语法-2"></a>语法</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">权限修饰符列表 方法返回值类型 方法名(形参列表,数据类型... 变量名)&#123;</span><br><span class="line">	...<span class="comment">// 方法体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span>... args)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a class="headerlink" href="#注意"></a>注意</h3>
+<p>注意事项：</p>
+<ol>
+<li>
+<p>调用方法时，如果有一个固定参数的方法匹配的同时，也可以与可变参数的方法匹配，则选择固定参数的方法。</p>
+</li>
+<li>
+<p>调用方法时，如果出现两个可变参数的方法都能匹配，则报错，这两个方法都无法调用了。</p>
+<p><strong>注</strong>：一般来说要避免可变参数方法，发生方法重载，避免导致方法调用失效情况出现。</p>
+</li>
+<li>
+<p>一个方法只能有一个可变长参数，并且这个可变长参数必须是该方法的<strong>最后一个参数</strong>。</p>
+</li>
+</ol>
+<h2 id="参数传递"><a class="headerlink" href="#参数传递"></a>参数传递</h2>
+<h3 id="Java的值传递"><a class="headerlink" href="#Java的值传递"></a>Java的值传递</h3>
+<p>实参的copy</p>
+<p><strong>Java中是值传递的</strong></p>
+<h3 id="Java的引用传递"><a class="headerlink" href="#Java的引用传递"></a>Java的引用传递</h3>
+<p>实参自己</p>
+<h3 id="提供一个交换数组的方法swap"><a class="headerlink" href="#提供一个交换数组的方法swap"></a>提供一个交换数组的方法<code>swap</code></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">int</span>[] arr1, <span class="type">int</span>[] arr2)</span>&#123;</span><br><span class="line">	<span class="type">int</span>[] temp = arr1;</span><br><span class="line">	arr1 = arr2;</span><br><span class="line">	arr2 = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"></a><div class="post-copyright__author_name">Welcome to My BLOG!!!</div><div class="post-copyright__author_desc">Diligence can make up for clumsiness!</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">Welcome to My BLOG!!!</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/"><span class="tags-punctuation"></span>Java<span class="tagsPageCount">6</span></a><a class="post-meta__tags" href="/tags/JavaSE/"><span class="tags-punctuation"></span>JavaSE<span class="tagsPageCount">6</span></a></div></div><div class="social-share"></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/05/13/02_Method/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JavaSE 02_Method</div></div></a></div><div class="next-post pull-right"><a href="/2024/05/13/04_%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JavaSE 04_对象与类</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">菜鸡的自我救赎...</div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Coo1Heisenberg’s BLOG</div><div class="author-info__desc">Diligence can make up for clumsiness!</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/coo1heisenberg" title="Github"><i class="solitude  st-github-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-text">JVM运行时数据区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%B1%BB"><span class="toc-text">分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E6%A0%88"><span class="toc-text">JVM栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A0%86%EF%BC%88Heap%EF%BC%89"><span class="toc-text">堆（Heap）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="toc-text">方法区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8%EF%BC%88PC%EF%BC%89"><span class="toc-text">程序计数器（PC）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">引用数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E8%B4%A8"><span class="toc-text">本质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">引用数据类型和基本数据类型的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">数组的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E6%89%93%E5%8D%B0"><span class="toc-text">直接打印</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6"><span class="toc-text">获取数组长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0"><span class="toc-text">访问数组元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0"><span class="toc-text">修改数组元素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%92%8C%E6%A0%88%E4%B8%AD%E5%86%85%E5%AE%B9%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">堆和栈中内容的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B"><span class="toc-text">存储类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-text">默认值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">String类型的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">生命周期</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%9A%84%E5%BC%82%E5%B8%B8"><span class="toc-text">数组操作中的异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-text">异常的介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="toc-text">异常的信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">异常的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BC%82%E5%B8%B8"><span class="toc-text">常见的异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%E4%B8%BA0%E5%92%8C%E6%95%B0%E7%BB%84%E4%B8%BAnull%E4%BB%A5%E5%8F%8A%E6%95%B0%E7%BB%84%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">数组长度为0和数组为null以及数组未初始化的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C"><span class="toc-text">数组的常见操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-text">数组的遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E9%81%8D%E5%8E%86"><span class="toc-text">手写遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A2%9E%E5%BC%BAfor%E5%BE%AA%E7%8E%AF%EF%BC%88%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%89"><span class="toc-text">增强for循环（迭代器）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-text">语法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-text">快捷键</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A2%9E%E5%BC%BAfor%E5%92%8C%E6%99%AE%E9%80%9Afor%E9%81%8D%E5%8E%86%E6%95%B0%E7%BB%84%E6%97%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">增强for和普通for遍历数组时的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%80%BC"><span class="toc-text">获取数组的最值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E9%80%86%E5%BA%8F"><span class="toc-text">数组的逆序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="toc-text">数组的拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5"><span class="toc-text">数组的增删改查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E6%8E%92%E5%BA%8F"><span class="toc-text">数组的排序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E9%95%BF%E5%8F%82%E6%95%B0"><span class="toc-text">可变长参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95-2"><span class="toc-text">语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="toc-text">参数传递</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E7%9A%84%E5%80%BC%E4%BC%A0%E9%80%92"><span class="toc-text">Java的值传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E7%9A%84%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92"><span class="toc-text">Java的引用传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E4%B8%80%E4%B8%AA%E4%BA%A4%E6%8D%A2%E6%95%B0%E7%BB%84%E7%9A%84%E6%96%B9%E6%B3%95swap"><span class="toc-text">提供一个交换数组的方法swap</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/05_static/" title="JavaSE 05_static"><img alt="JavaSE 05_static" src="https://i.postimg.cc/WpyBLDPZ/Java-SE-blog1.png"></a><div class="content"><a class="title" href="/2024/05/13/05_static/" title="JavaSE 05_static">JavaSE 05_static</a><a class="article-recent_post_categories" href="/2024/05/13/05_static/">JavaSE</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/01_Java%E5%9F%BA%E7%A1%80/" title="JavaSE 01_基础语法"><img alt="JavaSE 01_基础语法" src="https://i.postimg.cc/WpyBLDPZ/Java-SE-blog1.png"></a><div class="content"><a class="title" href="/2024/05/13/01_Java%E5%9F%BA%E7%A1%80/" title="JavaSE 01_基础语法">JavaSE 01_基础语法</a><a class="article-recent_post_categories" href="/2024/05/13/01_Java%E5%9F%BA%E7%A1%80/">JavaSE</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/02_Method/" title="JavaSE 02_Method"><img alt="JavaSE 02_Method" src="https://i.postimg.cc/WpyBLDPZ/Java-SE-blog1.png"></a><div class="content"><a class="title" href="/2024/05/13/02_Method/" title="JavaSE 02_Method">JavaSE 02_Method</a><a class="article-recent_post_categories" href="/2024/05/13/02_Method/">JavaSE</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/03_%E6%95%B0%E7%BB%84/" title="JavaSE 03_数组"><img alt="JavaSE 03_数组" src="https://i.postimg.cc/WpyBLDPZ/Java-SE-blog1.png"></a><div class="content"><a class="title" href="/2024/05/13/03_%E6%95%B0%E7%BB%84/" title="JavaSE 03_数组">JavaSE 03_数组</a><a class="article-recent_post_categories" href="/2024/05/13/03_%E6%95%B0%E7%BB%84/">JavaSE</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/04_%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/" title="JavaSE 04_对象与类"><img alt="JavaSE 04_对象与类" src="https://i.postimg.cc/WpyBLDPZ/Java-SE-blog1.png"></a><div class="content"><a class="title" href="/2024/05/13/04_%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/" title="JavaSE 04_对象与类">JavaSE 04_对象与类</a><a class="article-recent_post_categories" href="/2024/05/13/04_%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/">JavaSE</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">来自 Heisenberg 的原创文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">Coo1Heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
+</script><script src="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"><script>(() => {
+    document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+        utils.wrap(item, 'div', {class: 'katex-wrap'})
+    })
+})();
+</script></script><script src="//open.lightxi.com/cdnjs/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="//open.lightxi.com/cdnjs/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- newest comment--><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    is_rm && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/05/13/05_static/","2024/05/13/01_Java基础/","2024/05/13/02_Method/","2024/05/13/03_数组/","2024/05/13/04_对象与类/","2024/05/13/06_代码块/","2024/05/12/测试文章：如何使用Hexo发博客/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
