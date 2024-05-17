@@ -1,0 +1,761 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>00 基于SpringCloud搭建的分布式商城系统 | coo1heisenberg's Blog</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="基本技术 MapStruct 引言 在实际开发中，一个web应用通常会被分为三层，分别为持久层，业务层，控制层，每层各有各的职责，所以针对同一个请求，每层返回的对象应该是不同的。 持久层：主要负责访问数据库中的数据，并将数据库中的数据封装为PO对象，对上层屏蔽数据访问细节。持久层不关心"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="coo1heisenberg's Blog"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.10.6",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":false,"path":"/search.xml"},
+    runtime: '2024-05-12 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.webp'
+    },
+    copyright: {"limit":50,"author":"作者: Coo1heisenberg’s BLOG","link":"链接: ","source":"来源: coo1heisenberg's Blog","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'highlight.js'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可","search":{"empty":"找不到你查询的内容：${query}","hit":"找到 ${hits} 条结果，用时 ${time} 毫秒","placeholder":"输入关键词快速查找","count":"共 <b>${count}</b> 条结果。"}},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/JavaEE/">JavaEE<sup>6</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/MyBatis-Plus/">MyBatis-Plus<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>6</sup></a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务<sup>1</sup></a><a href="/tags/SpringCloud/">SpringCloud<sup>1</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">19</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/JavaEE/">JavaEE<sup>6</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/MyBatis-Plus/">MyBatis-Plus<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>6</sup></a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务<sup>1</sup></a><a href="/tags/SpringCloud/">SpringCloud<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">00 基于SpringCloud搭建的分布式商城系统</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="solitude st-search-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/mail.png" alt="00 基于SpringCloud搭建的分布式商城系统"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Mall-project/">Mall-project</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpringCloud/"><span class="tags-name tags-punctuation">SpringCloud</span></a></div></div></div></div><h1 class="post-title">00 基于SpringCloud搭建的分布式商城系统</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="发布于 2024-05-15 16:06:27"><i class="post-meta-icon solitude st-calendar-todo-fill"></i><time datetime="2024-05-15T08:06:27.000Z">2024-05-15T08:06:27.000Z</time></span><span class="post-meta-date" title="最后更新于 2024-05-17 19:54:41"><i class="post-meta-icon solitude st-refresh-line"></i><time datetime="2024-05-17T11:54:41.197Z">2024-05-17T11:54:41.197Z</time></span><span class="post-meta-wordcount"><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>基本技术</h1>
+<hr>
+<h2 id="MapStruct"><a class="headerlink" href="#MapStruct"></a>MapStruct</h2>
+<hr>
+<ul>
+<li>
+<p><strong>引言</strong></p>
+<ul>
+<li>
+<p>在实际开发中，一个web应用通常会被分为三层，分别为持久层，业务层，控制层，每层各有各的职责，所以针对同一个请求，每层返回的对象应该是不同的。</p>
+<ul>
+<li><strong>持久层</strong>：主要<strong>负责访问数据库中的数据</strong>，并将数据库中的数据封装为PO对象，对上层屏蔽数据访问细节。持久层不关心业务，只关心数据，因此对象属性和数据库表字段一一对应
+<ul>
+<li>持久层返回的对象：<strong>PO对象</strong></li>
+</ul>
+</li>
+<li><strong>业务层</strong>：也就是service代码，业务层从持久层获取封装数据，并根据具体的业务逻辑计算，得到业务层的计算结果，用DTO对象来封装。DTO对象的全称是 Data Tranfer Object（数据流转对象）。</li>
+<li><strong>控制层</strong>：控制层获取业务层的业务处理结果之后，还可能需要将其加工成前端所需要的格式，封装成VO对象（视图对象）返回给前端显示。</li>
+</ul>
+<p><img src="/images/mailProject-01/image-20240515163853785.png" alt="MVC三层架构" loading="lazy"></p>
+<ul>
+<li>在处理一个请求的时候业务层需要完成PO—&gt;DTO对象的转化，控制层需要完成DTO—&gt;VO对象的转化。而对象转化本身就是纯粹的“体力活”没有任何技术含量
+<ul>
+<li><strong>MapStruct是专门用来对象转换的</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>使用</strong></p>
+<ul>
+<li>
+<p>导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- mapstruct --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mapstruct<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapstruct-jdk8<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.0.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mapstruct<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mapstruct-processor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.0.Final<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- Lombok--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- springboot --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- springboot-test --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>eg：</p>
+<ul>
+<li>
+<p><strong>相同属性名之间的转化</strong></p>
+<ul>
+<li>
+<p>定义Student对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    Integer id;</span><br><span class="line">    String name;</span><br><span class="line">    Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义StudentDTO对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StudentDTO</span> &#123;</span><br><span class="line">    Integer id;</span><br><span class="line">    String name;</span><br><span class="line">    Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义转化器接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper(componentModel = &quot;spring&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">StudentConverter</span> &#123;</span><br><span class="line"></span><br><span class="line">    StudentDTO <span class="title function_">convertStudent2DTO</span><span class="params">(Student student)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在需要的地方注入Converter对象，调用转化方法即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest(classes = MapStructApplication.class)</span></span><br><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StudentTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    StudentConverter studentConverter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testConvertStudent2DTO</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">Student</span> <span class="variable">student</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Student</span>();</span><br><span class="line">        student.setId(<span class="number">1001</span>);</span><br><span class="line">        student.setName(<span class="string">&quot;zhangfei&quot;</span>);</span><br><span class="line">        student.setAge(<span class="number">18</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">StudentDTO</span> <span class="variable">studentDTO</span> <span class="operator">=</span> studentConverter.convertStudent2DTO(student);</span><br><span class="line">        System.out.println(studentDTO);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 输出为：StudentDTO(id=1001, name=zhangfei, age=18)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>不同属性名之间的映射</strong></p>
+<ul>
+<li>
+<p>定义Student对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    Integer id;</span><br><span class="line">    String name;</span><br><span class="line">    Integer age;</span><br><span class="line"></span><br><span class="line">    String username;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义StudentDTO对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StudentDTO</span> &#123;</span><br><span class="line">    Integer id;</span><br><span class="line">    String name;</span><br><span class="line">    Integer age;</span><br><span class="line"></span><br><span class="line">    String nickname;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义转化器接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper(componentModel = &quot;spring&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">StudentConverter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Mapping(source = &quot;username&quot;, target = &quot;nickname&quot;)</span></span><br><span class="line">    StudentDTO <span class="title function_">convertStudent2DTO</span><span class="params">(Student student)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在需要的地方注入Converter对象，调用转化方法即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest(classes = MapStructApplication.class)</span></span><br><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StudentTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    StudentConverter studentConverter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testConvertStudent2DTO</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">Student</span> <span class="variable">student</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Student</span>();</span><br><span class="line">        student.setId(<span class="number">1001</span>);</span><br><span class="line">        student.setName(<span class="string">&quot;zhangfei&quot;</span>);</span><br><span class="line">        student.setAge(<span class="number">18</span>);</span><br><span class="line">        student.setUsername(<span class="string">&quot;yide&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">StudentDTO</span> <span class="variable">studentDTO</span> <span class="operator">=</span> studentConverter.convertStudent2DTO(student);</span><br><span class="line"></span><br><span class="line">        System.out.println(studentDTO);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 输出为：StudentDTO(id=1001, name=zhangfei, age=18, nickname=yide)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>不同属性名之间的映射</strong></p>
+<ul>
+<li>
+<p>定义Doctor对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Doctor</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">// 薪资</span></span><br><span class="line">    <span class="keyword">private</span> String pay;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义Education对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Education</span> &#123;</span><br><span class="line">    <span class="comment">// 学位</span></span><br><span class="line">    <span class="keyword">private</span> String degreeName;</span><br><span class="line">    <span class="comment">// 学校</span></span><br><span class="line">    <span class="keyword">private</span> String institute;</span><br><span class="line">    <span class="comment">// 毕业年份</span></span><br><span class="line">    <span class="keyword">private</span> Integer yearOfPassing;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义DoctorDTO对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DoctorDTO</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">// 学历</span></span><br><span class="line">    <span class="keyword">private</span> String degree; <span class="comment">// 该字段来源于Doctor</span></span><br><span class="line">    <span class="keyword">private</span> String salary; <span class="comment">// 该字段来源于Education</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义转化器接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper(componentModel = &quot;spring&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DoctorConverter</span> &#123;</span><br><span class="line">    <span class="comment">// 多个源对象的话，在指定源对象属性时 通过对象名.属性名的方式指定</span></span><br><span class="line">    <span class="meta">@Mapping(source = &quot;doctor.id&quot;, target = &quot;id&quot;)</span></span><br><span class="line">    <span class="meta">@Mapping(source = &quot;doctor.name&quot;, target = &quot;name&quot;)</span></span><br><span class="line">    <span class="meta">@Mapping(source = &quot;doctor.pay&quot;, target = &quot;salary&quot;)</span></span><br><span class="line">    <span class="meta">@Mapping(source = &quot;education.degreeName&quot;, target = &quot;degree&quot;)</span></span><br><span class="line">    DoctorDTO <span class="title function_">convert2DTO</span><span class="params">(Doctor doctor, Education education)</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在需要的地方注入Converter对象，调用转化方法即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest(classes = MapStructApplication.class)</span></span><br><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DoctorTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    DoctorConverter doctorConverter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把doctor 对象和 education对象赋值给doctorDTO对象</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Doctor</span> <span class="variable">doctor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Doctor</span>();</span><br><span class="line">        doctor.setId(<span class="number">1001</span>);</span><br><span class="line">        doctor.setName(<span class="string">&quot;doctorZhang&quot;</span>);</span><br><span class="line">        doctor.setPay(<span class="string">&quot;10K&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">Education</span> <span class="variable">education</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Education</span>();</span><br><span class="line">        education.setDegreeName(<span class="string">&quot;doctor&quot;</span>);</span><br><span class="line">        education.setInstitute(<span class="string">&quot;Peking&quot;</span>);</span><br><span class="line">        education.setYearOfPassing(<span class="number">2012</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">DoctorDTO</span> <span class="variable">doctorDTO</span> <span class="operator">=</span> doctorConverter.convert2DTO(doctor, education);</span><br><span class="line"></span><br><span class="line">        System.out.println(doctorDTO);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 输出为：DoctorDTO(id=1001, name=doctorZhang, degree=doctor, salary=10K)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>转化复杂对象</strong></p>
+<ul>
+<li>
+<p>如果一个对象持有了另外一个对象，或者另外一个对象的List，Mapstruct还可以帮我们实现类似“深度克隆”的”深度转化“。</p>
+<ul>
+<li>
+<p>定义Teacher、TeacherDTO对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Teacher</span> &#123;</span><br><span class="line">    Integer id;</span><br><span class="line">    String name;</span><br><span class="line"></span><br><span class="line">    Clazz clazz;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TeacherDTO</span> &#123;</span><br><span class="line">    Integer id;</span><br><span class="line">    String name;</span><br><span class="line"></span><br><span class="line">    ClazzDTO clazzDTO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义Clazz、ClazzDTO对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Clazz</span> &#123;</span><br><span class="line">    Integer id;</span><br><span class="line">    String name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ClazzDTO</span> &#123;</span><br><span class="line">    Integer id;</span><br><span class="line">    String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义转化器接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper(componentModel = &quot;spring&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">TeacherConvert</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Mapping(source = &quot;clazz&quot;, target = &quot;clazzDTO&quot;)</span></span><br><span class="line">    TeacherDTO <span class="title function_">convert2DTO</span><span class="params">(Teacher teacher)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个自动运行</span></span><br><span class="line">    ClazzDTO <span class="title function_">convert2ClazzDTO</span><span class="params">(Clazz clazz)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在需要的地方注入Converter对象，调用转化方法即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest(classes = MapStructApplication.class)</span></span><br><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TeacherTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    TeacherConvert teacherConvert;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Clazz</span> <span class="variable">clazz</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Clazz</span>();</span><br><span class="line">        clazz.setId(<span class="number">1</span>);</span><br><span class="line">        clazz.setName(<span class="string">&quot;PE&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">Teacher</span> <span class="variable">teacher</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Teacher</span>();</span><br><span class="line">        teacher.setId(<span class="number">2001</span>);</span><br><span class="line">        teacher.setName(<span class="string">&quot;zhangfei&quot;</span>);</span><br><span class="line"></span><br><span class="line">        teacher.setClazz(clazz);</span><br><span class="line"></span><br><span class="line">        <span class="type">TeacherDTO</span> <span class="variable">teacherDTO</span> <span class="operator">=</span> teacherConvert.convert2DTO(teacher);</span><br><span class="line">        System.out.println(teacherDTO);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 输出为：TeacherDTO(id=2001, name=zhangfei, clazzDTO=ClazzDTO(id=1, name=PE))</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>转化List</strong></p>
+<ul>
+<li>
+<p>如果我们想一次性的将多个Doctor对象转化成多个DoctorDTO对象</p>
+<ul>
+<li>
+<p>定义Doctor对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Doctor</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">// 薪资</span></span><br><span class="line">    <span class="keyword">private</span> String pay;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义DoctorDTO对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DoctorDTO</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String salary;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>定义转化器接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper(componentModel = &quot;spring&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DoctorConverter</span> &#123;</span><br><span class="line">    <span class="meta">@Mapping(source=&quot;pay&quot;, target=&quot;salary&quot;)</span></span><br><span class="line">    DoctorDTO <span class="title function_">doctorPO2DTO</span><span class="params">(Doctor doctor)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// list之间的转化 依赖于单个bean对象的转化</span></span><br><span class="line">    List&lt;DoctorDTO&gt; <span class="title function_">doctorPOs2DTOs</span><span class="params">(List&lt;Doctor&gt; doctors)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在需要的地方注入Converter对象，调用转化方法即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest(classes = MapStructApplication.class)</span></span><br><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TeacherTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">   DocterConverter docterConverter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testFieldMappingObj</span><span class="params">()</span> &#123;</span><br><span class="line">     List&lt;Doctor&gt; doctor = Array.asList(<span class="keyword">new</span> <span class="title class_">doctor1</span>(), <span class="keyword">new</span> <span class="title class_">doctor2</span>() .....)</span><br><span class="line">     <span class="comment">// 完成转化</span></span><br><span class="line">     List&lt;DoctorDTO&gt; destDTOs = docterConverter.doctorPOs2DTOs(docter);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="GateWay"><a class="headerlink" href="#GateWay"></a>GateWay</h2>
+<hr>
+<h3 id="网关介绍"><a class="headerlink" href="#网关介绍"></a>网关介绍</h3>
+<p><img src="/images/mailProject-01/image-20240517144607893.png" alt="image-20240517144607893" loading="lazy"></p>
+<ul>
+<li>
+<p>首先没有网关，功能上是可以的，直接调用提供的接口就可以了</p>
+</li>
+<li>
+<p>但是网关的作用不仅仅是转发请求， API 网关的通常作用是完成一些通用的功能（和具体业务无关的功能），如<strong>请求认证</strong>，<strong>请求记录</strong>，<strong>请求限流</strong>，<strong>黑白名单校验</strong>，<strong>登录校验</strong>等</p>
+</li>
+<li>
+<p>API网关 做的最根本的事情：<strong>对外接收请求，对内请求路由</strong></p>
+</li>
+<li>
+<p>API网关 的实现：</p>
+<ul>
+<li><strong>基于Nginx实现的网关</strong>（OpenResty）</li>
+<li><strong>网关框架</strong>（Zuul（Netfilx的第一代网关）、Zuul2、Gateway（Alibaba）、kong）</li>
+</ul>
+</li>
+<li>
+<p>API网关的分类：</p>
+<ul>
+<li>单入口</li>
+</ul>
+<p><img src="/images/mailProject-01/image-20240517145356434.png" alt="image-20240517145356434" loading="lazy"></p>
+<ul>
+<li>
+<p>多入口</p>
+<p><img src="/images/mailProject-01/image-20240517145429962.png" alt="image-20240517145429962" loading="lazy"></p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="网关使用"><a class="headerlink" href="#网关使用"></a>网关使用</h3>
+<ul>
+<li>Spring Cloud Gateway是一个基于Spring生态的API网关，基于WebFlux（类似于SpringMVC）框架实现</li>
+<li>它旨在以简单高效的方式实现，请求路由，以及一些其他的边缘功能，比如，安全，监控等功能</li>
+<li>是基于异步非阻塞实现的第二代服务网关Gateway</li>
+</ul>
+<h4 id="核心概念"><a class="headerlink" href="#核心概念"></a>核心概念</h4>
+<ul>
+<li>
+<p><strong>Predicate</strong>：表示路由规则的匹配条件</p>
+</li>
+<li>
+<p><strong>Filter</strong>：过滤器，在请求处理之前(Pre)实现队请求的拦截处理，在请求处理之后(Post)实现对响应的拦截处理</p>
+</li>
+<li>
+<p><strong>Route</strong>：定义请求和路由目标之间的映射，它由一个唯一ID(自定义)，一个目标地址URI，表示路由条件Predicate集合，以及一个Filter集合组成。对于一个请求而言，如果它满足一个路由的全部路由条件(Predicate)，那么该请求就会按照该路由(Route)规则，向目标地址URI转发。</p>
+</li>
+<li>
+<p>举例：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">     <span class="comment">#定义多个路由</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="comment"># 一个路由route的id</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span>  <span class="string">test_route</span></span><br><span class="line">        <span class="comment"># 该路由转发的目标URI</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="comment"># 路由条件集合</span></span><br><span class="line">        <span class="attr">predicates:</span> <span class="comment"># 匹配哪些请求</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Path=/red/**</span></span><br><span class="line">        <span class="comment"># 过滤器集合</span></span><br><span class="line">        <span class="attr">filters:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">AddRequestParameter=color,</span> <span class="string">red</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Gateway 具体的工作流程</p>
+<p><img src="/images/mailProject-01/image-20240517151417271.png" alt="image-20240517151417271" loading="lazy"></p>
+<ul>
+<li>
+<p>客户端向Gateway发起请求</p>
+</li>
+<li>
+<p>Gateway的Handler Mapping组件，会对请求做路由匹配，如果请求和某个路由规则匹配，则把该请求交给Web Handler处理</p>
+</li>
+<li>
+<p>在将请求转发给目标之前，Web Handler会将请求，交给满足请求过滤条件的一系列过滤器，即一个过滤器链对该请求进行过滤处理</p>
+</li>
+<li>
+<p>过滤器链，被虚线分隔，是因为过滤器既可以在转发请求前拦截请求，也可以在请求处理之后对响应进行拦截处理</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="网关路由的配置"><a class="headerlink" href="#网关路由的配置"></a>网关路由的配置</h3>
+<ul>
+<li>
+<p><strong>方式一：配置文件配置</strong></p>
+<ul>
+<li>
+<p>gateway-demo</p>
+<ul>
+<li>
+<p><strong>导入依赖</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">        <span class="comment">&lt;!--gateway--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-gateway<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">        <span class="comment">&lt;!--单元测试依赖--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>配置文件配置</strong></p>
+</li>
+<li>
+<p>假设现在我们在基于Gateway的网关中，添加路由配置，实现如下功能：</p>
+<ul>
+<li>将URI匹配<code>/tomcat/**</code>的请求，转发给某一个服务或应用(将请求路由到服务或应用)</li>
+</ul>
+</li>
+</ul>
+  <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">tomcat-route</span> <span class="comment"># 路由规则的id（自己定义的），建议配合服务名</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">http://localhost:9090</span>  <span class="comment"># 转发的目标uri，也就是匹配后提供服务的路由地址</span></span><br><span class="line">          <span class="attr">predicates:</span>  <span class="comment"># 路径相匹配的条件</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/tomcat/**</span>  <span class="comment"># 添加路径匹配</span></span><br><span class="line">            </span><br><span class="line">           </span><br><span class="line"><span class="comment"># 通过访问localhost:8080/tomcat/route 也可以访问localhost:9090/tomcat/route对应的页面</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>tomcat-server-demo</p>
+<ul>
+<li>
+<p>配置文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">9090</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>controller对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DemoController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/tomcat/route&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">tomcatRoute</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Tomcat Route&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>方式二：代码配置</strong>（一般不用）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CodeRouteConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// RouteLocator：资源定位器</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RouteLocator <span class="title function_">customRouteLocator</span><span class="params">(RouteLocatorBuilder routeLocatorBuilder)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 类似于Spring.cloud.gateway.routes</span></span><br><span class="line">        RouteLocatorBuilder.<span class="type">Builder</span> <span class="variable">routes</span> <span class="operator">=</span> routeLocatorBuilder.routes();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// route方法的第一个参数表示新建的routeID</span></span><br><span class="line">        <span class="comment">// 第二个参数表示Route对象对应的的Builder对象</span></span><br><span class="line">        routes.route(<span class="string">&quot;code_route_config&quot;</span>,</span><br><span class="line">                r -&gt; r.path(<span class="string">&quot;/code/**&quot;</span>)</span><br><span class="line">                        .uri(<span class="string">&quot;http://localhost:9090&quot;</span>)).build();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> routes.build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="动态路由"><a class="headerlink" href="#动态路由"></a>动态路由</h3>
+<ul>
+<li>现存问题：服务提供者调用的地址是写死的，即网关没有动态的发现服务，这就有涉及到了我们之前解决过的服务的自动发现问题，以及发现服务后，所涉及到的服务调用的负载均衡的问题</li>
+<li>解决办法：Gateway也可以整合Nacos或者Eureka，Ribbon从而实现，动态路由的功能</li>
+</ul>
+<h4 id="使用流程（以Nacos为例）"><a class="headerlink" href="#使用流程（以Nacos为例）"></a>使用流程（以Nacos为例）</h4>
+<ul>
+<li>
+<p>启动Nacos</p>
+<ul>
+<li><code>startup.cmd -m standalone</code></li>
+</ul>
+</li>
+<li>
+<p>导入Nacos依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--SpringCloud ailibaba nacos 注册中心--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在配置文件中，添加注册中心的配置（tomcat-server和gateway-server都要注册到Nacos中）</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">server-addr:</span> <span class="string">localhost:8848</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">gateway-server</span>  <span class="comment"># 给注册中心起一个服务实例的名字</span></span><br><span class="line">    <span class="comment"># name: tomcat-server</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>修改路由配置，使用动态路由</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">tomcat-route</span> <span class="comment"># 路由规则的id（自己定义的）</span></span><br><span class="line">          <span class="comment"># uri: http://localhost:9090  # 静态路由，转发的目标uri</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://tomcat-server</span> <span class="comment"># 动态路由，要加上lb（loadbalance 负载均衡）</span></span><br><span class="line">          <span class="attr">predicates:</span>  <span class="comment"># 匹配条件</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/tomcat/**</span>  <span class="comment"># 添加路径匹配</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">server-addr:</span> <span class="string">localhost:8848</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">gateway-server</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="Predicate"><a class="headerlink" href="#Predicate"></a>Predicate</h3>
+<ul>
+<li>
+<p>在Gateway中，有一些的内置Predicate Factory，有了这些Predicate Factory，在运行时，Gateway会自动<strong>根据需要创建其对应的Pridicate对象测试路由条件</strong>。</p>
+<ul>
+<li>
+<p><code>Path</code> 路由断言 Factory（常用）：根据<strong>请求路径匹配</strong>的路由条件工厂</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">path_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="comment"># 如果可以匹配的PathPattern有多个，则每个路径模式以 , 分开</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">Path=/red/&#123;segment&#125;,/blue/&#123;segment&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>After</code> 路由断言 Factory：在<strong>指定日期时间之后发生的请求</strong>都将被匹配</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">after_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">http://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">After=2024-05-16T17:02:19.186+08:00[Asia/Shanghai]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>获取带时区时间的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个方法可以获取 带时区的时间</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">ZonedDateTime</span> <span class="variable">dateTime</span> <span class="operator">=</span> ZonedDateTime.now();</span><br><span class="line">    System.out.println(dateTime);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 2024-05-17T17:02:19.186+08:00[Asia/Shanghai]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Cookie</code> 路由断言 Factory</p>
+<ul>
+<li>
+<p>Cookie 路由断言 Factory有两个参数，<strong>cookie名称</strong>和<strong>正则表达式</strong>。请求包含次cookie名称且正则表达式为真的将会被匹配</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">cookie_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">http://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Cookie=chocolate,ch.p</span> <span class="comment"># cookie的名称,cookie的值</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Header</code>  路由断言 Factory</p>
+<ul>
+<li>
+<p>Header 路由断言 Factory有两个参数，<strong>header名称</strong>和<strong>正则表达式</strong>。请求包含次header名称且正则表达式为真的将会被匹配</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"> <span class="attr">cloud:</span></span><br><span class="line">   <span class="attr">gateway:</span></span><br><span class="line">     <span class="attr">routes:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">header_route</span></span><br><span class="line">       <span class="attr">uri:</span> <span class="string">http://example.org</span></span><br><span class="line">       <span class="attr">predicates:</span></span><br><span class="line">       <span class="bullet">-</span> <span class="string">Header=X-Request-Id,</span> <span class="string">\d+</span> <span class="comment"># header名称,header的值</span></span><br><span class="line">       <span class="comment"># \d是一个数字，+表示出现一次或者多次</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Host</code> 路由断言 Factory（常用）</p>
+<ul>
+<li>
+<p>Host 路由断言 Factory包括一个参数：host name列表。使用Ant路径匹配规则，<code>.</code>作为分隔符</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">host_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">http://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Host=**.somehost.org,**.anotherhost.org</span></span><br><span class="line">        <span class="comment"># 哪个域名给我发请求，我才会匹配哪个域名</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Method</code> 路由断言 Factory</p>
+<ul>
+<li>
+<p>Method 路由断言 Factory只包含一个参数: 需要匹配的HTTP请求方式</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">method_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">http://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Method=GET</span></span><br><span class="line">        <span class="comment"># 匹配路由方法，方法对了就匹配，方法不对不匹配</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="Filter"><a class="headerlink" href="#Filter"></a>Filter</h3>
+<ul>
+<li>
+<p>Gateway内置了很多的Filter这里就不再一一列举了</p>
+</li>
+<li>
+<p>举例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyFilter</span> <span class="keyword">implements</span> <span class="title class_">GlobalFilter</span>, Ordered &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Mono&lt;Void&gt; <span class="title function_">filter</span><span class="params">(ServerWebExchange exchange, GatewayFilterChain chain)</span> &#123;</span><br><span class="line">        <span class="comment">// 可以完成一些边缘任务</span></span><br><span class="line"></span><br><span class="line">        <span class="type">ServerHttpRequest</span> <span class="variable">request</span> <span class="operator">=</span> exchange.getRequest();</span><br><span class="line">        <span class="comment">// 1. 取请求中的所有的cookie值，并打印</span></span><br><span class="line">        MultiValueMap&lt;String, HttpCookie&gt; cookiesMap = request.getCookies();</span><br><span class="line">        cookiesMap.keySet().stream().forEach(key -&gt; &#123;</span><br><span class="line">            <span class="type">HttpCookie</span> <span class="variable">cookie</span> <span class="operator">=</span> cookiesMap.getFirst(key);</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> cookie.getName();</span><br><span class="line">            <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> cookie.getValue();</span><br><span class="line">            System.out.println(<span class="string">&quot;name：&quot;</span> + name + <span class="string">&quot; value：&quot;</span> + value);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 如果请求中没有名字叫xxx的cookie，就拦截</span></span><br><span class="line">        List&lt;HttpCookie&gt; xxxCookies = cookiesMap.get(<span class="string">&quot;xxx&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">null</span> == xxxCookies || xxxCookies.size() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;当前请求中没有xxx的cookie&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 如果请求的请求头中 没有名字叫yyy的header，就不放行</span></span><br><span class="line">        <span class="type">HttpHeaders</span> <span class="variable">httpHeaders</span> <span class="operator">=</span> request.getHeaders();</span><br><span class="line">        List&lt;String&gt; yyyList = httpHeaders.get(<span class="string">&quot;yyy&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (yyyList == <span class="literal">null</span> || yyyList.size() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span>  <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;当前请求中没有yyy的header&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 把yyy这个请求头的header值改为hello</span></span><br><span class="line">        <span class="comment">// 获取header -&gt; 修改值 -&gt; 把header放到request中</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 修改request</span></span><br><span class="line">        <span class="type">ServerHttpRequest</span> <span class="variable">newRequest</span> <span class="operator">=</span> request.mutate().header(<span class="string">&quot;yyy&quot;</span>, <span class="string">&quot;hello&quot;</span>).build();</span><br><span class="line">        <span class="comment">// 修改exchange</span></span><br><span class="line">        <span class="type">ServerWebExchange</span> <span class="variable">newExchange</span> <span class="operator">=</span> exchange.mutate().request(newRequest).build();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 放行</span></span><br><span class="line">        <span class="keyword">return</span> chain.filter(newExchange);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Order接口：数值越小，优先级越高，在过滤器链中的位置 越靠前</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getOrder</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h1>环境搭建</h1>
+<hr>
+<ul>
+<li>
+<p><strong>虚拟机配置</strong></p>
+<ul>
+<li>
+<p>软硬件准备</p>
+<ul>
+<li>软件：推荐使用VMware，服务器上有相关安装包。</li>
+<li>镜像：推荐使用<span style="color:red;background:yellow;font-size:文字大小;font-family:字体;"><strong>ubuntu 18.04</strong></span>，本文也是以ubuntu18.04 为例进行说明</li>
+<li>硬件：因为是在宿主机上运⾏虚拟化软件安装ubuntu，所以对宿主机的配置有⼀定的要求。最起码I5CPU 双核，<span style="color:red;background:yellow;font-size:文字大小;font-family:字体;"><strong>内存4G</strong></span>及以上。</li>
+</ul>
+</li>
+<li>
+<p>虚拟机安装</p>
+<ol>
+<li>
+<p>安装VMware</p>
+</li>
+<li>
+<p>打开VMware创建新的虚拟机</p>
+<p><img src="/images/mailProject-01/image-20230320213838425.png" alt="image-20230320213838425" loading="lazy"></p>
+</li>
+<li>
+<p>选择自定义安装或者是典型安装模式</p>
+<ul>
+<li>
+<p>典型安装：VMware会将主流的配置应⽤在虚拟机的操作系统上，对于新手来很友好</p>
+</li>
+<li>
+<p>自定义安装：⾃定义安装可以针对性的把⼀些资源加强，把不需要的资源移除。避免资源的浪费</p>
+<blockquote>
+<p>推荐使用典型安装即可，需要注意的是，网络适配器选择<span style="color:red;background:yellow;font-size:文字大小;font-family:字体;"><strong>NAT模式</strong></span>。</p>
+</blockquote>
+<p><img src="/images/mailProject-01/image-20230320225922056.png" alt="image-20230320225922056" loading="lazy"></p>
+</li>
+</ul>
+</li>
+<li>
+<p>安装完虚拟机之后开启虚拟机，稍微等待一会即可安装完成</p>
+</li>
+</ol>
+<ul>
+<li>
+<p><strong>静态IP设置</strong></p>
+<blockquote>
+<p>说明，NAT模式默认情况下是DHCP模式，是自动获取IP的，导致每次虚拟机开启之后获取的IP可能会变化，假如项目中后续连接的是虚拟机上面的MySQL，那么MySQL的HOST地址可能会经常改变，这就需要我们经常去改项目中的MySQL的连接地址，比较麻烦。所以需要改为静态IP，也就是每次开机之后IP不会变，这样才能方便我们后面项目的开发。</p>
+</blockquote>
+<ul>
+<li>首先查看虚拟机本地的IP地址，执行命令</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看本地IP地址</span></span><br><span class="line">ifconfig</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果提示没有找到这个命令，那么首先需要安装工具</span></span><br><span class="line">sudo apt install net-tools</span><br></pre></td></tr></table></figure>
+<p><img src="/images/mailProject-01/image-20230320230756033.png" alt="image-20230320230756033" loading="lazy"></p>
+<ul>
+<li>
+<p>查看网关地址</p>
+<p>编辑 ⇒   虚拟网络编辑器 ⇒ VMnet8 ⇒ NAT设置</p>
+<p><img src="/images/mailProject-01/image-20230320232059604.png" alt="image-20230320232059604" loading="lazy"></p>
+<p>点击NAT设置，即可看到如下图所示</p>
+</li>
+</ul>
+<p><img src="/images/mailProject-01/image-20230320232229532.png" alt="image-20230320232229532" loading="lazy"></p>
+<ul>
+<li>
+<p>设置静态IP</p>
+<p>设置 ⇒ Network ⇒ 点击齿轮</p>
+<p><img src="/images/mailProject-01/image-20230320232430561.png" alt="image-20230320232430561" loading="lazy"></p>
+<p>设置为下图所示</p>
+<p><img src="/images/mailProject-01/image-20230320232846295.png" alt="image-20230320232846295" loading="lazy"></p>
+<p>重启虚拟机，查看IP地址是否变化，如果未变，那么设置成功。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><strong>Docker安装</strong></p>
+<ul>
+<li>
+<p>详见前面文档</p>
+</li>
+<li>
+<p>在docker中部署如下软件：</p>
+<ul>
+<li>
+<p><strong>MySQL</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取镜像</span></span><br><span class="line">docker pull mysql:5.7</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装运行</span></span><br><span class="line">docker run --name mysql --restart=always -v /home/ljaer/mysql:/var/lib/mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e TZ=Asia/Shanghai -d mysql:5.7</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看MySQL是否启动</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p><img src="/images/mailProject-01/image-20230321101402217.png" alt="image-20230321101402217" loading="lazy"></p>
+<p>使用Navicat测试连接，注意需要把主机地址改为虚拟机IP地址，用户名和密码均为root</p>
+</li>
+<li>
+<p><strong>redis</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取镜像</span></span><br><span class="line">docker pull redis:6.2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行容器</span></span><br><span class="line">docker run --name redis-server -d -p 6379:6379  --restart=always redis:6.2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试验证</span></span><br><span class="line">docker exec -it redis-server redis-cli</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>nacos</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取镜像</span></span><br><span class="line">docker pull nacos/nacos-server:1.4.1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行容器</span></span><br><span class="line">docker run --env MODE=standalone --name nacos --restart=always -d -p 8848:8848 -e JVM_XMS=128m -e JVM_XMX=128m -e JVM_XMN=64m nacos/nacos-server:1.4.1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试验证</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">访问Nacos, http://ip:8848/nacos</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>elasticsearch</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取镜像</span></span><br><span class="line">docker pull elasticsearch:7.8.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">准备工作</span></span><br><span class="line">sudo mkdir -p /mydata/elasticsearch/plugins /mydata/elasticsearch/data</span><br><span class="line">sudo chmod -R 777 /mydata/elasticsearch</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行容器</span></span><br><span class="line">docker run \</span><br><span class="line">-p 9200:9200 -p 9300:9300 \</span><br><span class="line">--name elasticsearch \</span><br><span class="line">--restart=always \</span><br><span class="line">-e &quot;discovery.type=single-node&quot; \</span><br><span class="line">-e ES_JAVA_OPTS=&quot;-Xms256m -Xmx256m&quot; \</span><br><span class="line">-v /mydata/elasticsearch/plugins/:/usr/share/elasticsearch/plugins \</span><br><span class="line">-v /mydata/elasticsearch/data/:/usr/share/elasticsearch/data \</span><br><span class="line">-d elasticsearch:7.8.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试验证，访问http://ip:9200</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>ES安装完成之后，还需要安装IK分词器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1. 上传资料中的IK分词器压缩包到Linux主机</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2. 解压</span></span><br><span class="line">unzip elasticsearch-analysis-ik-7.8.0.zip -d ik-analyzer</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">3. 上传到ES容器</span></span><br><span class="line">docker cp ./ik-analyzer elasticsearch:/usr/share/elasticsearch/plugins</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">4. 重启ES</span></span><br><span class="line">docker restart elasticsearch</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>kibana</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取镜像</span></span><br><span class="line">docker pull kibana:7.8.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行容器</span></span><br><span class="line">docker run --name kibana --restart=always -e ELASTICSEARCH_URL=http://192.168.153.134:9200 -p 5601:5601 -d kibana:7.8.0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改配置</span></span><br><span class="line">docker exec -it kibana /bin/bash</span><br><span class="line">vi config/kibana.yml</span><br><span class="line">elasticsearch.hosts: [ &quot;http://这里改为你自己的虚拟机IP:9200&quot; ]</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">保存退出并且 重启kibana</span></span><br><span class="line">docker restart kibana</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试验证，访问http://ip:5601</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试IK分词器</span></span><br><span class="line">GET /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;text&quot;: &quot;我是一只因为有光，所以有梦想的鱼&quot;,</span><br><span class="line">  &quot;analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>minio</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取镜像</span></span><br><span class="line">docker pull minio/minio</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建文件夹</span></span><br><span class="line">sudo mkdir -p /home/data /home/config </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行容器</span></span><br><span class="line">docker run \</span><br><span class="line">  -p 9000:9000 \</span><br><span class="line">  -p 9001:9001 \</span><br><span class="line">  --name minio \	</span><br><span class="line">  -d --restart=always \</span><br><span class="line">  -e &quot;MINIO_ROOT_USER=admin&quot; \</span><br><span class="line">  -e &quot;MINIO_ROOT_PASSWORD=admin123456&quot; \</span><br><span class="line">  -v /home/data:/data \</span><br><span class="line">  -v /home/config:/root/.minio \</span><br><span class="line">  minio/minio server /data --console-address &quot;:9001&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试验证，访问http://ip:9001</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>RocketMQ</strong></p>
+<ul>
+<li>
+<p>拉取镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rocketmqinc/rocketmq</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>创建namesrv数据存储路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p  /docker/rocketmq/data/namesrv/logs   /docker/rocketmq/data/namesrv/store</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>运行NameServer容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--restart=always \</span><br><span class="line">--name rmqnamesrv \</span><br><span class="line">-p 9876:9876 \</span><br><span class="line">-v /docker/rocketmq/data/namesrv/logs:/root/logs \</span><br><span class="line">-v /docker/rocketmq/data/namesrv/store:/root/store \</span><br><span class="line">-e &quot;MAX_POSSIBLE_HEAP=100000000&quot; \</span><br><span class="line">rocketmqinc/rocketmq \</span><br><span class="line">sh mqnamesrv </span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>创建broker数据存储路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p  /docker/rocketmq/data/broker/logs   /docker/rocketmq/data/broker/store /docker/rocketmq/conf</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>创建broker配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /docker/rocketmq/conf/broker.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>文件内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">所属集群名称，如果节点较多可以配置多个</span></span><br><span class="line">brokerClusterName = DefaultCluster</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">broker名称，master和slave使用相同的名称，表明他们的主从关系</span></span><br><span class="line">brokerName = broker-a</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">0表示Master，大于0表示不同的slave</span></span><br><span class="line">brokerId = 0</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">表示几点做消息删除动作，默认是凌晨4点</span></span><br><span class="line">deleteWhen = 04</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在磁盘上保留消息的时长，单位是小时</span></span><br><span class="line">fileReservedTime = 48</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">有三个值：SYNC_MASTER，ASYNC_MASTER，SLAVE；同步和异步表示Master和Slave之间同步数据的机制；</span></span><br><span class="line">brokerRole = ASYNC_MASTER</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">刷盘策略，取值为：ASYNC_FLUSH，SYNC_FLUSH表示同步刷盘和异步刷盘；SYNC_FLUSH消息写入磁盘后才返回成功状态，ASYNC_FLUSH不需要；</span></span><br><span class="line">flushDiskType = ASYNC_FLUSH</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置broker节点所在服务器的ip地址</span></span><br><span class="line">brokerIP1 = 192.168.233.129</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">磁盘使用达到95%之后,生产者再写入消息会报错 CODE: 14 DESC: service not available now, maybe disk full</span></span><br><span class="line">diskMaxUsedSpaceRatio=95</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>运行broker容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker run -d  \</span><br><span class="line">--restart=always \</span><br><span class="line">--name rmqbroker \</span><br><span class="line">--link rmqnamesrv:namesrv \</span><br><span class="line">-p 10911:10911 \</span><br><span class="line">-p 10909:10909 \</span><br><span class="line">-v  /docker/rocketmq/data/broker/logs:/root/logs \</span><br><span class="line">-v  /docker/rocketmq/data/broker/store:/root/store \</span><br><span class="line">-v /docker/rocketmq/conf/broker.conf:/opt/rocketmq-4.4.0/conf/broker.conf \</span><br><span class="line">-e &quot;NAMESRV_ADDR=namesrv:9876&quot; \</span><br><span class="line">-e &quot;MAX_POSSIBLE_HEAP=200000000&quot; \</span><br><span class="line">rocketmqinc/rocketmq \</span><br><span class="line">sh mqbroker -c /opt/rocketmq-4.4.0/conf/broker.conf </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><strong>windows Hosts环境配置</strong></p>
+<ul>
+<li>
+<p>本商城项目运行需要配置本地域名解析，需要修改本地Host文件，可以直接修改，也可以使用Hosts管理工具修改，添加内容如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># csmall</span><br><span class="line">127.0.0.1 file.service.com www.csmall.com item.csmall.com </span><br><span class="line">127.0.0.1 activity.csmall.com passport.csmall.com cart.csmall.com list.csmall.com </span><br><span class="line">127.0.0.1 order.csmall.com payment.csmall.com api.csmall.com comment.csmall.com</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>修改Host文件的方式</p>
+<ul>
+<li>
+<p>方式一：直接修改</p>
+<ul>
+<li>寻找路径：<code>C:\Windows\System32\drivers\etc\hosts</code></li>
+<li>打开文件，在文件的末尾添加上面的配置即可
+<ul>
+<li>说明：有的操作系统直接修改没有权限，可以把文件的写权限放开了之后再修改</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>方式二：软件修改</p>
+<ul>
+<li>使用专业的Hosts管理工具：<code>SwitchHosts</code>这个软件</li>
+</ul>
+<p><img src="/images/mailProject-01/image-20240517195226852.png" alt="switchhosts" loading="lazy"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"></a><div class="post-copyright__author_name">coo1heisenberg's Blog</div><div class="post-copyright__author_desc">Diligence can make up for clumsiness!</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">coo1heisenberg's Blog</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpringCloud/"><span class="tags-punctuation"></span>SpringCloud<span class="tagsPageCount">1</span></a></div></div><div class="social-share"></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/05/15/MyBatisPlus/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">00 MyBatis-Plus</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">菜鸡的自我救赎...</div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Coo1heisenberg’s BLOG</div><div class="author-info__desc">Diligence can make up for clumsiness!</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/coo1heisenberg" title="Github"><i class="solitude  st-github-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">基本技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MapStruct"><span class="toc-text">MapStruct</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GateWay"><span class="toc-text">GateWay</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E4%BB%8B%E7%BB%8D"><span class="toc-text">网关介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E4%BD%BF%E7%94%A8"><span class="toc-text">网关使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-text">核心概念</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E8%B7%AF%E7%94%B1%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-text">网关路由的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-text">动态路由</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B%EF%BC%88%E4%BB%A5Nacos%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="toc-text">使用流程（以Nacos为例）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Predicate"><span class="toc-text">Predicate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Filter"><span class="toc-text">Filter</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">环境搭建</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/15/mailProject-01/" title="00 基于SpringCloud搭建的分布式商城系统"><img alt="00 基于SpringCloud搭建的分布式商城系统" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/mail.png"></a><div class="content"><a class="title" href="/2024/05/15/mailProject-01/" title="00 基于SpringCloud搭建的分布式商城系统">00 基于SpringCloud搭建的分布式商城系统</a><a class="article-recent_post_categories" href="/2024/05/15/mailProject-01/">Mall-project</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/15/MyBatisPlus/" title="00 MyBatis-Plus"><img alt="00 MyBatis-Plus" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MybatisPlus.png"></a><div class="content"><a class="title" href="/2024/05/15/MyBatisPlus/" title="00 MyBatis-Plus">00 MyBatis-Plus</a><a class="article-recent_post_categories" href="/2024/05/15/MyBatisPlus/">SQL</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/DesignPattern/" title="00 DesignPattern"><img alt="00 DesignPattern" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/DesignPattern_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/DesignPattern/" title="00 DesignPattern">00 DesignPattern</a><a class="article-recent_post_categories" href="/2024/05/13/DesignPattern/">设计模式</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Docker/" title="00 Docker"><img alt="00 Docker" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Docker_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/Docker/" title="00 Docker">00 Docker</a><a class="article-recent_post_categories" href="/2024/05/13/Docker/">Docker</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/13/Nginx/" title="00 Nginx"><img alt="00 Nginx" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Nginx_logo.png"></a><div class="content"><a class="title" href="/2024/05/13/Nginx/" title="00 Nginx">00 Nginx</a><a class="article-recent_post_categories" href="/2024/05/13/Nginx/">Nginx</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">来自 Heisenberg 的原创文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">Coo1heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
+</script><script src="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"><script>(() => {
+    document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+        utils.wrap(item, 'div', {class: 'katex-wrap'})
+    })
+})();
+</script></script><script src="//open.lightxi.com/cdnjs/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="//open.lightxi.com/cdnjs/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- newest comment--><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    is_rm && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="solitude st-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"><div id="search-hits"></div></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/search/local.js?v=1.10.6"></script><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/05/15/mailProject-01/","2024/05/15/MyBatisPlus/","2024/05/13/DesignPattern/","2024/05/13/Docker/","2024/05/13/Nginx/","2024/05/13/Linux/","2024/05/13/Spring-Cloud/","2024/05/13/Spring-boot/","2024/05/13/Spring-MVC/","2024/05/13/Spring事务/","2024/05/13/Spring-AOP/","2024/05/13/Spring-IOC-DI/","2024/05/13/JavaEE-MVC/","2024/05/13/JavaEE-WebTools/","2024/05/13/JavaEE-conversation/","2024/05/13/JavaEE-response/","2024/05/13/JavaEE-request/","2024/05/13/JavaEE-Servlet/","2024/05/12/测试文章：如何使用Hexo发博客/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
