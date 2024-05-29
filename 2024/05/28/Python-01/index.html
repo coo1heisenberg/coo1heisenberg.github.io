@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>01 Python面向对象编程 | coo1heisenberg's Blog</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="Python面向对象编程 面向对象的基础语法 dir 内置函数 在Python中 对象是无处不在的， 变量、数据、函数 都是对象 object类是基类 12345678910111213141516171819# object 是 基类class Person(object): de"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="coo1heisenberg's Blog"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.10.6",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":false,"path":"/search.xml"},
+    runtime: '2024-05-12 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.webp'
+    },
+    copyright: {"limit":50,"author":"作者: Coo1heisenberg’s BLOG","link":"链接: ","source":"来源: coo1heisenberg's Blog","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'highlight.js'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可","search":{"empty":"找不到你查询的内容：${query}","hit":"找到 ${hits} 条结果，用时 ${time} 毫秒","placeholder":"输入关键词快速查找","count":"共 <b>${count}</b> 条结果。"}},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6/">转录组学<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/JavaEE/">JavaEE<sup>6</sup></a><a href="/tags/SpringCloud/">SpringCloud<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>6</sup></a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/MyBatis-Plus/">MyBatis-Plus<sup>1</sup></a><a href="/tags/Leetcode/">Leetcode<sup>1</sup></a><a href="/tags/Python%E5%9F%BA%E7%A1%80/">Python基础<sup>2</sup></a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务<sup>1</sup></a><a href="/tags/%E5%89%91%E6%8C%87offer/">剑指offer<sup>1</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">24</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/%E8%BD%AC%E5%BD%95%E7%BB%84%E5%AD%A6/">转录组学<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/JavaEE/">JavaEE<sup>6</sup></a><a href="/tags/SpringCloud/">SpringCloud<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>6</sup></a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/MyBatis-Plus/">MyBatis-Plus<sup>1</sup></a><a href="/tags/Leetcode/">Leetcode<sup>1</sup></a><a href="/tags/Python%E5%9F%BA%E7%A1%80/">Python基础<sup>2</sup></a><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务<sup>1</sup></a><a href="/tags/%E5%89%91%E6%8C%87offer/">剑指offer<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">01 Python面向对象编程</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="solitude st-search-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/python.png" alt="01 Python面向对象编程"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Python/">Python</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python%E5%9F%BA%E7%A1%80/"><span class="tags-name tags-punctuation">Python基础</span></a></div></div></div></div><h1 class="post-title">01 Python面向对象编程</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="发布于 2024-05-28 18:49:28"><i class="post-meta-icon solitude st-calendar-todo-fill"></i><time datetime="2024-05-28T10:49:28.000Z">2024-05-28T10:49:28.000Z</time></span><span class="post-meta-date" title="最后更新于 2024-05-28 22:35:03"><i class="post-meta-icon solitude st-refresh-line"></i><time datetime="2024-05-28T14:35:03.325Z">2024-05-28T14:35:03.325Z</time></span><span class="post-meta-wordcount"><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Python面向对象编程</h1>
+<hr>
+<h2 id="面向对象的基础语法"><a class="headerlink" href="#面向对象的基础语法"></a>面向对象的基础语法</h2>
+<h3 id="dir-内置函数"><a class="headerlink" href="#dir-内置函数"></a>dir 内置函数</h3>
+<ul>
+<li>
+<p>在Python中 <strong>对象是无处不在</strong>的， <strong>变量、数据、函数</strong> 都是对象</p>
+</li>
+<li>
+<p>object类是基类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># object 是 基类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age, height</span>):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        self.height = height</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;%s is running&quot;</span> % self.name)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;%s is eating&quot;</span> % self.name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">   <span class="comment"># 初始化一个对象时会调用 __init__</span></span><br><span class="line">   person = Person(<span class="string">&quot;John&quot;</span>, <span class="number">18</span>, <span class="number">187</span>);</span><br><span class="line">   person.run()</span><br><span class="line">   person.eat()</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>提示</strong> <strong>方法名</strong> 格式的方法是 Python 提供的 <strong>内置方法</strong> <strong>/</strong> <strong>属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>方法名</th>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>__new__</code></td>
+<td>方法</td>
+<td><strong>创建对象</strong>时，会被 <strong>自动</strong> 调用</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>__init__</code></td>
+<td>方法</td>
+<td><strong>对象被初始化</strong>时，会被 <strong>自动</strong> 调用</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>__del__</code></td>
+<td>方法</td>
+<td><strong>对象被从内存中销毁</strong>前，会被 <strong>自动</strong> 调用</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>__str__</code></td>
+<td>方法</td>
+<td>返回<strong>对象的描述信息</strong>，print 函数输出使用</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>利用好</strong> <strong>dir()</strong> <strong>函数</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="定义简单的类"><a class="headerlink" href="#定义简单的类"></a>定义简单的类</h3>
+<h4 id="定义指包含方法的类"><a class="headerlink" href="#定义指包含方法的类"></a>定义指包含方法的类</h4>
+<ul>
+<li>
+<p>在 Python 中要定义一个只包含方法的类，语法格式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">类名</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">方法</span> <span class="number">1</span>(self, 参数列表):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">方法</span> <span class="number">2</span>(self, 参数列表):</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>第一个参数必须是</strong> <strong>self</strong></p>
+<ul>
+<li>
+<p>由 <strong>哪一个对象</strong> 调用的方法，方法内的 self 就是 <strong>哪一个对象的引用</strong></p>
+</li>
+<li>
+<p>在类封装的方法内部，self 就表示 <strong>当前调用方法的对象自己</strong></p>
+</li>
+<li>
+<p><strong>在方法内部</strong></p>
+<ul>
+<li>
+<p>可以通过 self. <strong>访问对象的属性</strong></p>
+</li>
+<li>
+<p>也可以通过 self. <strong>调用其他的对象方法</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="创建对象"><a class="headerlink" href="#创建对象"></a>创建对象</h4>
+<ul>
+<li><strong>对象变量</strong> <strong>=</strong> <strong>类名</strong>()</li>
+</ul>
+<hr>
+<h3 id="初始化方法"><a class="headerlink" href="#初始化方法"></a>初始化方法</h3>
+<ul>
+<li>当使用 <strong>类名()</strong> 创建对象时，会 <strong>自动</strong> 执行以下操作
+<ul>
+<li>为对象在内存中 <strong>分配空间</strong> —— 创建对象</li>
+<li>为对象的属性 <strong>设置初始值</strong> —— 初始化方法(init)
+<ul>
+<li>这个 <strong>初始化方法</strong> 就是 <code>__init__</code> 方法，<code>__init__</code> 是对象的<strong>内置方法</strong>
+<ul>
+<li>在 <code>__init__</code> 方法内部使用 self.属性名 = 属性的初始值 就可以 <strong>定义属性</strong></li>
+<li>定义属性之后，再使用 类创建的对象，都会拥有该属性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="内置的方法及和属性"><a class="headerlink" href="#内置的方法及和属性"></a>内置的方法及和属性</h4>
+<ul>
+<li>
+<p><code>__del__</code> <strong>方法</strong></p>
+<ul>
+<li>在Python中，使用 类名() 创建对象时，为对象 <strong>分配完空间</strong>后，<strong>自动</strong> 调用<code>__init__</code> 方法</li>
+<li>当一个 <strong>对象被从内存中销毁</strong> 前，会 <strong>自动</strong> 调用 <code>__del__</code> 方法</li>
+<li><code>__del__</code> 如果希望在对象被销毁前，再做一些事情，可以考虑一下 <code>__del__</code></li>
+</ul>
+</li>
+<li>
+<p><code>__str__</code> 方法</p>
+<ul>
+<li><code>__str__</code> 方法必须返回一个字符串</li>
+<li>在 Python 中，使用 print 输出 <strong>对象变量</strong>，默认情况下，会输出这个变量 <strong>引用的对象</strong> 是 <strong>由哪一个类创建的对象</strong>，以及 <strong>在内存中的地址</strong>（<strong>十六进制表示</strong>)</li>
+<li>在开发中，希望使用 print 输出 <strong>对象变量</strong> 时，能够打印 <strong>自定义的内容</strong>，就可以利用 <code>__str__</code> 这个内置方法了</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cat</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, new_name</span>):</span><br><span class="line">        self.name = new_name</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;%s 来了&quot;</span> % self.name)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对象销毁的时候会调用</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__del__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;%s 我去了&quot;</span> % self.name)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 打印对象调用这个</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 必须返回一个字符串</span></span><br><span class="line">        <span class="comment"># 必须有 return</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;我是小猫[%s]&quot;</span> % self.name</span><br><span class="line"></span><br><span class="line">tom=Cat(<span class="string">&quot;Tom&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(tom)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Tom 来了</span></span><br><span class="line"><span class="string">我是小猫[Tom]</span></span><br><span class="line"><span class="string">Tom 我去了</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="面向对象的封装"><a class="headerlink" href="#面向对象的封装"></a>面向对象的封装</h2>
+<ul>
+<li>
+<p>封装</p>
+<ul>
+<li>
+<p><strong>封装</strong> 是面向对象编程的一大特点</p>
+</li>
+<li>
+<p>面向对象编程的 <strong>第一步</strong> —— 将 <strong>属性</strong> 和 <strong>方法 封装</strong> 到一个抽象的 <strong>类</strong> 中</p>
+</li>
+<li>
+<p><strong>外界</strong> 使用 <strong>类</strong> 创建 <strong>对象</strong>，然后 <strong>让对象调用方法</strong></p>
+</li>
+</ul>
+<ul>
+<li><strong>对象方法的细节</strong> 都被 <strong>封装</strong> 在 <strong>类的内部</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>添加注解</strong></p>
+</li>
+</ul>
+<p><img src="/images/Python-01/image-20240528202446087.png" alt="案例需求" loading="lazy"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HouseItem</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, area</span>):</span><br><span class="line">        self.name = name</span><br><span class="line">        self.area = area</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;[%s] 占地 %.2f&quot;</span> % (self.name, self.area)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">House</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, house_type, area</span>):</span><br><span class="line">        self.house_type = house_type</span><br><span class="line">        self.area = area</span><br><span class="line">        <span class="comment"># 剩余面积</span></span><br><span class="line">        self.free_area = area</span><br><span class="line">        <span class="comment"># 家具名称列表</span></span><br><span class="line">        self.item_list = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># Python 能够自动的将一对括号内部的代码连接在一起</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;户型：%s\n 总面积：%.2f[剩余：%.2f]\n 家具：%s&quot;</span></span><br><span class="line">                % (self.house_type, self.area,</span><br><span class="line">                   self.free_area, self.item_list))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># item: HouseItem 添加注解，告知集成开发环境变量类型</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add_item</span>(<span class="params">self, item: HouseItem</span>):</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 判断房子剩余面积够放家具，再添加，否则不能添加</span></span><br><span class="line">        <span class="keyword">if</span> self.free_area &gt;= item.area:</span><br><span class="line">            self.item_list.append(item)  <span class="comment"># 添加家具到列表中</span></span><br><span class="line">            self.free_area -= item.area  <span class="comment"># 更新剩余房间面积</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;no area&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;要添加 %s&quot;</span> % item)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    bed = HouseItem(<span class="string">&quot;席梦思&quot;</span>, <span class="number">4</span>)</span><br><span class="line">    chest = HouseItem(<span class="string">&quot;衣柜&quot;</span>, <span class="number">2</span>)</span><br><span class="line">    table = HouseItem(<span class="string">&quot;餐桌&quot;</span>, <span class="number">1.5</span>)</span><br><span class="line"></span><br><span class="line">    house = House(<span class="string">&quot;大平层&quot;</span>, <span class="number">150</span>)</span><br><span class="line">    house.add_item(bed)</span><br><span class="line">    house.add_item(chest)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(house)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>定义没有初始值的属性</strong></p>
+<ul>
+<li>
+<p>在定义属性时，如果 <strong>不知道设置什么初始值</strong>，可以设置为 None</p>
+</li>
+<li>
+<p>None <strong>关键字</strong> 表示 <strong>什么都没有</strong>，表示一个 <strong>空对象</strong>，<strong>没有方法和属性，是一个特殊的常量</strong></p>
+</li>
+<li>
+<p>可以将 None 赋值给任何一个变量</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="身份运算符"><a class="headerlink" href="#身份运算符"></a>身份运算符</h3>
+<ul>
+<li>
+<p>身份运算符用于 <strong>比较</strong> 两个对象的 <strong>内存地址</strong> 是否一致 —— <strong>是否是对同一个对象的引用</strong></p>
+</li>
+<li>
+<p>在 Python 中针对 None 比较时，建议使用 is 判断</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is</td>
+<td>is 是判断两个标识符是不是引用同一个对象</td>
+<td>x is y，类似于 id(x) == id(y)</td>
+</tr>
+<tr>
+<td>is not</td>
+<td>is not 是判断两个标识符是不是引用不同对象</td>
+<td>x is not y，类似id(x) != id(y)</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p><strong>is</strong> <strong>与</strong> <strong>==</strong> <strong>区别</strong>：</p>
+<ul>
+<li>is 用于判断 <strong>两个变量 引用对象是否为同一个</strong>，就是地址是不是一样的</li>
+<li>== 用于判断 <strong>引用变量的值</strong> 是否相等</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">b = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a <span class="keyword">is</span> b)  <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a == b)  <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="私有属性-和-私有方法"><a class="headerlink" href="#私有属性-和-私有方法"></a>私有属性 和 私有方法</h2>
+<ul>
+<li><strong>私有属性</strong> 就是 <strong>对象</strong> 不希望公开的 <strong>属性</strong></li>
+<li><strong>私有方法</strong> 就是 <strong>对象</strong> 不希望公开的 <strong>方法</strong></li>
+<li><strong>定义方式</strong>：
+<ul>
+<li>在 <strong>定义属性或方法时</strong>，在 <strong>属性名或者方法名前</strong> 增加 <strong>两个下划线</strong>，定义的就是 <strong>私有</strong> 属性或方法</li>
+<li>私有属性只能被自己的方法调用</li>
+<li>私有方法只能被自己的方法调用</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Women</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name</span>):</span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 女性年龄隐藏</span></span><br><span class="line">        self.__age = <span class="number">18</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__secret</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;I am %d years old&quot;</span> % self.__age)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">noSecret</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;I am %d years old&quot;</span> % self.__age)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    xiaomei = Women(<span class="string">&#x27;小美&#x27;</span>)</span><br><span class="line">    <span class="comment"># 私有属性，外部不能直接访问</span></span><br><span class="line">    <span class="comment"># print(xiaomei.__age)</span></span><br><span class="line">    <span class="comment"># 私有方法，外部不能直接调用</span></span><br><span class="line">    <span class="comment"># xiaomei.__secret()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 公开方法可以访问私有属性</span></span><br><span class="line">    xiaomei.noSecret()  <span class="comment"># I am 18 years old</span></span><br></pre></td></tr></table></figure>
+<h3 id="伪私有属性-和-私有方法"><a class="headerlink" href="#伪私有属性-和-私有方法"></a>伪私有属性 和 私有方法</h3>
+<ul>
+<li>在日常开发中，<strong>不要使用这种方式</strong>，<strong>访问对象的 私有属性 或 私有方法</strong></li>
+<li>Python 中，并没有 <strong>真正意义</strong> 的 <strong>私有</strong>
+<ul>
+<li>在给 <strong>属性</strong>、<strong>方法</strong> 命名时，实际是对 <strong>名称</strong> 做了一些特殊处理，使得外界无法访问到</li>
+<li><strong>处理方式</strong>：在 <strong>名称</strong> 前面加上 <code>_类名</code> =&gt; <code>_类名__名称</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(xiaomei._Women__age)  <span class="comment"># 18</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="继承"><a class="headerlink" href="#继承"></a>继承</h2>
+<ul>
+<li>
+<p>继承：<strong>子类</strong> 拥有 <strong>父类</strong> 的所有 <strong>方法</strong> 和 <strong>属性</strong></p>
+</li>
+<li>
+<p>继承的语法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">类名</span>(<span class="title class_ inherited__">父类名</span>):</span><br><span class="line">	<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Eating...&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">drink</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Drinking...&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>(<span class="title class_ inherited__">Animal</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">bark</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Barking...&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    poppy = Dog()</span><br><span class="line">    poppy.drink()</span><br><span class="line">    poppy.eat()</span><br><span class="line">    poppy.bark()</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Drinking...</span></span><br><span class="line"><span class="string">Eating...</span></span><br><span class="line"><span class="string">Barking...</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="方法的重写"><a class="headerlink" href="#方法的重写"></a>方法的重写</h3>
+<ul>
+<li><strong>子类</strong> 拥有 <strong>父类</strong> 的所有 <strong>方法</strong> 和 <strong>属性</strong></li>
+<li><strong>子类</strong> 继承自 <strong>父类</strong>，可以直接 <strong>享受</strong> 父类中已经封装好的方法，不需要再次开发</li>
+<li>当 <strong>父类</strong> 的方法实现不能满足子类需求时，可以对方法进行 <strong>重写</strong>(override)</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Eating...&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">drink</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Drinking...&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>(<span class="title class_ inherited__">Animal</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Dof is Eating...&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">bark</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Barking...&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    poppy = Dog()</span><br><span class="line">    poppy.drink()</span><br><span class="line">    poppy.eat()</span><br><span class="line">    poppy.bark()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Drinking...</span></span><br><span class="line"><span class="string">Dof is Eating...</span></span><br><span class="line"><span class="string">Barking...</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="super-关键字"><a class="headerlink" href="#super-关键字"></a>super() 关键字</h3>
+<ul>
+<li>super() 就是使用 super 类创建出来的对象</li>
+<li><strong>最常</strong> 使用的场景就是在 <strong>重写父类方法时</strong>，调用 <strong>在父类中封装的方法实现</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Eating...&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">drink</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Drinking...&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>(<span class="title class_ inherited__">Animal</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eat</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Dof is Eating...&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">super</span>().eat()  <span class="comment"># 使用 super() 调用原本在父类封装的方法</span></span><br><span class="line">        <span class="comment"># 父类名.方法(self)</span></span><br><span class="line">        <span class="comment"># 这里写 Animal.eat() 这种方法是不对的</span></span><br><span class="line">        <span class="comment"># 如果出现子类调用方法，会出现递归调用</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">bark</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Barking...&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    poppy = Dog()</span><br><span class="line">    poppy.drink()</span><br><span class="line">    poppy.eat()</span><br><span class="line">    poppy.bark()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Drinking...</span></span><br><span class="line"><span class="string">Dof is Eating...</span></span><br><span class="line"><span class="string">Eating...</span></span><br><span class="line"><span class="string">Barking...</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="父类的-私有属性-和-私有方法"><a class="headerlink" href="#父类的-私有属性-和-私有方法"></a>父类的 私有属性 和 私有方法</h3>
+<ul>
+<li><strong>子类对象 不能</strong> 在自己的方法内部，<strong>直接</strong> 访问 父类的 <strong>私有属性</strong> 或 <strong>私有方法</strong></li>
+<li><strong>子类对象</strong> 可以通过 <strong>父类</strong> 的 <strong>公有方法 间接</strong> 访问到 <strong>私有属性</strong> 或 <strong>私有方法（父类在自己的公有方法中调用私有方法）</strong></li>
+</ul>
+<h3 id="多继承"><a class="headerlink" href="#多继承"></a>多继承</h3>
+<ul>
+<li>
+<p><strong>子类</strong> 可以拥有 <strong>多个父类</strong>，并且具有 <strong>所有父类</strong> 的 <strong>属性</strong> 和 <strong>方法</strong></p>
+</li>
+<li>
+<p><strong>Python</strong> <strong>中的</strong> <strong>MRO ——</strong> <strong>方法搜索顺序</strong></p>
+<ul>
+<li>
+<p>Python 中针对 <strong>类</strong> 提供了一个 <strong>内置属性</strong> <code>__mro__</code> 可以查看 <strong>方法</strong> 搜索顺序</p>
+</li>
+<li>
+<p>MRO 是 method resolution order，主要用于 <strong>在多继承时判断 方法、属性 的调用 路径</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(C.__mro__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># (&lt;class &#x27;__main__.C&#x27;&gt;, &lt;class &#x27;__main__.A&#x27;&gt;, &lt;class &#x27;__main__.B&#x27;&gt;, &lt;class &#x27;object&#x27;&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在搜索方法时，是按照 <code>__mro__</code> 的输出结果 <strong>从左至右</strong> 的顺序查找的</li>
+<li>如果在当前类中 <strong>找到方法，就直接执行，不再搜索</strong>，如果 <strong>没有找到，就查找下一个类</strong> 中是否有对应的方法，<strong>如果找到，就直接执行，不再搜索</strong>，如果找到最后一个类，还没有找到方法，程序报错</li>
+</ul>
+</li>
+<li>
+<p>合并所有父类的 MRO 列表并遵循如下三条准则：</p>
+<ol>
+<li>
+<p><strong>子类会先于父类被检查</strong></p>
+</li>
+<li>
+<p><strong>多个父类会根据它们在列表中的顺序被检查</strong></p>
+</li>
+<li>
+<p>如果对下一个类存在两个合法的选择，选择第一个父类</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="多态"><a class="headerlink" href="#多态"></a>多态</h2>
+<ul>
+<li>Python实现多态的操作 就是 <strong>重写</strong></li>
+<li><strong>多态</strong> 不同的 <strong>子类对象</strong> 调用相同的 <strong>父类方法</strong>，产生不同的执行结果
+<ul>
+<li><strong>多态</strong> 可以 <strong>增加代码的灵活度</strong></li>
+<li>以 <strong>继承</strong> 和 <strong>重写父类方法</strong> 为前提</li>
+<li>是调用方法的技巧，<strong>不会影响到类的内部设计</strong></li>
+</ul>
+</li>
+<li><strong>单一职责</strong>，<strong>开放 封闭</strong> —对扩展开放，对修改封闭</li>
+</ul>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"></a><div class="post-copyright__author_name">coo1heisenberg's Blog</div><div class="post-copyright__author_desc">Diligence can make up for clumsiness!</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">coo1heisenberg's Blog</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python%E5%9F%BA%E7%A1%80/"><span class="tags-punctuation"></span>Python基础<span class="tagsPageCount">2</span></a></div></div><div class="social-share"></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/05/28/%E5%8A%9B%E6%89%A3%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">00 Leetcode刷题总结（持续更新）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="solitude st-star-smile-fill"></i><span>喜欢这篇的人也看了</span><div class="relatedPosts-link"><a onclick="event.preventDefault(); toRandomPost();" href="javascript:void(0);" rel="external nofollow" data-pjax-state="">随便逛逛</a></div></div><div class="relatedPosts-list"><div><a href="/2024/05/25/Python-00/" title="00 Python基础"><img class="cover" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/python.png" alt="cover"><div class="content is-center"><div class="title">00 Python基础</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="https://i.postimg.cc/xTTVcM6Z/f3470ca99adacc28c5d34208621c195.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">菜鸡的自我救赎...</div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Coo1heisenberg’s BLOG</div><div class="author-info__desc">Diligence can make up for clumsiness!</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/coo1heisenberg" title="Github"><i class="solitude  st-github-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Python面向对象编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">面向对象的基础语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dir-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="toc-text">dir 内置函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E7%AE%80%E5%8D%95%E7%9A%84%E7%B1%BB"><span class="toc-text">定义简单的类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E6%8C%87%E5%8C%85%E5%90%AB%E6%96%B9%E6%B3%95%E7%9A%84%E7%B1%BB"><span class="toc-text">定义指包含方法的类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><span class="toc-text">创建对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95"><span class="toc-text">初始化方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E6%B3%95%E5%8F%8A%E5%92%8C%E5%B1%9E%E6%80%A7"><span class="toc-text">内置的方法及和属性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B0%81%E8%A3%85"><span class="toc-text">面向对象的封装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BA%AB%E4%BB%BD%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">身份运算符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7-%E5%92%8C-%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95"><span class="toc-text">私有属性 和 私有方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7-%E5%92%8C-%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95"><span class="toc-text">伪私有属性 和 私有方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF"><span class="toc-text">继承</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E7%9A%84%E9%87%8D%E5%86%99"><span class="toc-text">方法的重写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#super-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">super() 关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%B6%E7%B1%BB%E7%9A%84-%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7-%E5%92%8C-%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95"><span class="toc-text">父类的 私有属性 和 私有方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%BB%A7%E6%89%BF"><span class="toc-text">多继承</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-text">多态</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/28/Python-01/" title="01 Python面向对象编程"><img alt="01 Python面向对象编程" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/python.png"></a><div class="content"><a class="title" href="/2024/05/28/Python-01/" title="01 Python面向对象编程">01 Python面向对象编程</a><a class="article-recent_post_categories" href="/2024/05/28/Python-01/">Python</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/28/%E5%8A%9B%E6%89%A3%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/" title="00 Leetcode刷题总结（持续更新）"><img alt="00 Leetcode刷题总结（持续更新）" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Leetcode.png"></a><div class="content"><a class="title" href="/2024/05/28/%E5%8A%9B%E6%89%A3%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/" title="00 Leetcode刷题总结（持续更新）">00 Leetcode刷题总结（持续更新）</a><a class="article-recent_post_categories" href="/2024/05/28/%E5%8A%9B%E6%89%A3%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">Algorithm</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/27/00-%E7%94%9F%E4%BF%A1%E5%88%86%E6%9E%90/" title="00 转录组"><img alt="00 转录组" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Bio.png"></a><div class="content"><a class="title" href="/2024/05/27/00-%E7%94%9F%E4%BF%A1%E5%88%86%E6%9E%90/" title="00 转录组">00 转录组</a><a class="article-recent_post_categories" href="/2024/05/27/00-%E7%94%9F%E4%BF%A1%E5%88%86%E6%9E%90/">生信分析</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/25/Python-00/" title="00 Python基础"><img alt="00 Python基础" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/python.png"></a><div class="content"><a class="title" href="/2024/05/25/Python-00/" title="00 Python基础">00 Python基础</a><a class="article-recent_post_categories" href="/2024/05/25/Python-00/">Python</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/20/MallProject-01/" title="00 基于SpringCloud的分布式商城项目"><img alt="00 基于SpringCloud的分布式商城项目" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/mail.png"></a><div class="content"><a class="title" href="/2024/05/20/MallProject-01/" title="00 基于SpringCloud的分布式商城项目">00 基于SpringCloud的分布式商城项目</a><a class="article-recent_post_categories" href="/2024/05/20/MallProject-01/">项目</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">来自 Heisenberg 的原创文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">Coo1heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
+</script><script src="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"><script>(() => {
+    document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+        utils.wrap(item, 'div', {class: 'katex-wrap'})
+    })
+})();
+</script></script><script src="//open.lightxi.com/cdnjs/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="//open.lightxi.com/cdnjs/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- newest comment--><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    is_rm && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="solitude st-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"><div id="search-hits"></div></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/search/local.js?v=1.10.6"></script><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/05/28/Python-01/","2024/05/28/力扣刷题总结/","2024/05/27/00-生信分析/","2024/05/25/Python-00/","2024/05/20/MallProject-01/","2024/05/20/剑指offert题解/","2024/05/15/MyBatisPlus/","2024/05/13/DesignPattern/","2024/05/13/Docker/","2024/05/13/Nginx/","2024/05/13/Linux/","2024/05/13/Spring-Cloud/","2024/05/13/Spring-boot/","2024/05/13/Spring-MVC/","2024/05/13/Spring事务/","2024/05/13/Spring-AOP/","2024/05/13/Spring-IOC-DI/","2024/05/13/JavaEE-MVC/","2024/05/13/JavaEE-WebTools/","2024/05/13/JavaEE-conversation/","2024/05/13/JavaEE-response/","2024/05/13/JavaEE-request/","2024/05/13/JavaEE-Servlet/","2024/05/12/测试文章：如何使用Hexo发博客/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
