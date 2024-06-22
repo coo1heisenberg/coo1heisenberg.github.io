@@ -4,25 +4,6 @@
   
     
     <entry>
-      <title>Plan（2024/6 - 2024/8）</title>
-      <link href="/2024/06/21/Plan-00/"/>
-      <url>/2024/06/21/Plan-00/</url>
-      
-        <content type="html"><![CDATA[<p><strong>一些想法：</strong></p><p>打算 All in 开发了，但是感觉现在还是看视频的时间有点久。所以决定制定一个计划，赶在研二开学之前完成，主要是做两个Java相关的项目，一个用来练手，一个用来投递实习用。然后再做一个Django的项目，再学一点Go的基本语法（这个待定），还有就是完成自己的课题，这点主要是跟课程学习，然后再在自己的数据集上实现。</p><p>其实主要还是背八股文，刷算法题和刷面经。这三点最重要！！！</p><hr><h1>2024.6 ~ 2024.8.31（每日更新）</h1><hr><h2 id="Leetcode部分"><a class="headerlink" href="#Leetcode部分"></a>Leetcode部分</h2><hr><ul><li>[ ] <code>Finish</code></li></ul><p><strong>每天做5道Leetcode新题，做昨天 / 前天 做错的Leetcode题</strong></p><p><strong>学习周期</strong>：2024.6.22 ~ 2024.9.3</p><table><thead><tr><th>日期</th><th>Leetcode 题号</th><th>一刷</th><th>二刷</th><th>三刷</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><hr><h2 id="面经部分"><a class="headerlink" href="#面经部分"></a>面经部分</h2><hr><ul><li>[ ] <code>Finish</code></li></ul><p><strong>学习周期</strong>：2024.6.22 ~ 2024.8.15 （约 <code>60</code> 天）</p><p><strong>教材</strong>：JavaGuide、小林coding（网络 + 操作系统）、牛客网</p><table><thead><tr><th>日期</th><th>学习时常</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table><hr><h2 id="项目部分"><a class="headerlink" href="#项目部分"></a>项目部分</h2><hr><h3 id="项目一："><a class="headerlink" href="#项目一："></a>项目一：</h3><ul><li>[ ] <code>Finish</code></li></ul><p><strong>学习周期</strong>：2024.7.15之前完成</p><table><thead><tr><th>日期</th><th>完成进度</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table><hr><h3 id="项目二："><a class="headerlink" href="#项目二："></a>项目二：</h3><ul><li>[ ] <code>Finish</code></li></ul><p><strong>学习周期</strong>：2024.8.15之前完成</p><table><thead><tr><th>日期</th><th>完成进度</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table><hr><h2 id="Python课程部分"><a class="headerlink" href="#Python课程部分"></a>Python课程部分</h2><hr><ul><li>[ ] <code>Finish</code></li></ul><p><strong>学习周期</strong>：2024.6.22 ~ 2024.7.20 （约 <code>30</code> 天）</p><p><strong>晚上学习</strong></p><table><thead><tr><th>日期</th><th>学习进度</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table><hr><h2 id="生信分析部分"><a class="headerlink" href="#生信分析部分"></a>生信分析部分</h2><hr><ul><li>[ ] <code>Finish</code></li></ul><p><strong>学习周期</strong>：2024.7.20 ~ 2024.10.1 （约 <code>60</code> 天）</p><p><strong>晚上学习</strong></p><table><thead><tr><th>日期</th><th>学习进度</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>]]></content>
-      
-      
-      <categories>
-          
-          <category> 阶段性计划 </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>05 Python的正则表达式</title>
       <link href="/2024/06/21/Python-05/"/>
       <url>/2024/06/21/Python-05/</url>
