@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>01 Spring全家桶 笔记 | coo1heisenberg's Blog</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="01 Spring全家桶 笔记"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="coo1heisenberg's Blog"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>01 Spring全家桶 笔记 | coo1heisenberg's Blog</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="SSM 全家桶 Spring概述 什么是Spring框架？ 答： Spring 是一个轻量级、非入侵式的控制反转（IoC）和 面向切面（AOP）的框架 Spring 是很多模块的集合，使用这些模块可以很方便地协助我们进行开发。这些模块是 核心容器、数据访问集成、Web、AOP（面向切面编程）、"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="coo1heisenberg's Blog"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
     "%c Program: Hexo %c Theme: Solitude %c Version: v1.10.6",
     "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
     "padding: 5px 10px;color:white;background:#3e9f50;",
@@ -123,7 +123,394 @@
     toc: true,
     comment: false,
     ai_text: false
-}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/Python%E9%AB%98%E7%BA%A7/">Python高级<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/">Spring全家桶<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/MongoDB/">MongoDB<sup>1</sup></a><a href="/tags/HTML-CSS/">HTML+CSS<sup>1</sup></a><a href="/tags/Redis/">Redis<sup>2</sup></a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java集合框架<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/Mybatis-Plus/">Mybatis-Plus<sup>1</sup></a><a href="/tags/JVM/">JVM<sup>1</sup></a><a href="/tags/%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/">空间转录组<sup>1</sup></a><a href="/tags/ElasticSearch/">ElasticSearch<sup>1</sup></a><a href="/tags/Python%E5%9F%BA%E7%A1%80/">Python基础<sup>2</sup></a><a href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程<sup>1</sup></a><a href="/tags/MySQL/">MySQL<sup>1</sup></a><a href="/tags/Project/">Project<sup>2</sup></a><a href="/tags/%E5%8D%95%E7%BB%86%E8%83%9E/">单细胞<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>1</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">2024/12</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">2024/11</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">2024/09</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">2024/07</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/06/"><span class="card-archive-list-date">2024/06</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/Python%E9%AB%98%E7%BA%A7/">Python高级<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/">Spring全家桶<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/MongoDB/">MongoDB<sup>1</sup></a><a href="/tags/HTML-CSS/">HTML+CSS<sup>1</sup></a><a href="/tags/Redis/">Redis<sup>2</sup></a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java集合框架<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/Mybatis-Plus/">Mybatis-Plus<sup>1</sup></a><a href="/tags/JVM/">JVM<sup>1</sup></a><a href="/tags/%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/">空间转录组<sup>1</sup></a><a href="/tags/ElasticSearch/">ElasticSearch<sup>1</sup></a><a href="/tags/Python%E5%9F%BA%E7%A1%80/">Python基础<sup>2</sup></a><a href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程<sup>1</sup></a><a href="/tags/MySQL/">MySQL<sup>1</sup></a><a href="/tags/Project/">Project<sup>2</sup></a><a href="/tags/%E5%8D%95%E7%BB%86%E8%83%9E/">单细胞<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">01 Spring全家桶 笔记</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="solitude st-search-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Spring1204.png" alt="01 Spring全家桶 笔记"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Spring/">Spring</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/"><span class="tags-name tags-punctuation">Spring全家桶</span></a></div></div></div></div><h1 class="post-title">01 Spring全家桶 笔记</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="发布于 2024-12-04 20:44:35"><i class="post-meta-icon solitude st-calendar-todo-fill"></i><time datetime="2024-12-04T12:44:35.000Z">2024-12-04T12:44:35.000Z</time></span><span class="post-meta-date" title="最后更新于 2024-12-04 20:47:18"><i class="post-meta-icon solitude st-refresh-line"></i><time datetime="2024-12-04T12:47:18.916Z">2024-12-04T12:47:18.916Z</time></span><span class="post-meta-wordcount"><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"></article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MyPhoto.jpg"></a><div class="post-copyright__author_name">coo1heisenberg's Blog</div><div class="post-copyright__author_desc">Diligence can make up for clumsiness!</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">coo1heisenberg's Blog</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/"><span class="tags-punctuation"></span>Spring全家桶<span class="tagsPageCount">1</span></a></div></div><div class="social-share"></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/12/02/Java-JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">02 JVM 笔记</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MyPhoto.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">菜鸡的自我救赎...</div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Coo1heisenberg’s BLOG</div><div class="author-info__desc">Diligence can make up for clumsiness!</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/coo1heisenbergProject" title="Github"><i class="solitude  st-github-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/04/Spring%E6%A1%86%E6%9E%B6/" title="01 Spring全家桶 笔记"><img alt="01 Spring全家桶 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Spring1204.png"></a><div class="content"><a class="title" href="/2024/12/04/Spring%E6%A1%86%E6%9E%B6/" title="01 Spring全家桶 笔记">01 Spring全家桶 笔记</a><a class="article-recent_post_categories" href="/2024/12/04/Spring%E6%A1%86%E6%9E%B6/">Spring</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/02/Java-JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="02 JVM 笔记"><img alt="02 JVM 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Javalogobalala.png"></a><div class="content"><a class="title" href="/2024/12/02/Java-JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="02 JVM 笔记">02 JVM 笔记</a><a class="article-recent_post_categories" href="/2024/12/02/Java-JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/04/Java-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="01 Java并发编程 笔记"><img alt="01 Java并发编程 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Javalogobalala.png"></a><div class="content"><a class="title" href="/2024/11/04/Java-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="01 Java并发编程 笔记">01 Java并发编程 笔记</a><a class="article-recent_post_categories" href="/2024/11/04/Java-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/01/Java-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="00 Java集合框架 笔记"><img alt="00 Java集合框架 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Javalogobalala.png"></a><div class="content"><a class="title" href="/2024/11/01/Java-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="00 Java集合框架 笔记">00 Java集合框架 笔记</a><a class="article-recent_post_categories" href="/2024/11/01/Java-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/28/00-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" title="00 HTML5和CSS3 笔记"><img alt="00 HTML5和CSS3 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Web_Html%2BCSS.png"></a><div class="content"><a class="title" href="/2024/09/28/00-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" title="00 HTML5和CSS3 笔记">00 HTML5和CSS3 笔记</a><a class="article-recent_post_categories" href="/2024/09/28/00-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">前端</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">来自 Heisenberg 的原创文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">Coo1heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/Python%E9%AB%98%E7%BA%A7/">Python高级<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/MongoDB/">MongoDB<sup>1</sup></a><a href="/tags/HTML-CSS/">HTML+CSS<sup>1</sup></a><a href="/tags/Redis/">Redis<sup>2</sup></a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java集合框架<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/">Spring全家桶<sup>1</sup></a><a href="/tags/Mybatis-Plus/">Mybatis-Plus<sup>1</sup></a><a href="/tags/JVM/">JVM<sup>1</sup></a><a href="/tags/%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/">空间转录组<sup>1</sup></a><a href="/tags/ElasticSearch/">ElasticSearch<sup>1</sup></a><a href="/tags/Python%E5%9F%BA%E7%A1%80/">Python基础<sup>2</sup></a><a href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程<sup>1</sup></a><a href="/tags/MySQL/">MySQL<sup>2</sup></a><a href="/tags/Project/">Project<sup>2</sup></a><a href="/tags/%E5%8D%95%E7%BB%86%E8%83%9E/">单细胞<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>1</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">2024/12</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">2024/11</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">2024/09</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">2024/07</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/06/"><span class="card-archive-list-date">2024/06</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/Python%E9%AB%98%E7%BA%A7/">Python高级<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/MongoDB/">MongoDB<sup>1</sup></a><a href="/tags/HTML-CSS/">HTML+CSS<sup>1</sup></a><a href="/tags/Redis/">Redis<sup>2</sup></a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java集合框架<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/">Spring全家桶<sup>1</sup></a><a href="/tags/Mybatis-Plus/">Mybatis-Plus<sup>1</sup></a><a href="/tags/JVM/">JVM<sup>1</sup></a><a href="/tags/%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/">空间转录组<sup>1</sup></a><a href="/tags/ElasticSearch/">ElasticSearch<sup>1</sup></a><a href="/tags/Python%E5%9F%BA%E7%A1%80/">Python基础<sup>2</sup></a><a href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程<sup>1</sup></a><a href="/tags/MySQL/">MySQL<sup>2</sup></a><a href="/tags/Project/">Project<sup>2</sup></a><a href="/tags/%E5%8D%95%E7%BB%86%E8%83%9E/">单细胞<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">01 Spring全家桶 笔记</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="solitude st-search-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Spring1204.png" alt="01 Spring全家桶 笔记"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/Spring/">Spring</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/"><span class="tags-name tags-punctuation">Spring全家桶</span></a></div></div></div></div><h1 class="post-title">01 Spring全家桶 笔记</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="发布于 2024-12-04 20:44:35"><i class="post-meta-icon solitude st-calendar-todo-fill"></i><time datetime="2024-12-04T12:44:35.000Z">2024-12-04T12:44:35.000Z</time></span><span class="post-meta-date" title="最后更新于 2024-12-05 20:38:52"><i class="post-meta-icon solitude st-refresh-line"></i><time datetime="2024-12-05T12:38:52.766Z">2024-12-05T12:38:52.766Z</time></span><span class="post-meta-wordcount"><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>SSM 全家桶</h1>
+<hr>
+<h2 id="Spring概述"><a class="headerlink" href="#Spring概述"></a>Spring概述</h2>
+<hr>
+<h3 id="什么是Spring框架？"><a class="headerlink" href="#什么是Spring框架？"></a>什么是Spring框架？</h3>
+<p>答：</p>
+<ul>
+<li>Spring 是一个<strong>轻量级</strong>、<strong>非入侵式的控制反转</strong>（<code>IoC</code>）和 <strong>面向切面</strong>（<code>AOP</code>）的框架</li>
+<li>Spring 是很多模块的集合，使用这些模块可以很方便地协助我们进行开发。这些模块是 <strong>核心容器、数据访问集成、Web、AOP（面向切面编程）、工具、消息和测试模块</strong>。比如：<strong>Core Container 中的 Core 组件是 Spring 所有组件的核心，Beans 组件和 Context 组件是实现 IOC 和 DI 的基础，AOP 组件 用来实现面向切面编程</strong></li>
+<li>Spring 官网列出的 Spring 的 6 个特征：
+<ol>
+<li><strong>核心技术</strong>：依赖注入（DI），AOP，事件（Events），资源，i18n，验证，数据绑定，类型转换，SpEL</li>
+<li><strong>测试</strong>：模拟对象，TestContext 框架，Spring MVC 测试，WebTestClient</li>
+<li><strong>数据访问</strong>：事务，DAO支持，JDBC，ORM，编组XML</li>
+<li><strong>Web支持</strong>：Spring MVC 和 Spring WebFlux Web 框架</li>
+<li><strong>集成</strong>：远程处理，JMS，JCA，JMX，电子邮件，任务，调度，缓存</li>
+<li><strong>语言</strong>：Kotlin，Groovy，动态语言</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="使用Spring框架的好处是什么？"><a class="headerlink" href="#使用Spring框架的好处是什么？"></a>使用Spring框架的好处是什么？</h3>
+<p>答：</p>
+<ol>
+<li><strong>轻量</strong>：Spring 是轻量的，基本的版本大约 2MB</li>
+<li><strong>控制反转</strong>：Spring通过控制反转实现了松散耦合，对象们给出它们的依赖，而不是创建或查找依赖的对象们。</li>
+<li><strong>面向切面的编程</strong>（<strong>AOP</strong>）：Spring 支持面向切面的编程，并且把应用业务逻辑和系统服务分开</li>
+<li><strong>容器</strong>：Spring 包含并管理应用中对象的生命周期和配置</li>
+<li><strong>MVC 框架</strong>：Spring 的 WEB 框架是个精心设计的框架，是 Web 框架的一个很好的替代品</li>
+<li><strong>事务管理</strong>：Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务（JTA）</li>
+<li><strong>异常处理</strong>：Spring 提供方便的 API 把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的 unchecked 异常</li>
+</ol>
+<hr>
+<h3 id="Spring框架都有哪些模块？"><a class="headerlink" href="#Spring框架都有哪些模块？"></a>Spring框架都有哪些模块？</h3>
+<p>答：</p>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20241205184625287.png" alt="Spring框架" loading="lazy"></p>
+<ul>
+<li>最主要的七大模块:
+<ol>
+<li><strong>Spring Core</strong>：提供了框架的基本组成部分，包括控制反转（Inversion of Control，<code>IOC</code>）和依赖注入（Dependency Injection，<code>DI</code>）功能</li>
+<li><strong>Spring Beans</strong>：提供了 <code>BeanFactory</code>，是工厂模式的一个经典实现，Spring 将管理对象称为 Bean</li>
+<li><strong>Spring Context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法</li>
+<li><strong>Spring JDBC</strong>：提供了一个 <code>JDBC</code> 的抽象层，消除了烦琐的 <code>JDBC</code> 编码和数据库厂商特有的错误代码解析用于简化 <code>JDBC</code></li>
+<li><strong>Spring AOP</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等</li>
+<li><strong>Spring Web</strong>：提供了针对 Web 开发的集成特性，例如：文件上传，利用 <code>servlet listeners</code> 进行 <code>IoC</code> 容器初始化和针对 Web 的 <code>ApplicationContext</code></li>
+<li><strong>Spring Test</strong>：主要为测试提供支持的，支持使用 <code>JUnit</code> 或 <code>TestNG</code> 对 <code>Spring</code> 组件进行单元测试和集成测试</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="Spring-MVC-和-Struts-2-的区别？"><a class="headerlink" href="#Spring-MVC-和-Struts-2-的区别？"></a>Spring MVC 和 Struts 2 的区别？</h3>
+<p>答：</p>
+<ul>
+<li><strong>Spring MVC 特性如下</strong>：
+<ol>
+<li>具备 <code>IOC/DI</code>、<code>AOP</code> 等通用能力，提高研发效率</li>
+<li>除了支持 Web 层建设以外，还提供了 J2EE 整体服务</li>
+<li>方便与其他不同技术结合使用，如：<code>Hibernate</code>、<code>MyBatis</code> 等</li>
+<li><strong>Spring 拦截机制是方法级别</strong></li>
+</ol>
+</li>
+<li><strong>Struts 特性如下</strong>：
+<ol>
+<li>是一个基于 MVC 模式的一个 Web 层的处理</li>
+<li><strong>Struts 拦截机制是类级别</strong></li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="Spring-中的设计模式有哪些？"><a class="headerlink" href="#Spring-中的设计模式有哪些？"></a>Spring 中的设计模式有哪些？</h3>
+<p>答：</p>
+<ul>
+<li><strong>工厂模式</strong>：Spring 容器本质是一个大工厂，使用工厂模式通过 <code>Beanfactory</code>、<code>ApplicationContext</code> 创建bean 对象</li>
+<li><strong>代理模式</strong>：Spring AOP 功能功能就是通过代理模式来实现的，分为：动态代理 和 静态代理</li>
+<li><strong>单例模式</strong>：Spring 中的 Bean 默认都是 单例 的，这样有利于容器对 Bean 的管理</li>
+<li><strong>模板模式</strong>：Spring 中 <code>JdbcTemplate</code>、<code>RestTemplate</code> 等以 Template 结尾的对数据库、网络等等进行操作的模板类，就使用到了模板模式</li>
+<li><strong>观察者模式</strong>：Spring 事件驱动模型就是观察者模式很经典的一个应用</li>
+<li><strong>适配器模式</strong>：Spring AOP 的增强或通知（Advice）使用到了适配器模式、Spring MVC 中也是用到了适配器模式适配 Controller</li>
+<li><strong>策略模式</strong>：Spring 中有一个 <code>Resource</code> 接口，它的不同实现类，会根据不同的策略去访问资源</li>
+</ul>
+<hr>
+<h2 id="Spring-IoC"><a class="headerlink" href="#Spring-IoC"></a>Spring IoC</h2>
+<hr>
+<h3 id="什么是-IoC？"><a class="headerlink" href="#什么是-IoC？"></a>什么是 IoC？</h3>
+<p>答：</p>
+<ul>
+<li><code>IoC</code> 即 控制反转（Inversion of Control，缩写为 <code>IoC</code>）。<code>IoC</code> 又称为 依赖倒置原则（设计模式六大原则之一），它的要点在于：<strong>程序要依赖于抽象接口，不要依赖于具体实现</strong>。它的作用就是 <strong>用于降低代码间的耦合度</strong></li>
+<li>IoC 的实现方式有两种：
+<ol>
+<li><strong>依赖注入</strong>（Dependency Injection，简称 <strong>DI</strong>）：<strong>不通过 <code>new()</code> 的方式在 类内部 创建依赖类对象，而是将依赖的类对象在外部创建好之后，通过构造器、函数参数等方式传递（或注入）给类使用</strong></li>
+<li><strong>依赖查找</strong>（Dependency Lookup）：容器中的受控对象通过容器的 API 来查找自己所依赖的资源和协作对象</li>
+</ol>
+</li>
+<li><strong>Spring loC 是 IoC 的一种实现。DI 是 Spring IoC 的主要实现原则</strong></li>
+</ul>
+<hr>
+<h3 id="谈谈你对-IOC-的理解？"><a class="headerlink" href="#谈谈你对-IOC-的理解？"></a>谈谈你对 IOC 的理解？</h3>
+<p>答：</p>
+<ul>
+<li>Spring IoC（Inversion of Control，控制反转）是 Spring 框架的核心，它实现了一种<strong>基于 容器 的对象管理机制</strong>。在 Spring IoC 中，控制权由应用程序代码转移到了 Spring 框架中，<strong>Spring 框架负责创建对象、管理对象之间的依赖关系、调用对象的方法等操作，应用程序只需要声明需要使用的对象和依赖关系，无需自己负责对象的创建和管理，从而实现了控制反转</strong></li>
+<li>在 Spring IoC 中，容器负责创建和管理对象，容器根据配置文件或者注解中的信息，自动创建和管理对象之间的依赖关系，然后将这些对象注入到应用程序中。应用程序只需要声明需要使用的对象和依赖关系，通过 注入 的方式获取这些对象，从而避免了硬编码和耦合性的问题</li>
+<li><strong>Spring IoC 的主要实现方式是通过依赖注入（Dependency Injection，DI）来实现的</strong>。依赖注入是指在对象创建的过程中，自动注入该对象所依赖的其他对象，从而构建对象之间的依赖关系。<strong>Spring IoC 支持多种依赖注入的方式，如：构造函数注入、Setter 方法注入、字段注入等</strong></li>
+</ul>
+<hr>
+<h3 id="什么是依赖注入？依赖注入有哪些实现方式？"><a class="headerlink" href="#什么是依赖注入？依赖注入有哪些实现方式？"></a>什么是依赖注入？依赖注入有哪些实现方式？</h3>
+<p>答：</p>
+<ul>
+<li>所谓依赖注入，是指：<strong>程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入</strong></li>
+<li>Spring 的依赖注入对调用者和被调用者几乎没有任何要求，完全支持对 POJO 之间依赖关系的管理</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>依赖注入方式</th>
+<th>配置元数据举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Setter 方法注入</td>
+<td><code>&lt;property name=&quot;user&quot; ref=&quot;userBean&quot; /&gt;</code></td>
+</tr>
+<tr>
+<td>构造器注入</td>
+<td><code>&lt;constructor-arg name=&quot;user&quot; ref=&quot;userBean&quot; /&gt;</code></td>
+</tr>
+<tr>
+<td>字段注入</td>
+<td><code>@Autowired User user;</code></td>
+</tr>
+<tr>
+<td>方法注入</td>
+<td><code>@Autowired public void user(User user) &#123; ... &#125;</code></td>
+</tr>
+<tr>
+<td>接口回调注入</td>
+<td><code>class MyBean implements BeanFactoryAware &#123; ... &#125;</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Setter 注入</strong>：可选的注入方式，好处是在有变更的情况下，可以重新注入</li>
+<li><strong>构造器注入</strong>：Spring 倡导构造函数注入，因为构造器注入返回给客户端使用的时候一定是完整的</li>
+<li><strong>Autowired 注入</strong>：就是平日我们用 <code>@Autowired</code> 标记字段</li>
+<li><strong>接口回调注入</strong>：就是实现 Spring 定义的一些内建接口，例如：<code>BeanfactoryAware</code>，会进行 BeanFactory 的注入，不提倡</li>
+</ul>
+<hr>
+<h3 id="IoC-的实现原理是什么？"><a class="headerlink" href="#IoC-的实现原理是什么？"></a>IoC 的实现原理是什么？</h3>
+<ul>
+<li><strong>Spring IoC 的实现原理可以分为两个步骤</strong>：
+<ol>
+<li>扫描和解析 配置文件 或 注解信息，将其转换为 内部的对象定义 和 依赖关系</li>
+<li>根据对象定义和依赖关系，使用 反射机制 动态创建和初始化对象，并将对象注入到需要使用它们的地方</li>
+</ol>
+</li>
+<li><strong>具体来说，Spring IoC 的实现过程如下</strong>：
+<ol>
+<li><strong>读取配置文件或解析注解信息，将其转换为内部的对象定义和依赖关系</strong>：在 Spring 中，可以使用 XML 文件或注解来配置对象和依赖关系。Spring 通过解析配置文件或注解信息，将其转换为内部的对象定义和依赖关系（<code>BeanDefinition</code>）放到容器（<code>BeanFactory</code>）中。对象定义包括对象的类型、属性、构造函数等信息，依赖关系包括对象之间的依赖关系、依赖注入方式等信息</li>
+<li><strong>实例化 bean 对象</strong>：Spring 会根据对象定义的类型和构造函数信息，使用 反射机制 来创建对象</li>
+<li><strong>设置属性</strong>：实例化后的仍然是一个原生的状态，并没有进行依赖注入。这一步 Spring 根据 依赖关系 中的信息进行属性填充，依赖注入</li>
+<li><strong>调用 Aware 接口</strong>：Spring 会检测该对象是否实现了 <code>xxxAware</code> 接口，如果有会在这里执行完成。Aware 主要是能获取到 Spring容器 中的一些资源，然后可以供后续步骤，例如：初始化阶段使用</li>
+<li><strong>BeanPostProcessor 前置处理</strong>：<code>postProcessBeforeInitialzation</code> 方法。上述几个步骤后，bean对象已经被正确构造，但如果想要对象被初始化前再进行一些自定义的处理，就可以通过BeanPostProcessor 接口的该方法来实现</li>
+<li><strong>初始化阶段</strong>：该阶段 Spring 首先会看是否是实现了 <code>InitializingBean</code> 接口的 <code>afterPropertiesset</code> 方法以及是否有自定义的 <code>init-method</code> 等，如果有会进行调用执行</li>
+<li><strong>BeanPostProcessor 后置处理</strong>：<code>postProcessAfterInitialzation</code> 方法。当前正在初始化的 bean 对象会被传递进来，我们就可以对这个 bean 作任何处理，与前面前置处理相对的，这个函数会在 InitialzationBean 完成后执行，因此称为后置处理</li>
+<li><strong>bean 初始化完成可以被使用了</strong></li>
+</ol>
+</li>
+<li>总的来说，<strong>Spring IoC 的实现原理是通过反射机制动态创建对象，依赖注入，对象初始化。通过解耦对象之间的依赖关系，使得应用程序更加灵活、可维护、可扩展</strong></li>
+</ul>
+<hr>
+<h3 id="怎么理解-Spring-中的-IOC-容器？"><a class="headerlink" href="#怎么理解-Spring-中的-IOC-容器？"></a>怎么理解 Spring 中的 IOC 容器？</h3>
+<p>答：</p>
+<ul>
+<li><strong>Spring IoC 就是把创建对象的权利交给框架去控制，而不需要人为的去创建，这样就实现了可插拔式的接口编程，有效地降低代码的耦合度，降低了扩展和维护的成本</strong></li>
+<li>比如：去某地旅游不再用自己亲自为订购 A 酒店还是 B 酒店而发愁了，只需要把住店的需求告诉给某个托管平台，这个托管平台就会帮你订购一个既便宜又舒适的酒店，而这个帮你订购酒店的行为就可以称之为控制反转</li>
+</ul>
+<hr>
+<h3 id="怎么理解-Spring-中的依赖注入？"><a class="headerlink" href="#怎么理解-Spring-中的依赖注入？"></a>怎么理解 Spring 中的依赖注入？</h3>
+<p>答：</p>
+<ul>
+<li>依赖注入是指 <strong>组件之间的依赖关系由容器在 运行期 决定</strong>，即：由容器动态的将某个依赖关系注入到组件之中</li>
+<li>依赖注入的目的并非为软件系统带来更多功能，而是<strong>为了提升组件重用的频率，并为系统搭建一个灵活、可扩展的平台</strong></li>
+<li>通过依赖注入机制，我们只需要通过简单的配置，而无需任何代码就可指定目标需要的资源，完成自身的业务逻辑，而不需要关心具体的资源来自何处，由谁实现</li>
+</ul>
+<hr>
+<h3 id="IoC-和-DI-有什么关系？"><a class="headerlink" href="#IoC-和-DI-有什么关系？"></a>IoC 和 DI 有什么关系？</h3>
+<p>答：</p>
+<ul>
+<li><code>IoC</code> 和 <code>DI</code> 都是 Spring 框架中的核心概念，它们的区别在于：
+<ul>
+<li><code>IoC</code>（Inverse of Control，<strong>控制反转</strong>）：它是一种思想，主要解决程序设计中的对象依赖关系管理问题。<strong>在 IoC 思想中，对象的创建权反转给第三方容器，由容器进行对象的创建及依赖关系的管理</strong></li>
+<li><code>DI</code>（Dependency Injection，<strong>依赖注入</strong>）：它是 IoC 思想的具体实现方式之一，用于实现 IoC。在Spring 中，依赖注入是指：<strong>在对象创建时，由容器自动将依赖对象注入到需要依赖的对象中</strong></li>
+</ul>
+</li>
+<li>简单来说，它们的关系是：
+<ul>
+<li><code>IoC</code> 是一种<strong>思想、理念</strong>，<strong>定义了对象创建和依赖关系处理的方式</strong></li>
+<li><code>DI</code> 是 <code>IoC</code> 思想的<strong>具体实现方式之一</strong>，<strong>实际提供对象依赖关系的注入功能</strong></li>
+</ul>
+</li>
+<li>所以 <code>IoC</code> 是更基础和广义的概念，<code>DI</code> 可以说是 <code>IoC</code> 的一种实现手段。大多数情况下，我们提到 <code>IoC</code> 的时候，其实意味着 <code>DI</code>，<strong>因为 <code>DI</code> 已经是 <code>IoC</code> 最常见和广泛使用的实现方式了</strong></li>
+<li>例如：在 Spring 框架中：
+<ul>
+<li><strong><code>IoC</code> 体现为 Spring 容器承担了对象创建及依赖关系管理的控制权</strong></li>
+<li><strong><code>DI</code> 体现为 Spring 容器通过 构造方法注入、Setter 方法注入 等方式，将依赖对象注入到需要依赖的对象中</strong></li>
+</ul>
+</li>
+<li>所以综上，<code>IoC</code> 和 <code>DI</code> 之间的关系可以这样理解：
+<ul>
+<li><code>IoC</code> 是理论，<code>DI</code> 是实践</li>
+<li><code>IoC</code> 是思想，<code>DI</code> 是手段</li>
+<li><code>IoC</code> 是整体，<code>DI</code> 是部分</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Spring-Bean"><a class="headerlink" href="#Spring-Bean"></a>Spring Bean</h2>
+<hr>
+<h3 id="什么是-Bean？"><a class="headerlink" href="#什么是-Bean？"></a>什么是 Bean？</h3>
+<p>答：</p>
+<ul>
+<li><strong>在 Spring 中，构成应用程序主体 由 Spring IoC 容器管理的对象称为 Bean</strong>。<strong>Bean 是由 Spring loC 容器 实例化、装配 和 管理 的对象</strong>。 Bean 以及它们之间的依赖关系反映在 <strong>容器使用的配置元数据</strong> 中</li>
+<li>Spring loC 容器本身，并不能识别配置的元数据。为此，要将这些配置信息转为 Spring 能识别的格式<code>BeanDefinition</code> （依赖关系）对象</li>
+<li><strong><code>BeanDefinition</code> （依赖关系）是 Spring 中定义 Bean 的配置元信息接口</strong>，它包含：
+<ul>
+<li><strong>Bean 类名</strong></li>
+<li><strong>Bean 行为配置元素</strong>，如：作用域、自动绑定的模式、生命周期回调 等</li>
+<li><strong>其他 Bean 引用</strong>，也可称为 合作者（Collaborators）或 依赖（Dependencies）</li>
+<li><strong>配置设置</strong>，如：Bean 属性（Properties）</li>
+</ul>
+</li>
+<li><strong>总结一下</strong>：
+<ol>
+<li><strong>Bean 是对象，一个或者多个不限定</strong></li>
+<li><strong>Bean 托管在 Spring 中一个叫 IoC 的容器中</strong></li>
+<li><strong>我们的程序是由一个个 Bean 构成的</strong></li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="Bean-生命周期是什么？"><a class="headerlink" href="#Bean-生命周期是什么？"></a>Bean 生命周期是什么？</h3>
+<p>答：</p>
+<ul>
+<li><strong>单例对象</strong>
+<ul>
+<li><code>singleton</code> 总结：单例对象的生命周期和容器相同</li>
+</ul>
+</li>
+<li><strong>多例对象</strong>：<code>prototype</code>
+<ul>
+<li><strong>出生</strong>：使用对象时 Spring 框架为我们创建</li>
+<li><strong>活着</strong>：对象只要是在使用过程中就一直活着</li>
+<li><strong>死亡</strong>：当对象长时间不用且没有其它对象引用时，由 java 的垃圾回收机制回收</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20241205200145326.png" alt="Bean的流程" loading="lazy"></p>
+<ul>
+<li>总结：
+<ul>
+<li><strong>四个阶段</strong>：
+<ul>
+<li><strong>实例化</strong> <code>Instantiation</code></li>
+<li><strong>属性赋值</strong> <code>Populate</code></li>
+<li><strong>初始化</strong> <code>Initialization</code></li>
+<li><strong>销毁</strong> <code>Destruction</code></li>
+</ul>
+</li>
+<li>多个扩展点
+<ul>
+<li>影响多个 Bean
+<ul>
+<li><code>BeanPostProcessor</code></li>
+<li><code>InstantiationAwareBeanPostProcessor</code></li>
+</ul>
+</li>
+<li>影响单个Bean
+<ul>
+<li><code>Aware</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20241205200422323.png" alt="Bean的完整流程" loading="lazy"></p>
+<ol>
+<li><strong>实例化一个 Bean</strong>
+<ul>
+<li>也就是我们常说的 <code>new</code></li>
+</ul>
+</li>
+<li><strong>按照 Spring 上下文对实例化的 Bean 进行配置</strong>
+<ul>
+<li>也就是 <code>IoC</code> 注入</li>
+</ul>
+</li>
+<li>如果这个 Bean 已经实现了 <code>BeanNameAware</code> 接口，会调用它实现的 <code>setBeanName(String)</code> 方法，也就是<strong>根据就是 Spring 配置文件中 Bean 的 id 和 name 进行传递</strong></li>
+<li>如果这个 Bean 已经实现了 <code>BeanfactoryAware</code> 接口，会调用它实现 <code>setBeanFactory(Beanfactory)</code> 也就是 <strong>Spring 配置文件配置的 Spring 工厂自身进行传递</strong></li>
+<li>如果这个 Bean 已经实现了 <code>ApplicationContextAware</code>接口，会调用<code>setApplicationContext(ApplicationContext)</code> 方法，和 <strong>4</strong> 传递的信息一样，但是因为<code>ApplicationContext</code>是 BeanFactory 的子接口，所以更加灵活</li>
+<li>如果这个 Bean 关联了 <code>BeanPostProcessor</code> 接口，将会调用 <code>postProcessBeforeInitialization()</code> 方法，<strong><code>BeanPostProcessor</code> 经常被用作是 Bean 内容的更改，由于这个是在 Bean 初始化结束时调用那个的方法，也可以被应用于内存或缓存技术</strong></li>
+<li>如果 Bean 在 Spring配置文件 中<strong>配置了 <code>init-method</code> 属性会自动调用其配置的初始化方法</strong></li>
+<li>如果这个 Bean 关联了 <code>BeanPostProcessor</code> 接口，<strong>将会调用 <code>postProcessAfterInitialization()</code>，打印日志或者三级缓存技术里面的 bean 升级</strong></li>
+<li>以上工作完成以后就可以应用这个 Bean 了，那这个 Bean 是一个 Singleton 的，所以一般情况下我们调用同一个 id 的 Bean 会是在内容地址相同的实例，当然在 Spring 配置文件中也可以配置非 Singleton，这里我们不做赘述</li>
+<li>当 Bean 不再需要时，会经过清理阶段，<strong>如果 Bean 实现了 ``DisposableBean<code>这个接口，或者根据 Spring配置 10 的</code>destroy-method<code>属性，调用实现的</code>destroy()` 方法</strong></li>
+</ol>
+<hr>
+<h3 id="什么是FactoryBean？"><a class="headerlink" href="#什么是FactoryBean？"></a>什么是FactoryBean？</h3>
+<p>答：</p>
+<ul>
+<li>FactoryBean 是 Spring 所提供的<strong>一种较灵活的创建 Bean 的方式</strong>，可以<strong>通过实现 FactoryBean 接口中的<code>getObject()</code> 方法来返回一个对象，这个对象就是最终的 Bean 对象</strong></li>
+<li>如果一个对象实现了这接口，那它就成为一种特殊的 Bean，注册到 IOC 容器之后，如果调用 <code>getBean</code> 获取，得到的其实是 <code>FactoryBean.getObject()</code> 方法返回的结果</li>
+</ul>
+<hr>
+<h3 id="BeanFactory-和-FactoryBean区别是什么？"><a class="headerlink" href="#BeanFactory-和-FactoryBean区别是什么？"></a>BeanFactory 和 FactoryBean区别是什么？</h3>
+<p>答：</p>
+<ul>
+<li>BeanFactory 和 FactoryBean 是 Spring 框架中的两个关键概念，<strong>用于创建和管理 Bean 实例</strong></li>
+<li><strong>Beanfactory 是 Spring 的基本容器，负责创建和管理 Bean 实例的</strong>，而 <strong>FactoryBean 是一个特殊的 Bean（实现了 FactoryBean 接口）负责创建其他 Bean 实例，并提供一些初始化 Bean 的设置</strong></li>
+<li><strong>下面是 BeanFactory 和 FactoryBean 之间的一些关键区别</strong>：
+<ol>
+<li><strong>功能</strong>：<strong>Beanfactory 是一个容器</strong>，负责管理和创建 Bean 实例，处理依赖关系和属性注入等操作。<strong>FactoryBean 是一个接口</strong>，定义了创建 Bean 的规范和逻辑，它负责创建其他 Bean 实例</li>
+<li><strong>使用方式</strong>：Beanfactory 使用配置文件或注解来定义 Bean 和它们之间的关系，它使用延迟初始化策略，即：<strong>只有在需要时才创建 Bean 实例</strong>。FactoryBean 通常在 Spring 配置文件中配置，并由 Beanfactory 负责实例化和管理</li>
+<li><strong>创建的对象</strong>：BeanFactory 创建和管理普通的 Bean 实例，而 FactoryBean 创建其他 Bean 实例</li>
+<li><strong>灵活性</strong>：<strong>FactoryBean 具有更高的灵活性，因为它允许自定义的逻辑来创建和配置 Bean 实例</strong>。FactoryBean 的实现类可以根据特定的条件选择性地创建不同的 Bean 实例，或者在创建 Bean 之前进行一些初始化操作。这使得 <strong>FactoryBean 在某些情况下比 BeanFactory 更加强大和可扩展</strong></li>
+<li><strong>返回类型</strong>：<strong>Beanfactory 返回的是 Bean 实例本身，而 FactoryBean 返回的是由 FactoryBean 创建的Bean 实例</strong>。因此，当使用 FactoryBean 时，需要通过调用 <code>getObject()</code> 方法来获取创建的 Bean 实例</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="BeanFactory-与-ApplicationContext-的关系是什么？"><a class="headerlink" href="#BeanFactory-与-ApplicationContext-的关系是什么？"></a>BeanFactory 与 ApplicationContext 的关系是什么？</h3>
+<p>答：</p>
+<table>
+<thead>
+<tr>
+<th><strong>BeanFactory</strong></th>
+<th><strong>ApplicationContext</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>它使用懒加载</td>
+<td>它使用即时加载</td>
+</tr>
+<tr>
+<td>它使用语法显式提供资源对象</td>
+<td>它自己创建和管理资源对象</td>
+</tr>
+<tr>
+<td>不支持国际化</td>
+<td>支持国际化</td>
+</tr>
+<tr>
+<td>不支持基于依赖的注解</td>
+<td>支持基于依赖的注解</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>相同点</strong>：BeanFactory 和 ApplicationContext 是Spring 框架中的两个重要的接口。它们都<strong>用于管理 Spring Bean 对象</strong>，但是它们在功能上有一些不同点
+<ul>
+<li>Beanfactory 是 Spring 框架中最基本的容器，它提供了最基础的 IoC 和 DI 的支持，它的主要功能是<strong>用于创建、管理和查找 Bean 对象</strong>。BeanFactory 只是个接口，并不是 IoC 容器的具体实现，它为其他具体的 IoC 容器提供了最基本的规范，例如：<code>DefaultListableBeanFactory</code>、<code>ApplicationContext</code> 等容器实现或容器接口都是基于 BeanFactory，再在其基础之上附加了其他的功能，<strong>原始的 BeanFactory 无法支持 Spring 的许多插件，如：AOP功能、Web应用 等。原始 BeanFactory 是延时加载，也就是说在容器启动时不会注入 bean，而是在需要使用 bean 的时候，才会对该 bean 进行加载实例化</strong></li>
+<li>**ApplicationContext 接口是基于 Beanfactory 扩展而来，也是一个容器接口，具有 Beanfactory 所有的功能，同时继承了 <code>MessageSource</code>，所以提供了更完整的框架功能，支持国际化、资源文件访问、载入多个上下文配置文件，使得每一个上下文都专注于一个特定层次，提供在监听器中注册bean事件，**<strong>ApplicationContext 是预加载，在容器启动的时候一次性加载所有的 bean，所以运行的时候速度相对BeanFactory 比较快，缺点就是耗内存</strong></li>
+</ul>
+</li>
+<li>总的来说：Beanfactory 是 Spring 框架中最基本的容器，提供最基础的 IoC 和 DI 的支持；而Applicationcontext 是在 Beanfactory 的基础上扩展而来的，提供了更多的功能和特性。Applicationcontext 是 Spring 框架中使用较为广泛的容器</li>
+</ul>
+<hr>
+<h3 id="Bean的作用域有哪些？"><a class="headerlink" href="#Bean的作用域有哪些？"></a>Bean的作用域有哪些？</h3>
+<p>答：</p>
+<ol>
+<li><strong>singleton</strong>：**IoC 容器中只有唯一的 bean 实例。**Spring 中的 bean 默认都是单例的，是对单例设计模式的应用</li>
+<li><strong>prototype</strong>：<strong>每次获取都会创建一个新的 bean 实例</strong>。也就是说，连续 <code>getBean()</code> 两次，得到的是不同的 Bean 实例</li>
+<li><strong>request</strong>（<strong>仅 Web 应用可用</strong>）：每一次 HTTP 请求都会产生一个新的 bean（请求 bean），<strong>该 bean 仅在当前 HTTP request 内有效</strong></li>
+<li><strong>session</strong>（<strong>仅 Web 应用可用</strong>）：每一次来自新 session 的 HTTP 请求都会产生一个新的 bean（会话bean），<strong>该 bean 仅在当前 HTTP session 内有效</strong></li>
+<li><strong>application/global-session</strong>（<strong>仅 Web 应用可用</strong>）：每个 Web 应用在启动时创建一个 Bean（应用Bean），<strong>该 bean 仅在当前应用启动时间内有效</strong></li>
+<li><strong>websocket</strong>（<strong>仅 Web 应用可用</strong>）：每一次 WebSocket 会话产生一个新的 bean</li>
+</ol>
+<ul>
+<li>默认作用域是 singleton，多个线程访问同一个 bean 时会存在线程不安全问题</li>
+<li>保障线程安全方法:</li>
+<li>在Bean对象中尽量避免定义可变的成员变量（不太现实）</li>
+<li>在类中定义一个 ThreadLocal 成员变量，将需要的可变成员变量保存在 ThreadLocal 中2,ThreadLocal:<br>
+每个线程中都有一个自己的ThreadLocalMap类对象，可以将线程自己的对象保持到其中，各管各的，线程可以正确的访问到自己的对象。<br>
+将一个共用的ThreadLocal静态实例作为key，将不同对象的引用保存到不同线程的ThreadLocalMap中，然后在线程执行的各处通过这个静态ThreadLocal实例的get()方法取得自己线程保存的那个对象，避免了将这个对象作为参数传递的麻烦。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MyPhoto.jpg"></a><div class="post-copyright__author_name">coo1heisenberg's Blog</div><div class="post-copyright__author_desc">Diligence can make up for clumsiness!</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">coo1heisenberg's Blog</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/"><span class="tags-punctuation"></span>Spring全家桶<span class="tagsPageCount">1</span></a></div></div><div class="social-share"></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/12/16/01-MySQL%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">05 MySQL知识点总结 笔记</div></div></a></div><div class="next-post pull-right"><a href="/2024/12/02/Java-JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">02 JVM 笔记</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MyPhoto.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">菜鸡的自我救赎...</div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Coo1heisenberg’s BLOG</div><div class="author-info__desc">Diligence can make up for clumsiness!</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/coo1heisenbergProject" title="Github"><i class="solitude  st-github-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">SSM 全家桶</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E6%A6%82%E8%BF%B0"><span class="toc-text">Spring概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSpring%E6%A1%86%E6%9E%B6%EF%BC%9F"><span class="toc-text">什么是Spring框架？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Spring%E6%A1%86%E6%9E%B6%E7%9A%84%E5%A5%BD%E5%A4%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">使用Spring框架的好处是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring%E6%A1%86%E6%9E%B6%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E6%A8%A1%E5%9D%97%EF%BC%9F"><span class="toc-text">Spring框架都有哪些模块？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-MVC-%E5%92%8C-Struts-2-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">Spring MVC 和 Struts 2 的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">Spring 中的设计模式有哪些？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-IoC"><span class="toc-text">Spring IoC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-IoC%EF%BC%9F"><span class="toc-text">什么是 IoC？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9-IOC-%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="toc-text">谈谈你对 IOC 的理解？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%9F%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E6%9C%89%E5%93%AA%E4%BA%9B%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="toc-text">什么是依赖注入？依赖注入有哪些实现方式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IoC-%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">IoC 的实现原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3-Spring-%E4%B8%AD%E7%9A%84-IOC-%E5%AE%B9%E5%99%A8%EF%BC%9F"><span class="toc-text">怎么理解 Spring 中的 IOC 容器？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3-Spring-%E4%B8%AD%E7%9A%84%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%9F"><span class="toc-text">怎么理解 Spring 中的依赖注入？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IoC-%E5%92%8C-DI-%E6%9C%89%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F"><span class="toc-text">IoC 和 DI 有什么关系？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Bean"><span class="toc-text">Spring Bean</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Bean%EF%BC%9F"><span class="toc-text">什么是 Bean？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bean-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Bean 生命周期是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFFactoryBean%EF%BC%9F"><span class="toc-text">什么是FactoryBean？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanFactory-%E5%92%8C-FactoryBean%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">BeanFactory 和 FactoryBean区别是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanFactory-%E4%B8%8E-ApplicationContext-%E7%9A%84%E5%85%B3%E7%B3%BB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">BeanFactory 与 ApplicationContext 的关系是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bean%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">Bean的作用域有哪些？</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/16/01-MySQL%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="05 MySQL知识点总结 笔记"><img alt="05 MySQL知识点总结 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MySQl_ALL.png"></a><div class="content"><a class="title" href="/2024/12/16/01-MySQL%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="05 MySQL知识点总结 笔记">05 MySQL知识点总结 笔记</a><a class="article-recent_post_categories" href="/2024/12/16/01-MySQL%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/">Database</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/04/Spring%E6%A1%86%E6%9E%B6/" title="01 Spring全家桶 笔记"><img alt="01 Spring全家桶 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Spring1204.png"></a><div class="content"><a class="title" href="/2024/12/04/Spring%E6%A1%86%E6%9E%B6/" title="01 Spring全家桶 笔记">01 Spring全家桶 笔记</a><a class="article-recent_post_categories" href="/2024/12/04/Spring%E6%A1%86%E6%9E%B6/">Spring</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/02/Java-JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="02 JVM 笔记"><img alt="02 JVM 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Javalogobalala.png"></a><div class="content"><a class="title" href="/2024/12/02/Java-JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="02 JVM 笔记">02 JVM 笔记</a><a class="article-recent_post_categories" href="/2024/12/02/Java-JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/04/Java-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="01 Java并发编程 笔记"><img alt="01 Java并发编程 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Javalogobalala.png"></a><div class="content"><a class="title" href="/2024/11/04/Java-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="01 Java并发编程 笔记">01 Java并发编程 笔记</a><a class="article-recent_post_categories" href="/2024/11/04/Java-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/01/Java-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="00 Java集合框架 笔记"><img alt="00 Java集合框架 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/Javalogobalala.png"></a><div class="content"><a class="title" href="/2024/11/01/Java-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" title="00 Java集合框架 笔记">00 Java集合框架 笔记</a><a class="article-recent_post_categories" href="/2024/11/01/Java-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">来自 Heisenberg 的原创文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">Coo1heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
 </script><script src="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"><script>(() => {
     document.querySelectorAll('#article-container span.katex-display').forEach(item => {
         utils.wrap(item, 'div', {class: 'katex-wrap'})
@@ -176,4 +563,4 @@ document.addEventListener('pjax:error', (e) => {
     }
     is_rm && rm.mode(cachedMode === 'dark' && isDarkMode)
 }
-initTheme()</script><!-- google adsense--><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="solitude st-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"><div id="search-hits"></div></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/search/local.js?v=1.10.6"></script><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/12/04/Spring框架/","2024/12/02/Java-JVM虚拟机/","2024/11/04/Java-并发编程/","2024/11/01/Java-集合框架/","2024/09/28/00-前端开发入门教程/","2024/09/26/01-空间转录组/","2024/09/13/00-单细胞多组学分析/","2024/07/22/00-MongoDB/","2024/07/17/00-elasticsearch/","2024/07/15/01-黑马redis/","2024/07/13/00-黑马redis/","2024/07/08/00-黑马SSM/","2024/07/08/01-头条点评项目/","2024/07/06/00-Mybatis-Plus/","2024/06/29/00-黑马MySQL/","2024/06/25/00-头条点评项目/","2024/06/21/02-Python/","2024/06/11/01-Python/","2024/05/25/00-Python/","2024/05/13/DesignPattern/","2024/05/13/Docker/","2024/05/13/Nginx/","2024/05/13/Linux/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
+initTheme()</script><!-- google adsense--><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="solitude st-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"><div id="search-hits"></div></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/search/local.js?v=1.10.6"></script><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/12/16/01-MySQL知识点归纳/","2024/12/04/Spring框架/","2024/12/02/Java-JVM虚拟机/","2024/11/04/Java-并发编程/","2024/11/01/Java-集合框架/","2024/09/28/00-前端开发入门教程/","2024/09/26/01-空间转录组/","2024/09/13/00-单细胞多组学分析/","2024/07/22/00-MongoDB/","2024/07/17/00-elasticsearch/","2024/07/15/01-黑马redis/","2024/07/13/00-黑马redis/","2024/07/08/00-黑马SSM/","2024/07/08/01-头条点评项目/","2024/07/06/00-Mybatis-Plus/","2024/06/29/00-黑马MySQL/","2024/06/25/00-头条点评项目/","2024/06/21/02-Python/","2024/06/11/01-Python/","2024/05/25/00-Python/","2024/05/13/DesignPattern/","2024/05/13/Docker/","2024/05/13/Nginx/","2024/05/13/Linux/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
