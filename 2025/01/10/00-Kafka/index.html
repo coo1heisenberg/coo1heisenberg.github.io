@@ -1,0 +1,942 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>00 Kafka 笔记 | coo1heisenberg's Blog</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.10.6"><!-- inject head--><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"><!-- fancybox ui--><!-- katex--><link rel="stylesheet" href="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/katex.min.css"><!-- Open Graph--><meta name="description" content="Kafka 应用场景 消息队列常见应用场景有哪些？ 答： 示例1（概括性问题） 消息队列定位就是一些特定场景下解决消息传输问题，比如：异步场景、服务间解耦场景、消息分发场景，以及压力过大时可以通过消息队列削峰 示例2（列举回答） 应用场景很多，比如如下几点： 系统解耦：在重要操作完成"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="coo1heisenberg's Blog"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.10.6",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: {"preload":false,"path":"/search.xml"},
+    runtime: '2024-05-12 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.webp'
+    },
+    copyright: {"limit":50,"author":"作者: Coo1heisenberg’s BLOG","link":"链接: ","source":"来源: coo1heisenberg's Blog","info":"著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。"},
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'highlight.js'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可","search":{"empty":"找不到你查询的内容：${query}","hit":"找到 ${hits} 条结果，用时 ${time} 毫秒","placeholder":"输入关键词快速查找","count":"共 <b>${count}</b> 条结果。"}},
+    aside: {
+        sayhello: {
+            morning: '一日之计在于晨',
+            noon: '吃饱了才有力气干活',
+            afternoon: '集中精力，攻克难关',
+            night: '不要太劳累了，早睡更健康',
+            goodnight: '睡个好觉，保证精力充沛',
+        },
+        sayhello2: [],
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">标签</div><div class="author-content-item-title">寻找感兴趣的领域</div></div><div class="card-tag-cloud"><a href="/tags/Python%E9%AB%98%E7%BA%A7/">Python高级<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/MongoDB/">MongoDB<sup>1</sup></a><a href="/tags/HTML-CSS/">HTML+CSS<sup>1</sup></a><a href="/tags/Redis/">Redis<sup>3</sup></a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java集合框架<sup>1</sup></a><a href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/">Spring全家桶<sup>1</sup></a><a href="/tags/Mybatis-Plus/">Mybatis-Plus<sup>1</sup></a><a href="/tags/JVM/">JVM<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列<sup>1</sup></a><a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统<sup>1</sup></a><a href="/tags/%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/">空间转录组<sup>1</sup></a><a href="/tags/ElasticSearch/">ElasticSearch<sup>1</sup></a><a href="/tags/Project/">Project<sup>4</sup></a><a href="/tags/Python%E5%9F%BA%E7%A1%80/">Python基础<sup>2</sup></a><a href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程<sup>1</sup></a><a href="/tags/MySQL/">MySQL<sup>2</sup></a><a href="/tags/%E5%8D%95%E7%BB%86%E8%83%9E/">单细胞<sup>1</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>1</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/01/"><span class="card-archive-list-date">2025/01</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">2024/12</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">2024/11</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">2024/09</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">2024/07</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/06/"><span class="card-archive-list-date">2024/06</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">2024/05</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">6</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/01/"><span class="card-archive-list-date">2024/01</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="昼夜切换"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="边栏显示控制"><i class="solitude st-side-bar-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>显示模式</span></span></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/Python%E9%AB%98%E7%BA%A7/">Python高级<sup>1</sup></a><a href="/tags/Docker%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Docker基础语法<sup>1</sup></a><a href="/tags/Nginx%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Nginx基础语法<sup>1</sup></a><a href="/tags/MongoDB/">MongoDB<sup>1</sup></a><a href="/tags/HTML-CSS/">HTML+CSS<sup>1</sup></a><a href="/tags/Redis/">Redis<sup>3</sup></a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式<sup>1</sup></a><a href="/tags/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java集合框架<sup>1</sup></a><a href="/tags/Spring%E5%85%A8%E5%AE%B6%E6%A1%B6/">Spring全家桶<sup>1</sup></a><a href="/tags/Mybatis-Plus/">Mybatis-Plus<sup>1</sup></a><a href="/tags/JVM/">JVM<sup>1</sup></a><a href="/tags/Linux%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Linux基础语法<sup>1</sup></a><a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列<sup>1</sup></a><a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统<sup>1</sup></a><a href="/tags/%E7%A9%BA%E9%97%B4%E8%BD%AC%E5%BD%95%E7%BB%84/">空间转录组<sup>1</sup></a><a href="/tags/ElasticSearch/">ElasticSearch<sup>1</sup></a><a href="/tags/Project/">Project<sup>4</sup></a><a href="/tags/Python%E5%9F%BA%E7%A1%80/">Python基础<sup>2</sup></a><a href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程<sup>1</sup></a><a href="/tags/MySQL/">MySQL<sup>2</sup></a><a href="/tags/%E5%8D%95%E7%BB%86%E8%83%9E/">单细胞<sup>1</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络<sup>1</sup></a><a href="/tags/Spring/">Spring<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon solitude st-more-fill"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">博客主题</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" title="Solitude"><img class="nolazyload back-menu-item-icon" src="https://7.isyangs.cn/1/65eb200ee4dea-1.png" alt="Solitude"><span class="back-menu-item-text">Solitude</span></a></div></div></div></div><a id="site-name" href="/" title="返回博客主页"><span class="title">Solitude</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">00 Kafka 笔记</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span>首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文库</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  st-folder-fill"></i><span>文章列表</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  st-checkbox-multiple-blank-fill"></i><span>全部分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  st-price-tag-fill"></i><span>全部标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>友链</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/links/"><i class="solitude  st-group-fill"></i><span>友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>我的</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/tlink/"><i class="solitude  st-tools-fill"></i><span>工具箱</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  st-disc-fill"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>关于</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="solitude  st-contacts-fill"></i><span>关于本站</span></a></li></ul></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="travellings_button"><a class="site-page" href="/" title=""><i class="solitude st-train-line"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索"><i class="solitude st-search-line"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/kafka_log.png" alt="00 Kafka 笔记"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/MQ/">MQ</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"><span class="tags-name tags-punctuation">消息队列</span></a></div></div></div></div><h1 class="post-title">00 Kafka 笔记</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="发布于 2025-01-10 15:39:47"><i class="post-meta-icon solitude st-calendar-todo-fill"></i><time datetime="2025-01-10T07:39:47.000Z">2025-01-10T07:39:47.000Z</time></span><span class="post-meta-date" title="最后更新于 2025-01-13 16:36:09"><i class="post-meta-icon solitude st-refresh-line"></i><time datetime="2025-01-13T08:36:09.286Z">2025-01-13T08:36:09.286Z</time></span><span class="post-meta-wordcount"><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Kafka</h1>
+<hr>
+<h2 id="应用场景"><a class="headerlink" href="#应用场景"></a>应用场景</h2>
+<hr>
+<h3 id="消息队列常见应用场景有哪些？"><a class="headerlink" href="#消息队列常见应用场景有哪些？"></a>消息队列常见应用场景有哪些？</h3>
+<p>答：</p>
+<ul>
+<li>示例1（概括性问题）
+<ul>
+<li>消息队列定位就是一些特定场景下解决消息传输问题，比如：异步场景、服务间解耦场景、消息分发场景，以及压力过大时可以通过消息队列削峰</li>
+</ul>
+</li>
+<li>示例2（列举回答）
+<ul>
+<li>应用场景很多，比如如下几点：
+<ol>
+<li><strong>系统解耦</strong>：在重要操作完成后，发送消息到 <code>Kafka</code> 中，由别的服务系统来消费消息完成其他操作</li>
+<li><strong>流量削峰</strong>：一般用于秒杀或抢购活动中，来缓冲系统短时间内高流量带来的压力</li>
+<li><strong>异步处理</strong>：通过异步处理机制，可以把一个消息放入队列中，但不立即处理它，在需要的时候再进行处理</li>
+<li><strong>消息分发</strong>：比如一条消息需要传递给多个服务，这时候就可以用 <code>Kafka</code> 进行分发</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="什么情况下需要解耦？"><a class="headerlink" href="#什么情况下需要解耦？"></a>什么情况下需要解耦？</h3>
+<p>答：</p>
+<p>比如：发送短信场景，模块 <code>A</code> 发送消息给 <code>B</code>，模块 <code>B</code> 发送短信给客户，<code>A</code> 不需要得到回应，对于 <code>A</code> 而言只需要触达 <code>B</code> 就行了，这时候就可以引入消息队列，<code>A</code> 将消息投递到了消息队列，<code>B</code> 自己去处理，<code>A</code> 不用再关心。这样可以收获更强的稳定性以及接口性能</p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li>解耦是一个比较抽象的词，用一个例子来讲述会比较容易</li>
+</ul>
+<hr>
+<h3 id="什么情况下需要削峰？"><a class="headerlink" href="#什么情况下需要削峰？"></a>什么情况下需要削峰？</h3>
+<p>答：</p>
+<p>比如：一个模块 <code>B</code> 一瞬间收到 100 个请求，如果 <code>B</code> 的承压能力非常差，或者 <code>B</code> 有什么资源限制，那么这 100 个请求下来，<code>B</code> 可能就挂了或者报错了，这时候就可以引入消息队列，前置服务先将消息打到消息队列，<code>B</code> 再根据自己的消费能力逐步消化</p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li>压力过大扛不住、接入消息队列后可按需消费</li>
+</ul>
+<hr>
+<h3 id="什么情况下需要分发消息？"><a class="headerlink" href="#什么情况下需要分发消息？"></a>什么情况下需要分发消息？</h3>
+<p>答：</p>
+<p>比如：信息更新场景，某个用户信息更新了，而 <code>B</code>、<code>C</code>、<code>D</code> 三个模块都需要缓存这个信息，那么用户信息更新之后就可以发一条信息到消息队列，<code>B</code>、<code>C</code>、<code>D</code> 只要订阅了相关主题，就都可以获得这条信息并做对应的缓存更新</p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li>一个消息需要传递给多个接收者的场景，一般而言还是举个例子去说明</li>
+</ul>
+<hr>
+<h3 id="在项目开发中，你会怎么选择消息队列？"><a class="headerlink" href="#在项目开发中，你会怎么选择消息队列？"></a>在项目开发中，你会怎么选择消息队列？</h3>
+<p>答：</p>
+<p>我会对比常见的几个消息队列，从 <strong>功能性</strong>、<strong>性能</strong>、<strong>健壮性</strong> 上去做对比，比如：如果我们的性能要求非常高，我就会偏向于 <code>Kafka</code> 和 <code>RocketMQ</code> 这类性能又高，又自带扩展性的消息队列。当然还有一个考虑点就是团队技术栈，如果基本要求都满足，会更倾向于选择团队使用成熟的组件</p>
+<p><strong>补充</strong>：</p>
+<p>要点：要说到从需求（功能性）上考虑，以及 性能 和 稳定性。如果有实战经验的同学也可以说一下基本熟悉成熟做选择，没实战经验的同学可以不一定能完全 <code>GET</code> 到熟悉是多重要的事情，如果不能很自信的说出来，那不如不说</p>
+<hr>
+<h3 id="Kafka-和-RocketMQ-有什么区别？"><a class="headerlink" href="#Kafka-和-RocketMQ-有什么区别？"></a>Kafka 和 RocketMQ 有什么区别？</h3>
+<p>答：</p>
+<ul>
+<li>例一：
+<ul>
+<li>我之前主要都是在研究/使用 <code>Kafka</code>，<code>RocketMQ</code> 只有一些粗浅的认知，比如：<code>RocketMQ</code> 可以支持更多的主题，适合于需要非常多主题的场景，以及 <code>RocketMQ</code> 的功能应该更完善一些，比如：天然支持死信队列</li>
+</ul>
+</li>
+<li>例二（熟悉RocketMQ）：
+<ul>
+<li><code>RocketMQ</code> 和 <code>Kafka</code> 相比，在架构上做了减法，在功能上做了加法</li>
+<li>跟 <code>Kafka</code> 的架构相比，<code>RocketMQ</code> 简化了协调节点和分区以及备份模型。同时增强了消息过滤、消息回溯和事务能力，加入了延迟队列，死信队列等新特性</li>
+</ul>
+</li>
+</ul>
+<p><strong>详细链接</strong>：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/oje7PLWHz_7bKWn8M72LUw">RocketMQ 是什么？它的架构是怎么样的？和 Kafka 又有什么区别？</a></p>
+<hr>
+<h3 id="Kafka-的优势是什么？"><a class="headerlink" href="#Kafka-的优势是什么？"></a>Kafka 的优势是什么？</h3>
+<p>答：</p>
+<p><code>Kafka</code> 优点非常多，我认为最核心的是 高吞吐、高可靠、天然支持分片水平扩展，另外还有一个非常重要的考量就是 <code>Kafka</code> 多年来被广泛使用，并且社区非常活跃，这就意味着它是经过市场验证的好产品</p>
+<p><strong>补充</strong>：</p>
+<p><code>Kafka</code> 最核心的三点优势：高性能、天然水平扩展、被广泛使用</p>
+<hr>
+<h2 id="服务端"><a class="headerlink" href="#服务端"></a>服务端</h2>
+<hr>
+<h3 id="Kafka-的大概框架是怎么样的？"><a class="headerlink" href="#Kafka-的大概框架是怎么样的？"></a>Kafka 的大概框架是怎么样的？</h3>
+<p>答：</p>
+<p>可以先把 <code>Kafka</code> 宏观看作三层：<code>Producer</code>（生产者）、<code>Server</code>（中转者）、<code>Consumer</code>（消费者），生产者发送消息，服务端负责存储消息，消费者负责拉取消息。其中：服务端其实就是由多个 <code>Broker</code> 节点组成，而平常说的主题就是在 <code>Broker</code> 节点上，当然，<code>Topic</code> 是个逻辑概念，实际物理存储形式是主题分片，也就是<code>Partition</code></p>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250110162013880.png" alt="Kafka大致框架" loading="lazy"></p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li><code>Broker</code>：可以理解为机器或者节点吧，也可以理解为就是运行 <code>Kafka</code> 程序的服务器</li>
+<li><code>Topic</code>：主题是 <code>Kafka</code> 中的一个核心概念，它是对消息进行分类的一种方式。生产者将消息发送到特定的主题中，而消费者则通过订阅主题来接收相关的消息。但是要注意的是，主题是一个 <strong>逻辑概念</strong>，实际上，一个主题可以被分为多个分区（<code>Partition</code>），以实现消息的并行处理和负载均衡，数据是存储在<code>Partition</code> 这个级别的</li>
+<li><code>Partition</code>：分区是 <code>Kafka</code> 中的一个重要概念，它是 <strong>主题的物理存储单位</strong>。每个分区都是一个有序的、不可变的消息序列，可以被独立地读写。<strong>分区在物理上对应一个文件夹及文件夹下面的文件</strong>，分区的命名规则为主题名称后接 <code>-</code> 连接符，之后再接分区编号，比如：<code>TopicA-1</code> 就表示 主题A 的 1 号分区，每个分区又可以有一至多个副本（<code>Replica</code>）以提高可用性</li>
+</ul>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250110162532210.png" alt="整体框架" loading="lazy"></p>
+<ul>
+<li>生产消费：生产者 <code>Producer</code>，消费者 <code>Consumer</code></li>
+<li>存储：节点 <code>Broker</code>，逻辑主题 <code>Topic</code>，物理分片 <code>Partition</code></li>
+</ul>
+<hr>
+<h3 id="如何获取-topic-主题的列表？"><a class="headerlink" href="#如何获取-topic-主题的列表？"></a>如何获取 topic 主题的列表？</h3>
+<p>答：</p>
+<p><code>Kafka</code> 是提供了获取主题列表的接口的，可以使用 <code>kafka-topics.sh</code> 这个工具获取，如果要在我们业务服务来获取的话，那主流语言都是支持获取的，比如：Java和Golang，都可以用 <code>KafkaAdminClient</code> 直接调用接口来获取</p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li>
+<p><code>Kafka</code> 是提供了获取主题列表的接口的，如果是使用自带工具，可以用这个命令获取：<code>./kafka-topics.sh --ist --bootstrap-server localhost:9092</code></p>
+</li>
+<li>
+<p>Java 和 Golang 都是用 <code>AdminClient</code> 获取，<code>Java</code> 例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">KafkaTopicLister</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(string[] args)</span>&#123;</span><br><span class="line">		<span class="comment">// Kafka broker 地址</span></span><br><span class="line">    	<span class="type">String</span> <span class="variable">brokerAddress</span> <span class="operator">=</span><span class="string">&quot;localhost:9092&quot;</span>;</span><br><span class="line">		<span class="comment">// 配置 KafkaAdminclient</span></span><br><span class="line">		<span class="type">Properties</span> <span class="variable">properties</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">		properties.put(AdminclientConfig.BOOTSTRAP_SERVERS_CONFIG, brokerAddress);</span><br><span class="line">		<span class="keyword">try</span>(<span class="type">Adminclient</span> <span class="variable">adminclient</span> <span class="operator">=</span> Adminclient.create(properties))&#123;</span><br><span class="line">        	<span class="comment">// 获取主题列表</span></span><br><span class="line">			<span class="type">ListTopicsoptions</span> <span class="variable">options</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListTopicsoptions</span>();</span><br><span class="line">			options.listInternal(<span class="literal">false</span>); <span class="comment">//是否列出内部主题</span></span><br><span class="line">			adminclient.listTopics(options).names().get().forEach(system.out::println);</span><br><span class="line">    	&#125;<span class="keyword">catch</span>(InterruptedException | ExecutionException e) &#123;</span><br><span class="line">        	e.printstackTrace();</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="有了Topic，为何还要-Partition？"><a class="headerlink" href="#有了Topic，为何还要-Partition？"></a>有了Topic，为何还要 Partition？</h3>
+<h3 id="Kafka-为什么要把消息分区？"><a class="headerlink" href="#Kafka-为什么要把消息分区？"></a>Kafka 为什么要把消息分区？</h3>
+<p>答：</p>
+<ul>
+<li>例一（简洁）：
+<ul>
+<li>一般而言一个业务可以用一个主题，但是就算分了 <code>Topic</code> ，单个业务的信息还是可能会非常多，所以需要能进一步进行分治，也就是一个主题由多个 <code>Partition</code> 组成，这样相同的主题也具备了更高的并发度</li>
+</ul>
+</li>
+<li>例二（细致一点）：
+<ul>
+<li>如果不进行分区，那么我们发消息写数据都只能保存到一个节点上，这样的话可能会导致单点服务器负载过高的问题，通过分区可以把数据均匀地分布到不同的节点。因此，<strong>分区带来了负载均衡和横向扩展的能力</strong></li>
+<li>发送消息时可以根据分区分配的原则落在不同的 <code>Kafka</code> 服务器节点上，提升了并发写消息的性能，消费消息的时候又和消费者绑定了关系，可以从不同节点的不同分区消费消息，提高了读消息的能力</li>
+<li>另外一个就是分区又引入了副本，冗余的副本保证了 <code>Kafka</code> 的高可用和高持久性</li>
+</ul>
+</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<ul>
+<li><code>Kafka</code> 消息会分发到不同 <code>Topic</code>，这样既解决了消息混乱的问题，又顺带将流量进行了分摊，减少单个业务写入压力</li>
+<li>但是，不同业务对应的数据量级是不一样的，就算按业务分了 <code>Topic</code>，但一个 <code>Topic</code> 可能信息还是会非常多，我们需要进一步分而治之，所以 <code>Topic</code> 下面还划分了 <code>Partition</code> 来实际存储，每个 <code>Topic</code> 都可以有多个 <code>Partition</code></li>
+</ul>
+<hr>
+<h3 id="Partition-是逻辑概念还是物理概念？"><a class="headerlink" href="#Partition-是逻辑概念还是物理概念？"></a>Partition 是逻辑概念还是物理概念？</h3>
+<p>答：</p>
+<p><code>Partition</code> 是物理概念，因为数据实实在在是写入到 <code>Partition</code> 文件里去的。而因为设计了 <code>Partition</code> 的存在，<code>Topic</code> 就只是一个逻辑概念了</p>
+<p><strong>补充</strong>：</p>
+<p>逻辑概念就是说是一个抽象概念，没有实际体现在物理存储上，物理概念则是相反的，<code>Topic</code> 只是逻辑概念，<code>Partition</code> 则是一个实实在在的物理存储概念</p>
+<hr>
+<h3 id="介绍一下分区的分配策略？"><a class="headerlink" href="#介绍一下分区的分配策略？"></a>介绍一下分区的分配策略？</h3>
+<p>答：</p>
+<ol>
+<li><code>Range Assignor</code>：基于范围的分配策略，将分区按照范围分配给消费者</li>
+<li><code>RoundRobin Assignor</code>：基于轮询的分配策略，分区均匀地分配给消费者</li>
+<li><code>Sticky Assignor</code>：优先保持当前的分配状态，并尽量减少在再平衡过程中的分区移动</li>
+<li><code>CooperativeStickyAssignor</code>：和 <code>Sticky Assignor</code> 的策略是基本一样的，区别在于该协议将原来的一次大的全部分区重平衡，改成多次小规模分区重平衡。简单理解就是 <strong>渐进式重平衡</strong></li>
+</ol>
+<p><strong>补充</strong>：</p>
+<p>我们可以关注消费端 <code>partition.assignment.strategy</code> 这个配置，它有如下几种选择：</p>
+<ol>
+<li><code>Range Assignor</code>：基于范围的分配策略，将分区按照范围分配给消费者</li>
+<li><code>RoundRobin Assignor</code>：基于轮询的分配策略，分区均匀地分配给消费者</li>
+<li><code>Sticky Assignor</code>：优先保持当前的分配状态，并尽量减少在再平衡过程中的分区移动</li>
+<li><code>CooperativeStickyAssignor</code>：和 <code>Sticky Assignor</code> 的策略是一样，区别在于未受变动的消费者可以继续消费主题</li>
+</ol>
+<hr>
+<h3 id="Kafka-创建-Topic-时如何将分区放置到不同的-Broker-中？"><a class="headerlink" href="#Kafka-创建-Topic-时如何将分区放置到不同的-Broker-中？"></a>Kafka 创建 Topic 时如何将分区放置到不同的 Broker 中？</h3>
+<p>答：</p>
+<p>具体而言某个 <code>Topic</code> 的 <code>Partition</code> 分配的规则如下，我们以 2 个 <code>Partition</code> 的 <code>TopicB</code> 举例：</p>
+<ol>
+<li>先随机选取一个 <code>Broker</code>，比如：<code>Broker11</code></li>
+<li>将主题对应的第一个分片，放入 <code>Broker11</code>，即：<code>TopicB</code> 的 0 号分片放到了 <code>Broker11</code></li>
+<li>依次往后放 <code>TopicB</code> 后续的分片，比如：<code>TopicB</code> 的 1 号分片放入了 <code>Broker12</code>，<code>TopicB</code> 在我们的例子中只有 2 个 <code>Partition</code>，假设有 3 个，那么下一个就放到 <code>Broker10</code></li>
+</ol>
+<p>总结一下规则：就是 <code>kafka</code> 是先随机挑选一个 <code>broker</code> 放置分区 0，然后再按顺序放置其他分区</p>
+<p><strong>补充</strong>：</p>
+<p><code>Partition</code> 是存放在 <code>Broker</code> 节点上的，如果单个 <code>Broker</code>，很好理解，<code>Partition</code> 都在 <code>Broker</code> 上。如果是多个 <code>Broker</code>，则 <code>Partition</code> 会分布到不同的 <code>Broker</code>上，简单来说，一个 <code>Partition</code> 只对应一个 <code>Broker</code>，一个 <code>Broker</code> 可以存放多个 <code>Partition</code></p>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250110165912730.png" alt="Broker节点分区" loading="lazy"></p>
+<hr>
+<h3 id="消息存入哪个-Partition-的规则？"><a class="headerlink" href="#消息存入哪个-Partition-的规则？"></a>消息存入哪个 Partition 的规则？</h3>
+<h3 id="Kafka-中分区分配的原则？"><a class="headerlink" href="#Kafka-中分区分配的原则？"></a>Kafka 中分区分配的原则？</h3>
+<p>答：</p>
+<p>一个主题的数据分散成了多个分片，我们就需要有一种方式来决定消息是写入哪个分片，规则如下：</p>
+<ol>
+<li>如果指定了 <code>Partition</code>，那么就是发送到特定的 <code>Partition</code>，但是一般情况下，业务其实不需要感知<code>Partition</code>，除非有特殊理由，否则不建议直接指定要发送到哪个 <code>Partition</code></li>
+<li>如果没有指定 <code>Partition</code>，但是指定了一个 <code>Key</code>，那么就是根据 <code>Key</code> 的 <code>Hash</code> 对 <code>Partition</code> 数目取模来决定是哪个 <code>Partition</code>，也就是说只要发送时指定了相同的 <code>Key</code>，那么相关消息一定会发送到相同的 <code>Partition</code></li>
+<li>如果没有指定 <code>Partition</code>，也没有指定 <code>Key</code>，那么就采取轮询调度算法，也就是每一次把来自用户的请求轮流分配给 <code>Partition</code></li>
+</ol>
+<hr>
+<h3 id="Kafka-服务端可接收的消息最大默认多少字节，如何修改？"><a class="headerlink" href="#Kafka-服务端可接收的消息最大默认多少字节，如何修改？"></a>Kafka 服务端可接收的消息最大默认多少字节，如何修改？</h3>
+<p>答：</p>
+<p><code>Kafka</code> 可以接收的最大消息默认为 <code>1MB</code>，如果想调整它的大小，可在Broker中修改配置数：<code>message.max.bytes</code> 的值</p>
+<hr>
+<h3 id="Kafka-的-Topic-中-Partition-数据是怎么存储到磁盘的？"><a class="headerlink" href="#Kafka-的-Topic-中-Partition-数据是怎么存储到磁盘的？"></a>Kafka 的 Topic 中 Partition 数据是怎么存储到磁盘的？</h3>
+<p>答：</p>
+<ul>
+<li><code>Topic</code> 中的多个 <code>Partition</code> 以 <strong>文件夹</strong> 的形式保存到 <code>Broker</code>，每个分区序号从 0 递增，且消息有序</li>
+<li><code>Partition</code> 文件下有多个 <code>Segment(xxx.index, xxx.log)</code>，<code>Segment</code> 文件的大小是可以进行配置的。默认为 1GB。如果大小大于 1GB 时，会滚动一个新的 <code>Segment</code> 并且以上一个 <code>Segment</code> 最后一条消息的偏移量命名</li>
+</ul>
+<hr>
+<h3 id="Kafka如何清理数据？"><a class="headerlink" href="#Kafka如何清理数据？"></a>Kafka如何清理数据？</h3>
+<h3 id="Kafka数据越积越多怎么办？"><a class="headerlink" href="#Kafka数据越积越多怎么办？"></a>Kafka数据越积越多怎么办？</h3>
+<p>答：</p>
+<ul>
+<li>可以用 <strong>基于时间的保留策略</strong>，这种策略允许用户指定消息的保留时间（如：7天）。超过指定时间的消息将被自动删除</li>
+<li>也可以用 <strong>基于大小的保留策略</strong>，<code>Kafka</code> 允许用户指定日志的最大尺寸。一旦日志的大小超过了配置的值，<code>Kafka</code> 将开始删除最早的消息</li>
+</ul>
+<hr>
+<h2 id="生产者"><a class="headerlink" href="#生产者"></a>生产者</h2>
+<hr>
+<h3 id="介绍一下生产消息的流程？"><a class="headerlink" href="#介绍一下生产消息的流程？"></a>介绍一下生产消息的流程？</h3>
+<p>答：</p>
+<ul>
+<li>生产消息是发生在业务服务器那一侧，看似简单，其实也分了好几步来做
+<ol>
+<li>第一步是 <strong>构建消息</strong>，即：将要发送的内容，打包成一个 <code>Kafka</code> 的消息结构</li>
+<li>第二步是 <strong>序列化消息为二进制内容，以在网络中传输</strong></li>
+<li>第三步是 <strong>进行分区选择</strong>，即：计算要发到哪个 <code>Partition</code>，发送消息到该 <code>Partition</code> 对应的 <code>Broker</code></li>
+</ol>
+</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<ol>
+<li>生产者是在业务服务器那一侧</li>
+<li>讲述生产消息的流程</li>
+</ol>
+<hr>
+<h3 id="讲一讲-kafka-的-ack-的三种机制？"><a class="headerlink" href="#讲一讲-kafka-的-ack-的三种机制？"></a>讲一讲 kafka 的 ack 的三种机制？</h3>
+<p>答：</p>
+<ul>
+<li>第一种模式，<code>ack</code> = <code>0</code>，生产者在发送消息后不会等待来自服务器的确认，所以生产者实际是不知道消息是否成功,也就无从去重试，生产可靠性是最低的</li>
+<li>第二种模式，<code>ack</code> = <code>1</code>，生产者会在消息发送后等待主节点的确认，但不会等待所有副本的确认</li>
+<li>第三种模式，<code>ack</code> = <code>all</code>，只有在所有副本都成功写入消息后，生产者才会收到确认。这确保了消息的可靠性，但延迟显然是最高的</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>acks</th>
+<th>行为</th>
+<th>可靠性</th>
+<th>性能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>生产者在发送消息后不会等待来自服务器的确认，所以生产者实际上不知道消息是否成功，也就无法重试，生产可靠性是最低的</td>
+<td>不可靠</td>
+<td>最高</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>生产者会在消息发送后等待主节点的确认，但不会等待所有副本的确认</td>
+<td>相对可靠</td>
+<td>还是比较高</td>
+</tr>
+<tr>
+<td><code>all</code> 或 <code>1</code></td>
+<td>只有在所有副本都成功写入消息后，生产者才会收到确认。这确保了消息的可靠性，但延迟显然是最高的</td>
+<td>可靠</td>
+<td>会低一些</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250110182004997.png" alt="图示解析" loading="lazy"></p>
+<hr>
+<h3 id="生产过程中何时会发生-QueueFullExpection-以及如何处理？"><a class="headerlink" href="#生产过程中何时会发生-QueueFullExpection-以及如何处理？"></a>生产过程中何时会发生 QueueFullExpection 以及如何处理？</h3>
+<p>答：</p>
+<ul>
+<li>生产者发送消息的速度过快，导致生产者这一侧缓冲区满了，有几条路去解决：
+<ol>
+<li><strong>等待重试</strong>：当发生 <code>QueueFullException</code> 异常时，可以等待一段时间后再次尝试发送消息。在等待的过程中，可以通过调整生产者的发送速度或者增加 <code>Kafka</code> 的消息队列大小等方式来避免再次发生<code>QueueFullException</code> 异常</li>
+<li><strong>增加 <code>Kafka</code> 的缓冲区大小</strong>：可以通过修改 <code>Kafka</code> 的配置文件来增加缓冲区的大小，以适应生产者发送消息的速度</li>
+<li><strong>限流控制</strong>：可以通过限制生产者发送消息的速度来避免 <code>QueueFullException</code> 异常的发生</li>
+</ol>
+</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<p>生产者发送消息的速度过快，导致生产者这一侧缓冲区满了，就会抛出 <code>QueueFullExpection</code> 这个错误</p>
+<hr>
+<h3 id="Kafka-生产者何时发出消息？"><a class="headerlink" href="#Kafka-生产者何时发出消息？"></a>Kafka 生产者何时发出消息？</h3>
+<p>答：</p>
+<ul>
+<li>累计的数据大小达到 <code>Batch</code> 大小，默认：<code>16KB</code></li>
+<li>缓冲区中累计的空闲等待时间间隔，默认 <code>0ms</code>，也就是默认收到数据就发送</li>
+</ul>
+<p>通过增加 <code>Batch</code> 的大小，可以减少网络请求和磁盘 <code>I/O</code> 的频次，具体参数配置需要在效率和时效性做一个权衡</p>
+<hr>
+<h3 id="生产者发送消息的模式有几种？（Java-版本）"><a class="headerlink" href="#生产者发送消息的模式有几种？（Java-版本）"></a>生产者发送消息的模式有几种？（Java 版本）</h3>
+<p>答：</p>
+<ul>
+<li>有三种模式：同步发送、发送即忘、异步发送
+<ul>
+<li><strong>同步发送</strong> 性能最差，但是可靠性最强</li>
+<li><strong>发送即忘</strong> 性能最高，这种模式不需要等待 <code>Kafka</code> 服务器的响应，所以可靠性低，也不知道是不是发送成功了</li>
+<li><strong>异步发送</strong> 不阻塞调用线程，同时允许调用者处理发送结果或异常。适用于对消息传输可靠性有要求，同时希望保持高性能的场景</li>
+</ul>
+</li>
+<li>其中 异步发送模式 因为 <strong>兼顾（折中）了可靠性和性能</strong>，所以是最被广泛使用的</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<p><code>Java</code> 的 <code>SDK</code> 支持三种发送模式：</p>
+<ol>
+<li>
+<p>同步发送，这种方式会阻塞调用线程，直到消息发送成功或抛出异常。适用于需要确保消息发送成功后才进行后续处理的场景。这种速度会慢一些，但是可以很准确知道发送是否成功</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	kafkaTemplate.send(<span class="string">&quot;topicName&quot;</span>, <span class="string">&quot;message&quot;</span>).get();</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException e) &#123;</span><br><span class="line">	e.printstackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>发送即忘（<code>Fire-and-forget</code>）发送了就不管了，这种方式是最简单的发送方式。消息发送后不等待任何响应，也不处理可能的异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafkaTemplate.send(<span class="string">&quot;topicName&quot;</span>, <span class="string">&quot;message&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>异步发送，发送了就做其它事情去了，这种方式不会阻塞调用线程，而且可以 <strong>注册回调函数来处理发送结果或异常</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ListenableFuture&lt;SendResult&lt;String, String&gt;&gt; future = kafkaTemplate.send(<span class="string">&quot;topicName&quot;</span>, <span class="string">&quot;message&quot;</span>);</span><br><span class="line">future.addcallback(<span class="keyword">new</span> <span class="title class_">Listenablefuturecallback</span>&lt;sendResult&lt;String, String&gt;&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(SendResult&lt;String, String&gt; result)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Sent message = [&quot;</span> message + <span class="string">&quot;] with offset = [&quot;</span> result.getRecordMetadata().offset()+ <span class="string">&quot;]&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onFailure</span><span class="params">(Throwable ex)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Unable to send message = [&quot;</span> + message + <span class="string">&quot;] due to :&quot;</span> ex.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<h2 id="消费者"><a class="headerlink" href="#消费者"></a>消费者</h2>
+<hr>
+<h3 id="Kafka-消费者是推模式还是拉模式？"><a class="headerlink" href="#Kafka-消费者是推模式还是拉模式？"></a>Kafka 消费者是推模式还是拉模式？</h3>
+<h3 id="Kafka-消息的消费模式？"><a class="headerlink" href="#Kafka-消息的消费模式？"></a>Kafka 消息的消费模式？</h3>
+<p>答：</p>
+<p><code>Kafka</code> 采用 <strong>拉模式</strong> 拉取消息，采用 拉模式 可以使每个消费者以自身的消费能力去消费。拉模式有个缺点是，如果 <code>Broker</code> 没有可供消费的消息，将导致 <code>Consumer</code> 不断在循环中轮询，直到新消息到达。为了避免这点，<code>Kafka</code> 消费者可以使用在消费数据时传入 <code>timeout</code> 参数，在这个时间范围内进行阻塞等待，直到有数据或超时后再返回</p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li><code>Kafka</code> 的消费者使用的拉模式来获取信息，也就是说每次消费者是发消息到 <code>Kafka</code> 的 <code>Broker</code> 来获取信息，而不是由 <code>Kafka</code> 的 <code>Broker</code> 主动推送</li>
+<li>选择拉模式的主要原因还是为了让 <strong>消费者可以按自身情况来控制消费速度</strong>，根据系统资源利用情况（如：<code>CPU</code>、内存等）、业务需要等因素合理拉取消息，避免因消息处理速度不合理带来的资源浪费或过载</li>
+</ul>
+<hr>
+<h3 id="消费者故障，出现活锁问题如何解决？"><a class="headerlink" href="#消费者故障，出现活锁问题如何解决？"></a>消费者故障，出现活锁问题如何解决？</h3>
+<p>答：</p>
+<p>可以使用 <strong>最大拉取间隔</strong> 这个参数来解决 活锁 问题，即：<code>max.poll.interval.ms</code>，如果消费者轮询间隔大于了这个值，消费者就会离开分区，这样其它消费者就可以接管对应分区</p>
+<p><strong>补充</strong>：</p>
+<p><strong>活锁</strong>：<strong>消费者持续的维持心跳</strong>，但因为异常进行消息处理，或者消息处理非常长时间卡住了，这种情况下，这个消费者在就会一直持有分区，该分区的消息就无法得到处理，要解决这个问题，需要有活锁检测机制</p>
+<hr>
+<h3 id="有消费者为什么还要消费者组？"><a class="headerlink" href="#有消费者为什么还要消费者组？"></a>有消费者为什么还要消费者组？</h3>
+<p>答：</p>
+<p>消费组其实就是把多个消费者组织在一起进行消费。我觉得解决了几个问题吧：</p>
+<ol>
+<li>对主题分片的分配问题，<strong>让每个分片都能有消费者处理</strong>，又不至于所有消费者处理同一个分片</li>
+<li>面对主题分片的变化，消费组可以自动调整，也就是再平衡</li>
+<li>对于业务开发者而言，有了消费组，就只用关心主题维度，而不用关心分片维度，很大程度降低了理解和应用难度</li>
+</ol>
+<p><strong>补充</strong>：</p>
+<p><strong>Consumer Group</strong>：</p>
+<ul>
+<li>
+<p>消费组其实就是把一些消费者组织起来，一同工作，它们像一个团队一样，协同作战</p>
+</li>
+<li>
+<p>实现指令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh kafka-console-consumer.sh --bootstrap-server localhost:9092 --group xxx --topic testxxx</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>一个消费组由一个唯一的 <code>groupid</code> 来标识，这个 <code>groupid</code> 是在消费者这一侧指定的，拥有相同 <code>groupid</code> 的消费者就属于同一个消费组</p>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250111195553169.png" alt="消费者组" loading="lazy"></p>
+</li>
+<li>
+<p>具体而言消费组做这么一件事：</p>
+<ul>
+<li>
+<p>一个消费组中的消费者消费同一个 <code>Topic</code>，每个消费者可以承接这个 <code>Topic</code> 一部分 <code>Partition</code> 的消息，这样消费能力就实现了水平扩展</p>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250111195748408.png" alt="消费者组" loading="lazy"></p>
+</li>
+<li>
+<p>注意：</p>
+<ol>
+<li>同一个消费组中，每个分片只会分配给一个消费者</li>
+<li>同一个消费组中，消费者可以被指派多个分片</li>
+<li>不同消费组可以同一时间消费同一个主题</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="介绍一下再平衡机制？"><a class="headerlink" href="#介绍一下再平衡机制？"></a>介绍一下再平衡机制？</h3>
+<p>答：</p>
+<ul>
+<li><strong>消费者组再平衡</strong> 是一个关键机制，<strong>用于管理和分配主题分区给消费者组中的各个消费者</strong>。再平衡过程可以确保数据负载在消费者之间均匀分布，并在消费者加入或离开时自动调整分区的分配</li>
+<li>我记得是有几个分区策略可以选择的
+<ul>
+<li>分别是：<strong>范围分配</strong>、<strong>轮询分配</strong>、<strong>粘性分配</strong>、<strong>合作粘性分配</strong>，其中 合作粘性分配 和 粘性分配 一样都是尽可能减少变动，不同点是合作粘性分配下，未受变动的消费者可以继续消费主题</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="Kafka-什么情况下会-Rebalance？"><a class="headerlink" href="#Kafka-什么情况下会-Rebalance？"></a>Kafka 什么情况下会 Rebalance？</h3>
+<p>答：</p>
+<p>当 <code>kafka</code> 遇到如下三种情况的时候，<code>kafka</code> 会触发 <code>Rebalance</code> 机制：</p>
+<ol>
+<li><strong>新消费者加入</strong>：当一个新的消费者加入消费者组时，<code>Kafka</code> 需要重新分配分区，以包括新的消费者</li>
+<li><strong>消费者离开</strong>：当一个消费者离开（无论是正常关闭还是崩溃）时，需要重新分配该消费者负责的分区给其他消费者</li>
+<li><strong>主题分区变化</strong>：当主题的分区数量发生变化时（例如：增加新的分区），<code>Kafka</code> 需要重新分配这些分区</li>
+</ol>
+<hr>
+<h3 id="Rebalance-有什么影响？"><a class="headerlink" href="#Rebalance-有什么影响？"></a>Rebalance 有什么影响？</h3>
+<p>答：</p>
+<ol>
+<li><strong>重复消费</strong>，如果某个消费者离开消费组时还没来得及提交 <code>offset</code>，当再平衡之后，接盘对应分区的消费者就会重复消费，浪费资源</li>
+<li><strong>性能变差</strong>，再平衡是需要相对复杂的流程去实施的，在实施再平衡的这个过程中，消费速度也会受到影响</li>
+</ol>
+<p>所以我们需要避免频繁再平衡，业务需要导致的变化我们管不了，但我们可以调节心跳相关参数，避免存活误判导致的再平衡</p>
+<p><strong>补充</strong>：</p>
+<p>介绍关注如下参数：</p>
+<ul>
+<li><code>session.timeout.ms</code>： <strong>一次 <code>session</code> 的连接超时时间</strong>，也就是说超过这个时间没心跳就会判定消费组超时触发再平衡，如果想避免误判，这个时间可以设置稍微大一些，比如：5s、10s</li>
+<li><code>heartbeat.interval.ms</code>：<strong>心跳时间</strong>，如果设置过大，就容易触发频繁再平衡，比如：<code>session.timeout.ms</code> 设置为 10s，如果你心跳时间也是设置为 10s，那很容易就超时了，一般都要保证在超时时间之内，至少有 35 次心跳机会，比如：这里可以设置为3s、4s、5s。</li>
+<li><code>max.poll.interval.ms</code>：可以调节这个参数避免活锁问题，<code>Consumer</code> 消费时间过长超过这个参数，会导致 <code>Coordinator</code> 错误地认为 “已停止” 从而被 “踢出” <code>Group</code></li>
+</ul>
+<hr>
+<h3 id="介绍一下重平衡的具体执行流程？"><a class="headerlink" href="#介绍一下重平衡的具体执行流程？"></a>介绍一下重平衡的具体执行流程？</h3>
+<p>答：</p>
+<ul>
+<li>我理解有如下几个步骤</li>
+<li>首先是暂停消费，其作用是防止在重新分配期间发生数据丢失或重复，接着由消费组协调器触发再平衡，进而重新分配分区，最后就是开启消费，简单来说就是通知消费者，然后<strong>消费者就可以恢复消费了</strong></li>
+</ul>
+<p><strong>补充</strong>：</p>
+<p>有 5 个步骤，依次是：</p>
+<ol>
+<li><strong>暂停消费</strong>：在再平衡过程中，消费者会暂停对消息的消费，以防止在重新分配期间发生数据丢失或重复</li>
+<li><strong>触发再平衡</strong>：由消费者组协调器（通常是 <code>Kafka</code> 集群中的一个 <code>Broker</code>）触发再平衡</li>
+<li><strong>重新分配分区</strong>：协调器根据当前消费者组的成员重新分配主题的分区</li>
+<li><strong>通知消费者</strong>：重新分配完成后，协调器会通知所有消费者新的分配情况</li>
+<li><strong>恢复消费</strong>：消费者收到新的分配后，恢复消费，开始处理被分配到的新分区</li>
+</ol>
+<hr>
+<h3 id="介绍一下重平衡时的分区策略？"><a class="headerlink" href="#介绍一下重平衡时的分区策略？"></a>介绍一下重平衡时的分区策略？</h3>
+<p>答：</p>
+<ul>
+<li>大的方向分两类
+<ul>
+<li>第一类是 <strong>急切再平衡</strong>（<code>Eager Rebalance</code>）：<code>Range Assignor</code>、<code>RoundRobin Assignor</code>、<code>Sticky Assignor</code> 都属于 <code>Eager Rebalance</code>，可以理解为急切的再平衡，因为它太过急切，所以顾不得那么多，为了快点搞定这件事，<strong>一旦开启再平衡所有消费者都会停止从 <code>Kafka</code> 消费并放弃其分区的成员资格</strong></li>
+<li>第二类是 <strong>增量再平衡</strong>（<code>Incremental Rebalance</code>）：<code>CooperativeStickyAssignor</code> 这个 <code>2.3</code> 版本之后引入的优化策略就，属于这一类，在此模式下，<strong>只有部分分区会从某个消费者移动到另外一个消费者，其它不受重新平衡影响的 <code>Kafka</code> 消费者可以继续处理数据而不会中断</strong></li>
+</ul>
+</li>
+<li>当然，这样一次执行下来可能分配个数是不均匀的，所以整个消费者组可以经历多次重新平衡，直到找到稳定的分配，因此称为 <strong>增量重新平衡</strong>，可以理解为 <strong>一点一点地来寻求重平衡</strong>。相比于急切重平衡，优点在于 <strong>消费不会全部暂停，且消费者的分配关系变动较小</strong>，当然付出的代价就是完成再平衡的时间可能会更久一些。</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<ul>
+<li>
+<p>分区策略（也被叫做分区协议）由 <code>partition.assignment.strategy</code> 这个参数配置，回顾一下，它有如下几种选择：</p>
+<ol>
+<li><code>Range Assignor</code>：基于 <strong>范围</strong> 的分配策略，将分区按照范围分配给消费者</li>
+<li><code>RoundRobin Assignor</code>：基于 <strong>轮询</strong> 的分配策略，分区均匀地分配给消费者</li>
+<li><code>Sticky Assignor</code>：<strong>优先保持当前的分配状态</strong>，并尽量减少在再平衡过程中的分区移动</li>
+<li><code>CooperativestickyAssignor</code>：和 <code>Sticky Assignor</code> 的策略是一样，区别在于未受变动的消费者可以继续消费主题</li>
+</ol>
+</li>
+<li>
+<p>从再平衡的视角，这几种分区策略大的来说其实可以分为两个 “阵营”，一个叫 <code>Eager Rebalance</code>，一个叫 <code>Incremental Rebalance</code></p>
+</li>
+</ul>
+<hr>
+<h3 id="解释下-Kafka-中位移（offset）的作用？"><a class="headerlink" href="#解释下-Kafka-中位移（offset）的作用？"></a>解释下 Kafka 中位移（offset）的作用？</h3>
+<h3 id="如何控制消费的位置？"><a class="headerlink" href="#如何控制消费的位置？"></a>如何控制消费的位置？</h3>
+<p>答：</p>
+<p>每条消息在 <code>Kafka</code> 中会有 <code>Partition ID</code> 以及 <code>offset</code>，通过这两个信息就可以定位到一条消息。消费者组消费消息之后会提交它在某个 <code>Partition</code> 对应的 <code>offset</code>，这样子下一次就可以从这个位置开始消费</p>
+<p><strong>补充</strong>：</p>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250111194526956.png" alt="Consumers" loading="lazy"></p>
+<ul>
+<li>从上图我们能看到如下几个关键信息:
+<ol>
+<li>不同消费者可以在同一时间对同一主题进行消费</li>
+<li>相同消费者可以同一时间从同一主题的不同分片读取信息</li>
+<li>如果一个消费者，同时消费多个分片下，无法保证消息之间的先后顺序</li>
+<li>如果一个消费者，只消费一个分片，消费顺序即生产顺序，符合队列的先入先出特性</li>
+</ol>
+</li>
+<li>默认情况下，<code>Kafka</code> 的消费者只会消费连接之后新产生的消息，如果想消费历史消息，是需要传递参数指定的</li>
+</ul>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250111194954958.png" alt="Offset" loading="lazy"></p>
+<ul>
+<li>每条消息在 <code>Kafka</code> 中会有 <code>Partition ID</code> 以及 <code>OFFSET</code>，通过这两个信息就可以定位到一条消息。消费者组消费消息之后会提交它在某个 <code>Partition</code> 对应的 <code>OFFSET</code>，这样子下一次就可以从下个位置（<code>OFFSET</code> + 1）开始消费</li>
+<li>比如上图，消费了 <code>5</code> 这个位置的消息，也做了对应的提交，所以 <code>Commited offset</code> 也是 <code>5</code>，下一次消费的就是 <code>6</code> 这个位置的消息了</li>
+<li>同时，如果一个指定的 <code>offset</code> 被确认，那么它之前的信息就相当于都确认了，下次消费是从它的下一条消息开始消费</li>
+</ul>
+<hr>
+<h3 id="Consumer-默认从哪里开始消费？"><a class="headerlink" href="#Consumer-默认从哪里开始消费？"></a>Consumer 默认从哪里开始消费？</h3>
+<p>答：</p>
+<p>默认 <strong>从提交偏移之后的位置开始消费</strong>，如果没有提交过偏移，那么会根据 <code>auto.offset.reset</code> 这个配置决定从哪里开始消费，<strong>默认是 <code>latest</code></strong>，消费者将从当前最新的数据开始读取，如果业务需要，还可以选择从最早的偏移开始读取</p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li><code>auto.offset.reset</code> 是 <code>Apache Kafka</code> 中消费者配置的一部分，用于指定消费者在没有初始偏移量（<code>offset</code>）或当前偏移量在服务器上不存在的情况下应如何处理的策略
+<ul>
+<li>这个配置参数有三个可能的值：
+<ol>
+<li><code>latest</code>（默认值）：消费者将从最新的偏移量开始读取。这意味着它将开始从消息流的未尾读取数据</li>
+<li><code>earliest</code>：消费者将从最早的偏移量开始读取。这意味着它将从消息流的开头读取所有数据。</li>
+<li><code>none</code>（很少用到）：如果找不到先前的偏移量且没有定义的偏移量，消费者将抛出一个异常。这种情况下，需要确保在启动消费者前，明确定义要消费的偏移量</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="Consumer-怎么手动指定开始消费偏移？"><a class="headerlink" href="#Consumer-怎么手动指定开始消费偏移？"></a>Consumer 怎么手动指定开始消费偏移？</h3>
+<p>答：</p>
+<p><code>Java</code> 客户端有方法能指定开始消费的 <code>Offset</code>，函数名应该就是 <code>seek</code>，将希望的偏移量传入这个方法即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.consumer.ConsumerRecord;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.consumer.ConsumerRecords;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.consumer.KafkaConsumer;</span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.common.TopicPartition;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.Duration;</span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">KafkaConsumerExample</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 配置Kafka消费者</span></span><br><span class="line">        <span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">        props.put(<span class="string">&quot;bootstrap.servers&quot;</span>, <span class="string">&quot;localhost:9092&quot;</span>);</span><br><span class="line">        props.put(<span class="string">&quot;group.id&quot;</span>, <span class="string">&quot;test-group&quot;</span>);</span><br><span class="line">        props.put(<span class="string">&quot;key.deserializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;</span>);</span><br><span class="line">        props.put(<span class="string">&quot;value.deserializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建消费者</span></span><br><span class="line">        KafkaConsumer&lt;String, String&gt; consumer = <span class="keyword">new</span> <span class="title class_">KafkaConsumer</span>&lt;&gt;(props);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 订阅主题和分区</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">topic</span> <span class="operator">=</span> <span class="string">&quot;test-topic&quot;</span>;</span><br><span class="line">        <span class="type">TopicPartition</span> <span class="variable">partition</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TopicPartition</span>(topic, <span class="number">0</span>); <span class="comment">// 假设使用分区0</span></span><br><span class="line">        consumer.assign(Collections.singletonList(partition));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 指定偏移量</span></span><br><span class="line">        <span class="comment">// !!!!!!!!</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">offsetToStart</span> <span class="operator">=</span> <span class="number">10L</span>; <span class="comment">// 从偏移量10开始消费</span></span><br><span class="line">        consumer.seek(partition, offsetToStart);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 消费消息</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">                ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofMillis(<span class="number">100</span>));</span><br><span class="line">                <span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record : records) &#123;</span><br><span class="line">                    System.out.printf(<span class="string">&quot;offset = %d, key = %s, value = %s%n&quot;</span>,</span><br><span class="line">                            record.offset(), record.key(), record.value());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            consumer.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Kafka-消费消息是推还是拉？"><a class="headerlink" href="#Kafka-消费消息是推还是拉？"></a>Kafka 消费消息是推还是拉？</h3>
+<p>答：</p>
+<ul>
+<li><code>Kafka</code> 的消费者使用的 <strong>拉模式</strong> 来获取信息，也就是说每次消费者是发消息到 <code>Kafka</code> 的 <code>Broker</code> 来获取信息，而不是由 <code>Kafka</code> 的 <code>Broker</code> 主动推送</li>
+<li>选择拉模式的主要原因 还是<strong>为了让消费者可以按自身情况来控制消费速度</strong>，根据系统资源利用情况（如： <code>CPU</code>、内存等）、业务需要等因素合理拉取消息，避免因消息处理速度不合理带来的资源浪费或过载</li>
+</ul>
+<hr>
+<h3 id="Kafka-消费者提交之后就会清理掉数据吗？"><a class="headerlink" href="#Kafka-消费者提交之后就会清理掉数据吗？"></a>Kafka 消费者提交之后就会清理掉数据吗？</h3>
+<p>答：</p>
+<p>在 <code>Kafka</code> 中，如果消息被消费者消费并提交了对应偏移，这条消息不会被删除，可以通过更改该消费者的偏移再次消费，也可以被其它消费者消费（只要消费者消费偏移不超过该消息对应的偏移）</p>
+<hr>
+<h2 id="实战经验"><a class="headerlink" href="#实战经验"></a>实战经验</h2>
+<hr>
+<h3 id="Kafka-中什么情况下会出现消息丢失的问题？"><a class="headerlink" href="#Kafka-中什么情况下会出现消息丢失的问题？"></a>Kafka 中什么情况下会出现消息丢失的问题？</h3>
+<p>答：</p>
+<ul>
+<li>消息生产时如果设置的 <code>acks</code> 不是全部副本，那么如果在 <code>follower</code> 副本未完成同步之前，<code>leader</code> 副本挂掉了，消息就会丢失</li>
+<li>存储时如果没有用多副本备份，消息也可能会丢失</li>
+<li>最后就是消费时，如果没有确认消费成功再提交 <code>offset</code>，而这时候消费者又挂掉了，那么消息同样会丢失</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<p>从 消息流转环节 分析，分别考虑生产环节、存储环节、消费环节</p>
+<hr>
+<h3 id="Kafka-如何保证消息不丢失？"><a class="headerlink" href="#Kafka-如何保证消息不丢失？"></a>Kafka 如何保证消息不丢失？</h3>
+<p>答：</p>
+<ul>
+<li>首先 <strong>为 主题分区 配置 好多副本</strong>，并且 <strong>设置写入 <code>acks</code> 参数为全部副本</strong></li>
+<li>最后就是 <strong>消费时候一定要确认消费成功再提交 <code>offset</code></strong>，这样即使消费者挂掉了，重启之后也能拉到原来那条未成功消费的消息</li>
+<li>也可以提一下 <strong>发送消息要用带回调的方法，并且重试次数设置得大一些</strong>，比如：10以上，避免瞬时抖动带来的失败</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<p>从 消息流转环节 分析，分别考虑生产环节、存储环节、消费环节</p>
+<hr>
+<h3 id="MQ-消息积压了怎么办？"><a class="headerlink" href="#MQ-消息积压了怎么办？"></a>MQ 消息积压了怎么办？</h3>
+<p>答：</p>
+<ul>
+<li>如果 <strong>分区数 大于 消费者数量</strong>，那么通过扩容消费端的实例数来提升总体的消费能力；如果 <strong>相等</strong>，那么既需要扩容消费者数量同时需要扩容分区数</li>
+<li>如果 <strong>短时间内没有足够的服务器资源进行扩容，可以考虑将系统 降级</strong>，通过关闭一些不重要的分支业务，让系统还能正常运转，服务一些重要业务</li>
+<li>还有一种不太常见的情况，你通过监控发现，无论是发送消息的速度还是消费消息的速度和原来都没什么变化，这时候你 <strong>需要检查一下你的消费端，是不是消费失败导致的一条消息反复消费这种情况比较多</strong>，这种情况也会拖慢整个系统的消费速度。如果监控到消费变慢了，你需要检查你的消费实例，分析一下是什么原因导致消费变慢。<strong>优先检查一下日志是否有大量的消费错误</strong>，如果没有错误的话，可以通过<strong>打印堆栈信息，看一下你的消费线程是不是卡在什么地方不动了</strong>，比如触发了死锁或者卡在等待某些资源上了</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<ul>
+<li>三板斧：扩容、降级、排查异常</li>
+</ul>
+<hr>
+<h3 id="Kafka-如何保证消息不重复消费？"><a class="headerlink" href="#Kafka-如何保证消息不重复消费？"></a>Kafka 如何保证消息不重复消费？</h3>
+<p>答：</p>
+<p>消费逻辑需要是幂等的，保证不产生重复影响，!实现方式很多，比如：<code>MySQL</code> 设置唯一索引、额外使用记录表来判重 等方式</p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li><code>kafka</code> 出现消息重复消费的原因：
+<ul>
+<li>消费者宕机、重启或者被强行 <code>kill</code> 进程，导致消费者消费的 <code>offset</code> 没有提交，恢复正常后可能会重复消费</li>
+<li>由于消费者端处理业务时间长导致会话超时，那么就会触发 <code>reblance</code> 重平衡，此时可能存在消费者 <code>offset</code> 没提交，会导致重平衡后重复消费</li>
+</ul>
+</li>
+<li>要注意重复是不可避免的，重要的是保证不产生重复影响，即：消费端需要保证幂等性</li>
+</ul>
+<hr>
+<h3 id="Kafka-如何实现精准一次语义？"><a class="headerlink" href="#Kafka-如何实现精准一次语义？"></a>Kafka 如何实现精准一次语义？</h3>
+<p>答：</p>
+<p>本质就是 <strong>不重复 + 不丢失</strong></p>
+<ul>
+<li><strong>不重复</strong> 的核心是 <strong>幂等消费</strong></li>
+<li><strong>不丢失</strong> 的核心是 <strong>为主题分区配置好多副本</strong>，并且设置写入 <code>acks</code> 参数为全部副本，同时消费时候一定要确认消费成功再提交 <code>offset</code>，这样即使消费者挂掉了，重启之后也能拉到原来那条未成功消费的消息</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<ul>
+<li>至少一次 + 最多一次，不重复 + 不丢失</li>
+</ul>
+<hr>
+<h3 id="假设你有个业务希望进入-Kafka-的消息都是有序的，你会怎么做？"><a class="headerlink" href="#假设你有个业务希望进入-Kafka-的消息都是有序的，你会怎么做？"></a>假设你有个业务希望进入 Kafka 的消息都是有序的，你会怎么做？</h3>
+<p>答：</p>
+<ul>
+<li><code>Kafka</code> 的分片流入规则是这样的：
+<ul>
+<li>如果指定了 <code>Partition</code>，那么就是发送到特定的 <code>Partition</code>；如果没有指定 <code>Partition</code>，但是指定了一个 <code>Key</code>，那么就是根据 <code>Key</code> 的 <code>Hash</code> 取模来决定是哪个 <code>Partition</code>；如果都没有指定，就是依次轮替着写入</li>
+<li>所以我们可以 <strong>用一个能标识业务的唯一名字来当 <code>Key</code></strong>，比如：秒杀，就叫 <code>SecKill</code>，指定 <code>Key</code> 之后算出来一定是落在相同的 <code>Partition</code>，也就保证了顺序</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="高可用"><a class="headerlink" href="#高可用"></a>高可用</h2>
+<hr>
+<h3 id="Replica、Leader-和-Follower-三者的概念？"><a class="headerlink" href="#Replica、Leader-和-Follower-三者的概念？"></a>Replica、Leader 和 Follower 三者的概念？</h3>
+<p>答：</p>
+<ul>
+<li><code>Replica</code>：<code>Replica</code> 是指 <code>Kafka</code> 集群中的一个副本，它可以是 <code>Leader</code> 副本或者 <code>Follower</code> 副本的一种。每个分区都有多个副本，其中 <strong>一个是 <code>Leader</code> 副本，其余的是 <code>Follower</code> 副本</strong>。每个副本都保存了分区的完整数据，以保证数据的可靠性和高可用性</li>
+<li><code>Leader</code>：<code>Leader</code> 是指 <code>Kafka</code> 集群中的一个分区副本，它负责处理该分区的所有读写请求。<strong><code>Leader</code> 副本是唯一可以向分区写入数据的副本</strong>，它将写入的数据同步到所有的 <code>Follower</code> 副本中，以保证数据的可靠性和一致性</li>
+<li><code>Follower</code>：<code>Folower</code> 是指 <code>Kafka</code> 集群中的一个分区副本，<strong><code>Follower</code> 副本不能直接向分区写入数据，它只能从 <code>Leader</code> 副本中复制数据，并将数据同步到本地的副本中</strong>，以保证数据的可靠性和一致性。在<code>Leader</code> 副本挂掉的时候，<code>Follower</code> 副本有机会被选举为新的 <code>Leader</code> 副本从而保证分区的可用性</li>
+</ul>
+<hr>
+<h3 id="Kafka-中-AR、ISR、OSR-三者的概念？"><a class="headerlink" href="#Kafka-中-AR、ISR、OSR-三者的概念？"></a>Kafka 中 AR、ISR、OSR 三者的概念？</h3>
+<p>答：</p>
+<ul>
+<li><code>AR</code>（<code>Assigned Replicas</code>）：<code>AR</code> 是指 <strong>分区的所有副本，包括：<code>Leader</code> 副本和 <code>Follower</code> 副本</strong></li>
+<li><code>ISR</code>（<code>In-Sync Replicas</code>）：<code>ISR</code> 是指 <strong>与 <code>Leader</code> 副本保持同步的副本集合</strong>。<code>ISR</code> 中的副本与 <code>Leader</code> 副本保持同步，即：<strong>它们已经复制了 <code>Leader</code> 副本中的所有数据，并且与 <code>Leader</code> 副本之间的数据差异不超过一定的阈值</strong>（<code>Follower</code> 副本能够落后 <code>Leader</code> 副本的最长时间间隔）。并且 <code>ISR</code> 副本集合是动态变化的，不是一成不变的。<code>ISR</code> 中的副本可以被选举为新的 <code>Leader</code> 副本，以保证分区的正常运行</li>
+<li><code>OSR</code>（<code>Out-of-Sync Replicas</code>）：<code>OSR</code> 是指 <strong>与 <code>Leader</code> 副本不同步的副本集合</strong>。<code>OSR</code> 中的副本与 <code>Leader</code> 副本之间的数据差异超过了一定的阈值，或者它们还没有复制 <code>Leader</code> 副本中的所有数据。<code>OSR</code> 中的副本不能被选举为新的 <code>Leader</code> 副本，除非开启了 <code>Unclean</code> 选举。它们只能等待与 <code>Leader</code> 副本同步，或者被替换为新的副本</li>
+</ul>
+<hr>
+<h3 id="分区副本什么情况下会从-ISR-中剔出？"><a class="headerlink" href="#分区副本什么情况下会从-ISR-中剔出？"></a>分区副本什么情况下会从 ISR 中剔出？</h3>
+<p>答：</p>
+<p>每个 <code>Partition</code> 都会由 <code>Leader</code> 动态维护一个与自己基本保持同步的 <code>ISR</code> 列表。所谓动态维护，就是说如果一个 <code>Follower</code> 比一个 <code>Leader</code> 落后超过了给定阈值，默认是 <code>10s</code>，则 <code>Leader</code> 将其从 <code>ISR</code> 中移除。如果<code>OSR</code> 列表内的 <code>Follower</code> 副本与 <code>Leader</code> 副本保持了同步，那么就将其添加到 <code>ISR</code> 列表当中</p>
+<hr>
+<h3 id="分区副本中的-Leader-如果宕机但-ISR-却为空该如何处理？"><a class="headerlink" href="#分区副本中的-Leader-如果宕机但-ISR-却为空该如何处理？"></a>分区副本中的 Leader 如果宕机但 ISR 却为空该如何处理？</h3>
+<p>答：</p>
+<ul>
+<li>可以通过 <code>unclean</code> 选举配置参数（即：<code>unclean.leader.election</code>，通常不用说这么长的配置名字）来决定是否从<code>OSR</code>中选举出 <code>Leader</code>：
+<ul>
+<li>如果是该参数是 <code>true</code>：允许 <code>OSR</code> 成为 <code>Leader</code>，但是 <code>OSR</code> 的消息较为滞后，可能会出现消息丢失的问题</li>
+<li>否则：坚决不能让那些 <code>OSR</code> 竞选 <code>Leader</code>。这样做的后果是这个分区就不可用了</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="分区副本之间同步，是推还是拉（kafka如何主从同步）？"><a class="headerlink" href="#分区副本之间同步，是推还是拉（kafka如何主从同步）？"></a>分区副本之间同步，是推还是拉（kafka如何主从同步）？</h3>
+<p>答：</p>
+<p>数据是先写入到 <code>Leader</code> 副本，同步时候是 <code>Follower</code> 副本去主动拉取消息，<strong>拉的优势 在于副本机器可以根据自身的负载情况来拉取</strong></p>
+<hr>
+<h3 id="高可用机制是怎么实现的？"><a class="headerlink" href="#高可用机制是怎么实现的？"></a>高可用机制是怎么实现的？</h3>
+<p>答：</p>
+<p><code>Kafka</code> 天然支持 <strong>多副本机制</strong>，每个副本都有完整的数据，这些副本分散在不同的 <code>Broker</code> 上，就算主副本所在<code>Broker</code> 的磁盘损坏了，其它 <code>Broker</code> 也能把数据找回来并升级为主副本，通过这种方式 <code>Kafka</code> 就实现了高可用</p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li><code>Kafka</code> 受欢迎有一个很大的原因是它天然提供了容灾解决方案，可以应对机器故障等各种异常，这些异常我们很多是无法预防的，比如：机房断电，机器硬盘损坏，甚至之前出现过的天津机房爆炸事故</li>
+<li><code>Kafka</code> 高可用机制主要就体现在多副本上，说直白点，副本横跨多个 <code>Broker</code> / 机器，一个副本挂了还有另一个这里回答的要点包括：
+<ol>
+<li>多副本，相当于数据有了多个备份</li>
+<li>多副本是横跨多 <code>Broker</code> 的，这样在机器级别也有了容灾能力</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="Kafka-是怎么为分片选择主副本的？"><a class="headerlink" href="#Kafka-是怎么为分片选择主副本的？"></a>Kafka 是怎么为分片选择主副本的？</h3>
+<p>答：</p>
+<p><code>Kafka</code> 维护了一个叫 <code>ISR</code> 的列表，<code>ISR</code> 里的副本都是包含完整数据的，当没有 <code>Leader</code>，或原有 <code>Leader</code> 挂掉了，<code>Kafka</code> 就会从 <code>ISR</code> 列表中选择第一个副本升级为 <code>Leader</code></p>
+<p><strong>补充</strong>：</p>
+<ul>
+<li>关键知识点是 <code>ISR</code>，一个分区会有多个副本，为了实现更好的管理，可以将 <code>Kafka</code> 中的副本划分成不同的集合：
+<ol>
+<li><code>AR</code>（<code>Assigned Replicas</code>）：<code>AR</code> 是指 <strong>分区的所有副本，包括：<code>Leader</code> 副本和 <code>Follower</code> 副本</strong></li>
+<li><code>ISR</code>（<code>In-Sync Replicas</code>）：<code>ISR</code> 是指 <strong>与 <code>Leader</code> 副本保持同步的副本集合</strong>。<code>ISR</code> 中的副本与 <code>Leader</code> 副本保持同步，即：<strong>它们已经复制了 <code>Leader</code> 副本中的所有数据，并且与 <code>Leader</code> 副本之间的数据差异不超过一定的阈值</strong>（<code>Follower</code> 副本能够落后 <code>Leader</code> 副本的最长时间间隔）。并且 <code>ISR</code> 副本集合是动态变化的，不是一成不变的。<code>ISR</code> 中的副本可以被选举为新的 <code>Leader</code> 副本，以保证分区的正常运行</li>
+<li><code>OSR</code>（<code>Out-of-Sync Replicas</code>）：<code>OSR</code> 是指 <strong>与 <code>Leader</code> 副本不同步的副本集合</strong>。<code>OSR</code> 中的副本与 <code>Leader</code> 副本之间的数据差异超过了一定的阈值，或者它们还没有复制 <code>Leader</code> 副本中的所有数据。<code>OSR</code> 中的副本不能被选举为新的 <code>Leader</code> 副本，除非开启了 <code>Unclean</code> 选举。它们只能等待与 <code>Leader</code> 副本同步，或者被替换为新的副本</li>
+</ol>
+</li>
+<li>简单来说，<strong><code>OSR</code> 集合 = <code>AR</code> 集合 - <code>ISR</code> 集合</strong></li>
+</ul>
+<hr>
+<h3 id="Kafka-怎么知道-Leader-挂了？"><a class="headerlink" href="#Kafka-怎么知道-Leader-挂了？"></a>Kafka 怎么知道 Leader 挂了？</h3>
+<p>答：</p>
+<ul>
+<li><code>Broker</code> 中会选出一个来担任 <code>Controller</code>，选 <code>Controller</code> 负责监测 <code>Leader</code> 的状态，这样 <code>Leader</code> 挂掉之后 <code>Controller</code> 就能感知到，并从 <code>ISR</code> 选择出新的 <code>Leader</code>
+<ul>
+<li>所有的 <code>Broker</code> 会尝试在 <code>Zookeeper</code> 中创建 数据 / <code>controller</code>，先创建成功的就是 <code>controller</code></li>
+<li>注意，这是个临时数据，如果当前的 <code>Controller</code> 挂掉或者网络掉线，这个数据就会消失。其它 <code>Broker</code> 通过 <code>Watch</code> 感知到这件事之后，就会再次抢写</li>
+</ul>
+</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<ul>
+<li><code>Kafka</code> 比较早期就直接让分片副本抢写 <code>Zookeeper</code>，谁先写入谁就是 <code>Leader</code>，但是这样有个潜在问题：当分区和副本数量比较多的时候，所有的副本都直接参与选举，对 <code>ZooKeeper</code> 的压力会比较大</li>
+<li>更新一些的版本，<code>Kafka</code> 做了优化，与其让所有副本都来卷，不然就先选举一个 <code>Broker</code> 作为 <code>Controller</code>，也就是控制者</li>
+<li><code>Controller</code> 职责：感知 <code>Broker</code>、<code>Topic</code>、<code>Partition</code> 的变化，维护 <code>Partition</code> 的 <code>Leader</code> 信息</li>
+<li>有了 <code>Controller</code>再结合 <code>ISR</code> 机制，就可以直接指定 <code>ISR</code> 集合中的第一个备选 <code>Broker</code> 作为新 <code>Leader</code></li>
+<li>由 <code>Controller</code> 来持续监测 <code>Leader</code>，如果发现 <code>Leader</code> 挂掉了再由 <code>Controller</code> 从 <code>ISR</code> 中选择新的 <code>Leader</code></li>
+</ul>
+<hr>
+<h2 id="高性能"><a class="headerlink" href="#高性能"></a>高性能</h2>
+<hr>
+<h3 id="Kafka-为什么这么快？"><a class="headerlink" href="#Kafka-为什么这么快？"></a>Kafka 为什么这么快？</h3>
+<h3 id="Kafka-性能为什么这么高？"><a class="headerlink" href="#Kafka-性能为什么这么高？"></a>Kafka 性能为什么这么高？</h3>
+<h3 id="Kafka-吞吐量为什么这么大？"><a class="headerlink" href="#Kafka-吞吐量为什么这么大？"></a>Kafka 吞吐量为什么这么大？</h3>
+<p>答：</p>
+<p>我知道有几个点都有提升 <code>Kafka</code> 处理的速度，包括：<strong>顺序写</strong>、<strong>零拷贝</strong>、<strong>数据压缩</strong>、<strong>批量操作</strong>（说自己比较熟悉的，多一个少一个，无所谓），其中我觉得影响最大或者说最具 <code>Kafka</code> 特色的，就是顺序写，通过磁盘的顺序写入，非常直接优化了兼顾了性能和复杂度，其次我印象最深的是批量操作和数据压缩，这两个也是业务优化的常见思路</p>
+<hr>
+<h3 id="聊聊-Kafka-顺序写机制？"><a class="headerlink" href="#聊聊-Kafka-顺序写机制？"></a>聊聊 Kafka 顺序写机制？</h3>
+<p>答：</p>
+<p>顺序写指的是按顺序将数据写入磁盘，对于 <code>Kafka</code> 而言，其实就是直接追加到磁盘文件末尾，顺序写性能非常高，甚至接近内存写，所以出于 <code>Kafka</code> 自身定位、复杂度、性能等综合考虑，<code>Kafka</code> 选择了顺序写</p>
+<p><strong>补充</strong>：</p>
+<p>要点：</p>
+<ol>
+<li><code>Kafka</code> 数据写入就是直接追加到磁盘文件未尾，这就是顺序写</li>
+<li>顺序写性能非常高，甚至接近内存写</li>
+<li><code>Kafka</code> 从复杂度和性能综合考虑，选择了顺序写</li>
+</ol>
+<hr>
+<h3 id="聊聊-Kafka-页缓存机制？"><a class="headerlink" href="#聊聊-Kafka-页缓存机制？"></a>聊聊 Kafka 页缓存机制？</h3>
+<p>答：</p>
+<ul>
+<li><code>Page Cache</code> 可以简单看作 <strong>热点磁盘数据的内存缓存</strong>，当消息写入时，是先写入 <code>Page Cache</code>，后面由操作系统将其刷入磁盘，这样性能就会提升很多，同时，如果查询时候发现 <code>Page Cache</code> 中有对应数据，那么也就不用去磁盘读取</li>
+<li>值得一提的是，<code>Kafka</code> 是生产消费者模式，即：生产了消息，在无积压情况下，这个消息很快就会被消费，也就是说我们生产消费时写入了 <code>Page Cache</code>，而很快就有消费者来触发 <code>Kafka</code> 应用程序读取对应数据，而这个时间间隔很短，<code>Page Cache</code> 命中的可能性会很高，自然提升效果就会非常大了</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<p><code>Page Cache</code> 是提升 <code>Kafka</code> 性能的重要机制，通过合理配置 <code>Kafka</code> 参数和操作系统参数，可以充分利用 <code>Page Cache</code> 提高消息的读写性能。了解 <code>Page Cache</code> 的工作原理并进行适当的优化，对于保障 <code>Kafka</code> 集群的高效运行至关重要。<br>
+要点：</p>
+<ol>
+<li>要说到是操作系统特性</li>
+<li>要解释什么地方用到了 <code>Page Cache</code></li>
+<li>要说明为何对读写优化效果</li>
+</ol>
+<hr>
+<h3 id="聊聊-Kafka-零拷贝机制？"><a class="headerlink" href="#聊聊-Kafka-零拷贝机制？"></a>聊聊 Kafka 零拷贝机制？</h3>
+<p>答：</p>
+<p>零拷贝技术可以优化数据发送效率，本质上是用 <code>sendfile</code> 系统调用，取代了 <code>write</code> 和 <code>read</code> 系统调用，让系统调用次数从 2 次变成了 一 次，相关内核上下文切换次数从 4 次变成了 2 次，同时配合 <code>DMA</code> 技术，让数据拷贝从 4 次变成了 2 次</p>
+<p><strong>补充</strong>：</p>
+<p>零拷贝技术可以优化数据发送效率，这是 <code>Linux</code> 本身的特性，而 <code>Kafka</code> 则是这个特性的使用者，通过最终调用 <code>sendfile</code> 系统调用来享受了零拷贝的福利<br>
+回答要点：</p>
+<ol>
+<li>减少系统调用</li>
+<li>减少内核上下文切换</li>
+<li>减少拷贝次数</li>
+</ol>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250113153709211.png" alt="Kafka之前的拷贝机制" loading="lazy"></p>
+<p><img src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/image-20250113160545946.png" alt="Kafka采用的零拷贝机制" loading="lazy"></p>
+<hr>
+<h3 id="聊聊-Kafka-分层设计机制？"><a class="headerlink" href="#聊聊-Kafka-分层设计机制？"></a>聊聊 Kafka 分层设计机制？</h3>
+<p>答：</p>
+<p>分层设计其实就是出自分治思考，对于 <code>Kafka</code> 而言，所有消息写入一个文件，那肯定扛不住，所以提出了 <code>Topic</code> 的概念，可以一个业务写入一个 <code>Topic</code>，单个 <code>Topic</code> 不具备扩展性，扛不住大流量业务，所以 <code>Topic</code> 又进行了分片，也就是 <code>Partition</code>，一个业务的消息可以根据规则写入多个 <code>Partition</code>，单个 <code>Partition</code> 是不是也需要能扩展，于是一个 <code>Partition</code> 又可以切分为多个 <code>segment</code> 文件（根据 <code>offset</code> 排列），<code>segment</code> 文件支持按需滚动增长，所以 <code>Partition</code> 就具备了扩展性。这就是 <code>Kafka</code> 一以贯之的分层设计</p>
+<p><strong>补充</strong>：</p>
+<p>要点：</p>
+<ol>
+<li>可以提一下分治思想</li>
+<li><code>Topic</code>、<code>Partition</code>、<code>Segment</code> 这些概念可以连通讲一遍</li>
+<li>抓住扩展性来聊</li>
+</ol>
+<hr>
+<h3 id="Kafka-文件高效存储设计原理？"><a class="headerlink" href="#Kafka-文件高效存储设计原理？"></a>Kafka 文件高效存储设计原理？</h3>
+<p>答：</p>
+<ul>
+<li><code>Kafka</code> 把 <code>Topic</code> 中一个大的 <code>Parition</code> 文件分成多个小的 <code>segment file</code>，通过多个 <code>segment file</code>，就容易定期清除或删除已经消费完的文件，减少磁盘的占用</li>
+<li>通过 <strong>索引元数据</strong> 来管理消息的位置和偏移量，以便快速定位和读取消息</li>
+<li>通过 <strong>索引元数据</strong> 全部映射到内存，可以避免 <code>segment file</code> 的 <code>I/O</code> 磁盘操作</li>
+<li>通过 <strong>索引文件</strong> 稀疏存储，可以大幅降低索引文件元数据占用空间大小</li>
+</ul>
+<hr>
+<h3 id="聊聊-Kafka-哪些环节用了批量操作？"><a class="headerlink" href="#聊聊-Kafka-哪些环节用了批量操作？"></a>聊聊 Kafka 哪些环节用了批量操作？</h3>
+<p>答：</p>
+<ul>
+<li><code>Kafka</code> 主要有2个批量操作的地方：
+<ul>
+<li>一个是 <strong>批量生产</strong>，也就是批量发送，其实就是通过发送缓冲，将数据缓冲起来，等聚集了一批数据，再一次性发送给 <code>Broker</code></li>
+<li>另一个是 <strong>批量消费</strong>，本质就是一次多拉几条消息，一起消费</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="聊聊-Kafka-数据压缩？"><a class="headerlink" href="#聊聊-Kafka-数据压缩？"></a>聊聊 Kafka 数据压缩？</h3>
+<p>答：</p>
+<p>通过压缩可以让传输的数据变小，以节约带宽，所以我们可以通过压缩消息来提升 <code>Kafka</code> 性能，一般而言就是在 <strong>发送方</strong> 进行压缩，有时候也可以 <strong>在 <code>Broker</code> 侧</strong> 进行压缩。压缩 <strong>适用于 <code>CPU</code> 比较富裕，带宽相对不足的情况</strong>，而消息的传输大多数是符合这个情况的</p>
+<p><strong>补充</strong>：</p>
+<p>理解压缩其实就是让数据“变小”，这样效率自然就上去了。可以聊聊在哪里压缩，什么情况下适合压缩</p>
+<hr>
+<h2 id="其他"><a class="headerlink" href="#其他"></a>其他</h2>
+<hr>
+<h3 id="Zookeeper-对于-Kafka-的作用是什么？"><a class="headerlink" href="#Zookeeper-对于-Kafka-的作用是什么？"></a>Zookeeper 对于 Kafka 的作用是什么？</h3>
+<p>答：</p>
+<ul>
+<li><code>Zookeeper</code> 中存储了 <code>Broker</code> 的信息，<code>Broker</code> 会向 <code>Zookeeper</code> 发送 <strong>心跳请求</strong> 来上报自己的状态</li>
+<li><code>Zookeeper</code> 中存储了所有的 <code>Topic</code> 的注册信息，包括：<code>Topic</code> 列表，每个 <code>Topic</code> 的 <code>Partition</code> 数量，副本在哪一个 <code>Broker</code>（<code>ISR</code>）等等</li>
+<li><strong>控制器选举</strong>：<code>kafka</code> 集群有多个 <code>broker</code>，其中一个会被选举为控制器保存在 <code>Zookeeper</code> 中（在 <code>/controller</code> 中维护），控制器负责 <code>brokers</code> 的上下线，管理整个集群所有分区和副本的状态，如果某个分区的 <code>Leader</code> 故障了，控制器会选举出新的 <code>Leader</code></li>
+<li><strong>同时 <code>Zookeeper</code> 也用来记录一些配置信息</strong>，比如：主题的配置信息，这样将配置信息存储在 <code>Zookeeper</code> 这种第三方组件，所有的 <code>Broker</code> 都可以很方便地拿到对应配置以及感知到相应变化</li>
+<li><strong>分区注册</strong>：<code>Kafka</code> 的每个 <code>partition</code> 只能被某个消费者组的同一个 <code>consumer</code> 消费，<code>kafka</code> 必须知道所有的 <code>partition</code> 与 <code>consumer</code> 的关系，因此消费者与分区的关系被保存在 <code>Zookeeper</code> 当中</li>
+</ul>
+<p><strong>补充</strong>：</p>
+<p><code>Zookeeper</code> 拥有分布式协调能力，<code>Kafka</code> 主要是用 <code>Zookeeper</code> 来管理 <code>Broker</code> / <code>Topic</code> 数据、存储配置、选择 <code>Controller</code>，曾经也会存储消费者偏移信息，但是因为 <code>Zookeeper</code> 不适合做频繁交互的操作，所以后面砍掉了记录消费提交这点，尽可能让 <code>Zookeeper</code> 的压力更轻，专注于协调相关事情</p>
+<hr>
+<h3 id="Kafka-你用的是哪个版本？"><a class="headerlink" href="#Kafka-你用的是哪个版本？"></a>Kafka 你用的是哪个版本？</h3>
+<p>答：</p>
+<p>我们实验室 在项目中用的是 <code>Kafka 2.5.0</code> 版本，主要原因是这个版本团队用了很多年都是非常稳定的所以新老项目都一直延用这个版本</p>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MyPhoto.jpg"></a><div class="post-copyright__author_name">coo1heisenberg's Blog</div><div class="post-copyright__author_desc">Diligence can make up for clumsiness!</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">coo1heisenberg's Blog</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"><span class="tags-punctuation"></span>消息队列<span class="tagsPageCount">1</span></a></div></div><div class="social-share"></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/01/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">00 操作系统知识点归纳 笔记</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MyPhoto.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情贴纸"></div></div><div class="author-info__description_group"><div class="author-info__description">菜鸡的自我救赎...</div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">Coo1heisenberg’s BLOG</div><div class="author-info__desc">Diligence can make up for clumsiness!</div></a><div class="card-info-social-icons is-center"><a class="social-icon" target="_blank" rel="noopener" href="https://github.com/coo1heisenbergProject" title="Github"><i class="solitude  st-github-line"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude st-menu-line"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">消息队列常见应用场景有哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81%E8%A7%A3%E8%80%A6%EF%BC%9F"><span class="toc-text">什么情况下需要解耦？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81%E5%89%8A%E5%B3%B0%EF%BC%9F"><span class="toc-text">什么情况下需要削峰？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81%E5%88%86%E5%8F%91%E6%B6%88%E6%81%AF%EF%BC%9F"><span class="toc-text">什么情况下需要分发消息？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E4%B8%AD%EF%BC%8C%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9F"><span class="toc-text">在项目开发中，你会怎么选择消息队列？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E5%92%8C-RocketMQ-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">Kafka 和 RocketMQ 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E7%9A%84%E4%BC%98%E5%8A%BF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Kafka 的优势是什么？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-text">服务端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E7%9A%84%E5%A4%A7%E6%A6%82%E6%A1%86%E6%9E%B6%E6%98%AF%E6%80%8E%E4%B9%88%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-text">Kafka 的大概框架是怎么样的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-topic-%E4%B8%BB%E9%A2%98%E7%9A%84%E5%88%97%E8%A1%A8%EF%BC%9F"><span class="toc-text">如何获取 topic 主题的列表？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E4%BA%86Topic%EF%BC%8C%E4%B8%BA%E4%BD%95%E8%BF%98%E8%A6%81-Partition%EF%BC%9F"><span class="toc-text">有了Topic，为何还要 Partition？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%8A%8A%E6%B6%88%E6%81%AF%E5%88%86%E5%8C%BA%EF%BC%9F"><span class="toc-text">Kafka 为什么要把消息分区？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Partition-%E6%98%AF%E9%80%BB%E8%BE%91%E6%A6%82%E5%BF%B5%E8%BF%98%E6%98%AF%E7%89%A9%E7%90%86%E6%A6%82%E5%BF%B5%EF%BC%9F"><span class="toc-text">Partition 是逻辑概念还是物理概念？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E5%88%86%E5%8C%BA%E7%9A%84%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="toc-text">介绍一下分区的分配策略？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E5%88%9B%E5%BB%BA-Topic-%E6%97%B6%E5%A6%82%E4%BD%95%E5%B0%86%E5%88%86%E5%8C%BA%E6%94%BE%E7%BD%AE%E5%88%B0%E4%B8%8D%E5%90%8C%E7%9A%84-Broker-%E4%B8%AD%EF%BC%9F"><span class="toc-text">Kafka 创建 Topic 时如何将分区放置到不同的 Broker 中？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%AD%98%E5%85%A5%E5%93%AA%E4%B8%AA-Partition-%E7%9A%84%E8%A7%84%E5%88%99%EF%BC%9F"><span class="toc-text">消息存入哪个 Partition 的规则？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E4%B8%AD%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%9A%84%E5%8E%9F%E5%88%99%EF%BC%9F"><span class="toc-text">Kafka 中分区分配的原则？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%8F%AF%E6%8E%A5%E6%94%B6%E7%9A%84%E6%B6%88%E6%81%AF%E6%9C%80%E5%A4%A7%E9%BB%98%E8%AE%A4%E5%A4%9A%E5%B0%91%E5%AD%97%E8%8A%82%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%EF%BC%9F"><span class="toc-text">Kafka 服务端可接收的消息最大默认多少字节，如何修改？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E7%9A%84-Topic-%E4%B8%AD-Partition-%E6%95%B0%E6%8D%AE%E6%98%AF%E6%80%8E%E4%B9%88%E5%AD%98%E5%82%A8%E5%88%B0%E7%A3%81%E7%9B%98%E7%9A%84%EF%BC%9F"><span class="toc-text">Kafka 的 Topic 中 Partition 数据是怎么存储到磁盘的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka%E5%A6%82%E4%BD%95%E6%B8%85%E7%90%86%E6%95%B0%E6%8D%AE%EF%BC%9F"><span class="toc-text">Kafka如何清理数据？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka%E6%95%B0%E6%8D%AE%E8%B6%8A%E7%A7%AF%E8%B6%8A%E5%A4%9A%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-text">Kafka数据越积越多怎么办？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-text">生产者</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E7%94%9F%E4%BA%A7%E6%B6%88%E6%81%AF%E7%9A%84%E6%B5%81%E7%A8%8B%EF%BC%9F"><span class="toc-text">介绍一下生产消息的流程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B2%E4%B8%80%E8%AE%B2-kafka-%E7%9A%84-ack-%E7%9A%84%E4%B8%89%E7%A7%8D%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">讲一讲 kafka 的 ack 的三种机制？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%BF%87%E7%A8%8B%E4%B8%AD%E4%BD%95%E6%97%B6%E4%BC%9A%E5%8F%91%E7%94%9F-QueueFullExpection-%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%EF%BC%9F"><span class="toc-text">生产过程中何时会发生 QueueFullExpection 以及如何处理？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E7%94%9F%E4%BA%A7%E8%80%85%E4%BD%95%E6%97%B6%E5%8F%91%E5%87%BA%E6%B6%88%E6%81%AF%EF%BC%9F"><span class="toc-text">Kafka 生产者何时发出消息？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%A8%A1%E5%BC%8F%E6%9C%89%E5%87%A0%E7%A7%8D%EF%BC%9F%EF%BC%88Java-%E7%89%88%E6%9C%AC%EF%BC%89"><span class="toc-text">生产者发送消息的模式有几种？（Java 版本）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-text">消费者</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%B6%88%E8%B4%B9%E8%80%85%E6%98%AF%E6%8E%A8%E6%A8%A1%E5%BC%8F%E8%BF%98%E6%98%AF%E6%8B%89%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="toc-text">Kafka 消费者是推模式还是拉模式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%B6%88%E6%81%AF%E7%9A%84%E6%B6%88%E8%B4%B9%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="toc-text">Kafka 消息的消费模式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E6%95%85%E9%9A%9C%EF%BC%8C%E5%87%BA%E7%8E%B0%E6%B4%BB%E9%94%81%E9%97%AE%E9%A2%98%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="toc-text">消费者故障，出现活锁问题如何解决？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E6%B6%88%E8%B4%B9%E8%80%85%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E8%A6%81%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84%EF%BC%9F"><span class="toc-text">有消费者为什么还要消费者组？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E5%86%8D%E5%B9%B3%E8%A1%A1%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">介绍一下再平衡机制？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A-Rebalance%EF%BC%9F"><span class="toc-text">Kafka 什么情况下会 Rebalance？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rebalance-%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D%EF%BC%9F"><span class="toc-text">Rebalance 有什么影响？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E9%87%8D%E5%B9%B3%E8%A1%A1%E7%9A%84%E5%85%B7%E4%BD%93%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%EF%BC%9F"><span class="toc-text">介绍一下重平衡的具体执行流程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E9%87%8D%E5%B9%B3%E8%A1%A1%E6%97%B6%E7%9A%84%E5%88%86%E5%8C%BA%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="toc-text">介绍一下重平衡时的分区策略？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E4%B8%8B-Kafka-%E4%B8%AD%E4%BD%8D%E7%A7%BB%EF%BC%88offset%EF%BC%89%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">解释下 Kafka 中位移（offset）的作用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6%E6%B6%88%E8%B4%B9%E7%9A%84%E4%BD%8D%E7%BD%AE%EF%BC%9F"><span class="toc-text">如何控制消费的位置？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Consumer-%E9%BB%98%E8%AE%A4%E4%BB%8E%E5%93%AA%E9%87%8C%E5%BC%80%E5%A7%8B%E6%B6%88%E8%B4%B9%EF%BC%9F"><span class="toc-text">Consumer 默认从哪里开始消费？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Consumer-%E6%80%8E%E4%B9%88%E6%89%8B%E5%8A%A8%E6%8C%87%E5%AE%9A%E5%BC%80%E5%A7%8B%E6%B6%88%E8%B4%B9%E5%81%8F%E7%A7%BB%EF%BC%9F"><span class="toc-text">Consumer 怎么手动指定开始消费偏移？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF%E6%98%AF%E6%8E%A8%E8%BF%98%E6%98%AF%E6%8B%89%EF%BC%9F"><span class="toc-text">Kafka 消费消息是推还是拉？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%B6%88%E8%B4%B9%E8%80%85%E6%8F%90%E4%BA%A4%E4%B9%8B%E5%90%8E%E5%B0%B1%E4%BC%9A%E6%B8%85%E7%90%86%E6%8E%89%E6%95%B0%E6%8D%AE%E5%90%97%EF%BC%9F"><span class="toc-text">Kafka 消费者提交之后就会清理掉数据吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C"><span class="toc-text">实战经验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E4%B8%AD%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E5%87%BA%E7%8E%B0%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">Kafka 中什么情况下会出现消息丢失的问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E4%B8%8D%E4%B8%A2%E5%A4%B1%EF%BC%9F"><span class="toc-text">Kafka 如何保证消息不丢失？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MQ-%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-text">MQ 消息积压了怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E4%B8%8D%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%EF%BC%9F"><span class="toc-text">Kafka 如何保证消息不重复消费？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%B2%BE%E5%87%86%E4%B8%80%E6%AC%A1%E8%AF%AD%E4%B9%89%EF%BC%9F"><span class="toc-text">Kafka 如何实现精准一次语义？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%87%E8%AE%BE%E4%BD%A0%E6%9C%89%E4%B8%AA%E4%B8%9A%E5%8A%A1%E5%B8%8C%E6%9C%9B%E8%BF%9B%E5%85%A5-Kafka-%E7%9A%84%E6%B6%88%E6%81%AF%E9%83%BD%E6%98%AF%E6%9C%89%E5%BA%8F%E7%9A%84%EF%BC%8C%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E5%81%9A%EF%BC%9F"><span class="toc-text">假设你有个业务希望进入 Kafka 的消息都是有序的，你会怎么做？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="toc-text">高可用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Replica%E3%80%81Leader-%E5%92%8C-Follower-%E4%B8%89%E8%80%85%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%9F"><span class="toc-text">Replica、Leader 和 Follower 三者的概念？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E4%B8%AD-AR%E3%80%81ISR%E3%80%81OSR-%E4%B8%89%E8%80%85%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%9F"><span class="toc-text">Kafka 中 AR、ISR、OSR 三者的概念？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E4%BB%8E-ISR-%E4%B8%AD%E5%89%94%E5%87%BA%EF%BC%9F"><span class="toc-text">分区副本什么情况下会从 ISR 中剔出？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E4%B8%AD%E7%9A%84-Leader-%E5%A6%82%E6%9E%9C%E5%AE%95%E6%9C%BA%E4%BD%86-ISR-%E5%8D%B4%E4%B8%BA%E7%A9%BA%E8%AF%A5%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%EF%BC%9F"><span class="toc-text">分区副本中的 Leader 如果宕机但 ISR 却为空该如何处理？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E4%B9%8B%E9%97%B4%E5%90%8C%E6%AD%A5%EF%BC%8C%E6%98%AF%E6%8E%A8%E8%BF%98%E6%98%AF%E6%8B%89%EF%BC%88kafka%E5%A6%82%E4%BD%95%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%EF%BC%89%EF%BC%9F"><span class="toc-text">分区副本之间同步，是推还是拉（kafka如何主从同步）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9C%BA%E5%88%B6%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="toc-text">高可用机制是怎么实现的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%98%AF%E6%80%8E%E4%B9%88%E4%B8%BA%E5%88%86%E7%89%87%E9%80%89%E6%8B%A9%E4%B8%BB%E5%89%AF%E6%9C%AC%E7%9A%84%EF%BC%9F"><span class="toc-text">Kafka 是怎么为分片选择主副本的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%80%8E%E4%B9%88%E7%9F%A5%E9%81%93-Leader-%E6%8C%82%E4%BA%86%EF%BC%9F"><span class="toc-text">Kafka 怎么知道 Leader 挂了？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E6%80%A7%E8%83%BD"><span class="toc-text">高性能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB%EF%BC%9F"><span class="toc-text">Kafka 为什么这么快？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%80%A7%E8%83%BD%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E9%AB%98%EF%BC%9F"><span class="toc-text">Kafka 性能为什么这么高？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E5%90%9E%E5%90%90%E9%87%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%A4%A7%EF%BC%9F"><span class="toc-text">Kafka 吞吐量为什么这么大？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%8A%E8%81%8A-Kafka-%E9%A1%BA%E5%BA%8F%E5%86%99%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">聊聊 Kafka 顺序写机制？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%8A%E8%81%8A-Kafka-%E9%A1%B5%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">聊聊 Kafka 页缓存机制？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%8A%E8%81%8A-Kafka-%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">聊聊 Kafka 零拷贝机制？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%8A%E8%81%8A-Kafka-%E5%88%86%E5%B1%82%E8%AE%BE%E8%AE%A1%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">聊聊 Kafka 分层设计机制？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E6%96%87%E4%BB%B6%E9%AB%98%E6%95%88%E5%AD%98%E5%82%A8%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="toc-text">Kafka 文件高效存储设计原理？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%8A%E8%81%8A-Kafka-%E5%93%AA%E4%BA%9B%E7%8E%AF%E8%8A%82%E7%94%A8%E4%BA%86%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%EF%BC%9F"><span class="toc-text">聊聊 Kafka 哪些环节用了批量操作？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%8A%E8%81%8A-Kafka-%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%EF%BC%9F"><span class="toc-text">聊聊 Kafka 数据压缩？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Zookeeper-%E5%AF%B9%E4%BA%8E-Kafka-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Zookeeper 对于 Kafka 的作用是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-%E4%BD%A0%E7%94%A8%E7%9A%84%E6%98%AF%E5%93%AA%E4%B8%AA%E7%89%88%E6%9C%AC%EF%BC%9F"><span class="toc-text">Kafka 你用的是哪个版本？</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/01/10/00-Kafka/" title="00 Kafka 笔记"><img alt="00 Kafka 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/kafka_log.png"></a><div class="content"><a class="title" href="/2025/01/10/00-Kafka/" title="00 Kafka 笔记">00 Kafka 笔记</a><a class="article-recent_post_categories" href="/2025/01/10/00-Kafka/">MQ</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="00 操作系统知识点归纳 笔记"><img alt="00 操作系统知识点归纳 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/caozuoxitong.png"></a><div class="content"><a class="title" href="/2025/01/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="00 操作系统知识点归纳 笔记">00 操作系统知识点归纳 笔记</a><a class="article-recent_post_categories" href="/2025/01/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/">Others</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="00 计算机网络知识点归纳 笔记"><img alt="00 计算机网络知识点归纳 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/computer_network.png"></a><div class="content"><a class="title" href="/2024/12/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="00 计算机网络知识点归纳 笔记">00 计算机网络知识点归纳 笔记</a><a class="article-recent_post_categories" href="/2024/12/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/">Others</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/21/01-redis%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="06 Redis知识点归纳 笔记"><img alt="06 Redis知识点归纳 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/redis_conclude.png"></a><div class="content"><a class="title" href="/2024/12/21/01-redis%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="06 Redis知识点归纳 笔记">06 Redis知识点归纳 笔记</a><a class="article-recent_post_categories" href="/2024/12/21/01-redis%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/">Database</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/16/01-MySQL%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="05 MySQL知识点总结 笔记"><img alt="05 MySQL知识点总结 笔记" src="https://coo1heisenberg-blog.oss-cn-shanghai.aliyuncs.com/MySQl_ALL.png"></a><div class="content"><a class="title" href="/2024/12/16/01-MySQL%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/" title="05 MySQL知识点总结 笔记">05 MySQL知识点总结 笔记</a><a class="article-recent_post_categories" href="/2024/12/16/01-MySQL%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/">Database</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">来自 Heisenberg 的原创文章</div><a class="footer-bar-link" href="/about/">了解更多</a></div><div id="footer_deal"></div><div id="st-footer"><div class="footer-group"><h3 class="footer-title">导航</h3><div class="footer-links"><a class="footer-item" href="/archives/" title="归档">归档</a><a class="footer-item" href="/categories/" title="分类">分类</a><a class="footer-item" href="/tags/" title="标签">标签</a></div></div><div class="footer-group"><h3 class="footer-title">服务</h3><div class="footer-links"><a class="footer-item" target="_blank" rel="noopener" href="https://aliyun.com/" title="阿里云">阿里云</a></div></div><div class="footer-group"><h3 class="footer-title">支持</h3><div class="footer-links"><a class="footer-item" href="/about/" title="打赏记录">打赏记录</a></div></div><div class="footer-group"><h3 class="footer-title">协议</h3><div class="footer-links"><a class="footer-item" href="/cookies/" title="Cookies">Cookies</a><a class="footer-item" href="/privacy/" title="用户协议">用户协议</a><a class="footer-item" href="/copyright/" title="版权协议">版权协议</a></div></div></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 - 2025 By&nbsp;<a class="footer-bar-link" href="/">Coo1heisenberg’s BLOG</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/valor-x/hexo-theme-solitude" alt="主题">主题</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.10.6"></script><script src="/js/main.js?v=1.10.6"></script><script src="/js/third_party/waterfall.min.js?v=1.10.6"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.10.6"></script><script>dark()
+</script><script src="//open.lightxi.com/cdnjs/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"><script>(() => {
+    document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+        utils.wrap(item, 'div', {class: 'katex-wrap'})
+    })
+})();
+</script></script><script src="//open.lightxi.com/cdnjs/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="//open.lightxi.com/cdnjs/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="//open.lightxi.com/cdnjs/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="//open.lightxi.com/cdnjs/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- newest comment--><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    is_rm && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="solitude st-close-fill"></i></button></nav><div class="search-wrap"><div class="search-box"><input class="search-box-input" id="search-input" type="text" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="输入关键词快速查找"></div><div id="search-results"><div id="search-hits"></div></div><div id="search-pagination"></div><div id="search-tips"></div></div></div><div id="search-mask"></div></div><script src="/js/search/local.js?v=1.10.6"></script><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2025/01/10/00-Kafka/","2025/01/04/操作系统知识点归纳/","2024/12/24/计算机网络知识点归纳/","2024/12/21/01-redis知识点归纳/","2024/12/16/01-MySQL知识点归纳/","2024/12/04/Spring框架/","2024/12/02/Java-JVM虚拟机/","2024/11/04/Java-并发编程/","2024/11/01/Java-集合框架/","2024/09/28/00-前端开发入门教程/","2024/09/26/01-空间转录组/","2024/09/13/00-单细胞多组学分析/","2024/07/22/00-MongoDB/","2024/07/17/00-elasticsearch/","2024/07/15/01-黑马redis/","2024/07/13/00-黑马redis/","2024/07/08/00-黑马SSM/","2024/07/08/01-头条点评项目/","2024/07/06/00-Mybatis-Plus/","2024/06/29/00-黑马MySQL/","2024/06/25/00-头条点评项目/","2024/06/21/02-Python/","2024/06/11/01-Python/","2024/05/25/00-Python/","2024/05/13/DesignPattern/","2024/05/13/Docker/","2024/05/13/Nginx/","2024/05/13/Linux/","2024/05/07/00-spike-program/","2024/01/09/00-Asynchronous-framework/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
